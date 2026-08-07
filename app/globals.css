@@ -1,0 +1,563 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-figtree);
+
+  /* 5 tokens — non-negotiable */
+  --color-bg: #FEFEFE;
+  --color-dark: #01362E;
+  --color-accent: #95E362;
+  --color-surface: #F4F4F6;
+  --color-text: #0E0F0C;
+
+  --radius-sm: 3px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 25px;
+}
+
+:root {
+  --ease-reveal: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Зовнішня рамка сторінки. Живе змінною, бо на неї зав'язана математика
+     слайдера препаратів: він навмисно вилазить на всю ширину вікна через
+     50vw, і без поправки на рамку вилазив би рівно на 2 × inset, даючи
+     горизонтальний скрол. */
+  --page-inset: 6px;
+}
+
+/* Рамка застосовується тільки там, де обгортка це просить (зараз — головна).
+   Зверху відступу немає навмисно: герой має впиратися у верхній край вікна,
+   рамка йде лише з боків і знизу. */
+.page-frame {
+  padding: 0 var(--page-inset) var(--page-inset);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-dark);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-text);
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-dark);
+  outline-offset: 3px;
+}
+.on-dark :focus-visible {
+  outline-color: var(--color-accent);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(14, 15, 12, 0.2);
+  border-radius: 4px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+[id] {
+  scroll-margin-top: 104px;
+}
+
+/* ---------------------------------------------------------------- TYPE */
+
+/* Міжлітерне щільніше за решту шкали (правка замовника 28.07): на 85px
+   -0.02em читалось розрідженим. -0.035em ≈ -3px — межа, після якої в Onest
+   починають злипатись «ЛЛ» і «ії» в українському тексті. */
+.text-h1 {
+  /* Стеля 85 → 76px (правка замовника 28.07: спершу 70, потім трохи назад).
+     Нижня межа й нахил лишились — на мобільному розмір не змінився, стеля
+     просто настає раніше (з ~1310px). */
+  font-size: clamp(2.75rem, 1.44rem + 4.66vw, 4.75rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+.text-h2 {
+  font-size: clamp(2.25rem, 1.36rem + 3.17vw, 4.0625rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.text-h3 {
+  font-size: clamp(1.875rem, 1.31rem + 2.01vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.text-h4 {
+  font-size: clamp(1.625rem, 1.4rem + 0.8vw, 2.125rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.text-stat {
+  font-size: clamp(2rem, 1.6rem + 1.4vw, 2.625rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.text-body-l {
+  font-size: clamp(1.125rem, 1.03rem + 0.34vw, 1.4rem);
+  line-height: 1.33;
+  letter-spacing: -0.02em;
+}
+.eyebrow {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.btn-label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.text-legal {
+  font-size: 11px;
+  line-height: 1.66;
+  letter-spacing: 0.011em;
+}
+.stat,
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Signature: accent word — dark backgrounds only */
+.accent-word {
+  color: var(--color-accent);
+  font-style: normal;
+}
+
+/* Signature: boxed highlight — once per page */
+.heading-boxed {
+  background: var(--color-dark);
+  color: var(--color-bg);
+  border-radius: 14px;
+  padding: 0.06em 0.22em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* ------------------------------------------------------------ SURFACES */
+
+.container-page {
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+@media (max-width: 640px) {
+  .container-page {
+    padding-inline: 20px;
+  }
+}
+
+.gradient-dark {
+  background: linear-gradient(to right bottom, #01362e, #11120e);
+}
+.gradient-shelf {
+  background: linear-gradient(
+    #fefefe 43.88%,
+    rgba(191, 241, 183, 0.733) 79.18%,
+    rgba(150, 227, 98, 0.518) 100%
+  );
+}
+.gradient-wash {
+  background: linear-gradient(#e8eaec 0%, #a6f075 50%);
+}
+.gradient-fade {
+  background: linear-gradient(#f4f4f6, rgba(0, 0, 0, 0));
+}
+/* Скрим героя. Перероблений 28.07 під кадр 00 «Сад на світанку»: у нього
+   найсвітліше саме небо у верхній лівій чверті — там, де тепер лежать H1 і
+   статистика, — тому рівний горизонтальний градієнт або провалював контраст,
+   або гасив усе фото до болота.
+   Шар 1 — м'яка темна пляма під текстовим блоком, згасає до 68% ширини, тож
+   поле праворуч лишається соковитим, як у макеті.
+   Шар 2 — легкий верх (щоб під світлим pill-хедером не світило) і низ (під
+   кнопками та перемикачем фону).
+   Заміряно по пікселях фону під текстом на 1440×900, кадр 00. */
+.gradient-scrim {
+  background: radial-gradient(
+      118% 108% at 0% 24%,
+      rgba(0, 37, 32, 0.9) 0%,
+      rgba(0, 37, 32, 0.68) 30%,
+      rgba(0, 37, 32, 0.38) 50%,
+      rgba(0, 37, 32, 0.1) 68%,
+      rgba(0, 37, 32, 0) 84%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0, 37, 32, 0.68) 0%,
+      rgba(0, 37, 32, 0.52) 24%,
+      rgba(0, 37, 32, 0.22) 46%,
+      rgba(0, 37, 32, 0.02) 64%,
+      rgba(0, 37, 32, 0.42) 100%
+    );
+}
+.gradient-glass {
+  background: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12)),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0.2) 25%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+}
+
+
+
+
+
+
+/* -------------------------------------------------------------- BUTTON */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 25px;
+  padding: 20px 36px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: background-color 300ms var(--ease-standard),
+    transform 100ms var(--ease-standard), color 300ms var(--ease-standard);
+}
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.btn:disabled {
+  background: #e8eaec;
+  color: rgba(14, 15, 12, 0.35);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.btn svg {
+  transition: transform 300ms var(--ease-standard);
+}
+.btn:hover:not(:disabled) svg {
+  transform: translateX(4px);
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-text);
+}
+.btn-primary:hover:not(:disabled) {
+  background: #a6f075;
+}
+.btn-primary:active:not(:disabled) {
+  background: #6bb02f;
+}
+
+.btn-glass {
+  background: rgba(0, 0, 0, 0.12);
+  color: var(--color-bg);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.btn-glass:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.btn-white {
+  background: var(--color-bg);
+  color: rgba(0, 0, 0, 0.87);
+  padding: 18px 34px;
+}
+.btn-white:hover:not(:disabled) {
+  background: #f4f4f6;
+}
+
+.btn-neutral {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+.btn-neutral:hover:not(:disabled) {
+  background: #e8eaec;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid rgba(0, 0, 0, 0.87);
+  padding: 18px 34px;
+}
+.btn-outline:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.btn-outline-light {
+  background: transparent;
+  color: var(--color-bg);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 18px 34px;
+}
+.btn-outline-light:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-sm {
+  padding: 12px 24px;
+  font-size: 11px;
+}
+.btn-lg {
+  padding: 24px 44px;
+  font-size: 13px;
+}
+
+.btn-nav {
+  border-radius: 16px;
+  padding: 8px 19px;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------- FORMS */
+
+.field {
+  width: 100%;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--color-surface);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 16px 20px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--color-text);
+  transition: border-color 200ms var(--ease-standard),
+    background-color 200ms var(--ease-standard);
+}
+.field::placeholder {
+  color: rgba(14, 15, 12, 0.4);
+}
+.field:hover {
+  border-color: rgba(0, 0, 0, 0.24);
+}
+.field:focus {
+  outline: none;
+  border: 2px solid var(--color-dark);
+  background: var(--color-bg);
+  padding: 15px 19px;
+}
+.field:disabled {
+  background: #e8eaec;
+  border-color: rgba(0, 0, 0, 0.06);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.field-valid {
+  border-color: #03594c;
+  background: var(--color-bg);
+}
+.field-error {
+  border: 2px solid #ff4c4b;
+  background: rgba(255, 76, 75, 0.04);
+  padding: 15px 19px;
+}
+textarea.field {
+  height: auto;
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* -------------------------------------------------------------- REVEAL */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 600ms var(--ease-reveal), transform 600ms var(--ease-reveal);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-delay-1 {
+  transition-delay: 80ms;
+}
+.reveal-delay-2 {
+  transition-delay: 160ms;
+}
+.reveal-delay-3 {
+  transition-delay: 240ms;
+}
+.reveal-delay-4 {
+  transition-delay: 320ms;
+}
+
+.card-hover {
+  transition: transform 300ms var(--ease-standard);
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+}
+
+.link-arrow svg {
+  transition: transform 300ms var(--ease-standard);
+}
+.link-arrow:hover svg {
+  transform: translateX(4px);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes spin-e {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  animation: spin-e 800ms linear infinite;
+}
+
+@keyframes pulse-e {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+.skeleton {
+  background: var(--color-surface);
+  animation: pulse-e 1.5s ease-in-out infinite;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.modal-in {
+  animation: modal-in 300ms var(--ease-standard);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.toast-in {
+  animation: toast-in 250ms var(--ease-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Ховер по картці слайдера підсвічує кнопку цілком — сама картка фон не міняє.
+   Правило тут, а не утилітою: .btn-primary оголошений поза шаром Tailwind
+   і перебиває group-hover:bg-*. */
+.group:hover .btn-primary {
+  background: #A6F075;
+}
+.group:hover .btn svg,
+.group:hover .link-arrow svg {
+  transform: translateX(4px);
+}
+
+/* ---------------------------------------------------------- SLIDER BLEED */
+
+/* Трек виходить за контейнер до країв екрана, але перша картка лишається
+   на лінії контенту. Ширина картки рахується так, щоб у видиму зону
+   потрапляли 3 повні картки + 30% четвертої. */
+.slider-track {
+  /* 24px → 16px: «менше між картками — свіжіше» (правка замовника 28.07).
+     Ширина карток рахується з цієї ж змінної, тож вони самі трохи підросли. */
+  --slider-gap: 16px;
+  --slider-pad: max(16px, calc((100vw - 2 * var(--page-inset) - 1280px) / 2 + 16px));
+  --slider-visible: 3.3;
+
+  margin-inline: calc(50% - 50vw + var(--page-inset));
+  padding-left: var(--slider-pad);
+  padding-right: var(--slider-gap);
+  scroll-padding-left: var(--slider-pad);
+  gap: var(--slider-gap);
+}
+.slider-card {
+  flex: 0 0
+    calc(
+      (
+          100vw - 2 * var(--page-inset) - var(--slider-pad) - var(--slider-visible) *
+            var(--slider-gap)
+        ) / var(--slider-visible)
+    );
+  max-width: 420px;
+}
+@media (max-width: 1023px) {
+  .slider-track {
+    --slider-visible: 2.2;
+  }
+}
+@media (max-width: 640px) {
+  .slider-track {
+    --slider-visible: 1.15;
+    /* контейнер на мобільному має 20px, слайдер має збігатися з ним */
+    --slider-pad: 20px;
+  }
+  .slider-card {
+    max-width: none;
+  }
+}

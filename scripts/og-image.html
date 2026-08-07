@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1200px; height: 630px; overflow: hidden;
+    font-family: Onest, system-ui, sans-serif;
+    background: #01362E;
+  }
+  .wrap { position: relative; width: 1200px; height: 630px; overflow: hidden; }
+  .photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+  /* Той самий скрим, що в .gradient-scrim на сайті: радіальна пляма під
+     текстом зліва + легкий верх/низ. Пропорції під 1200×630. */
+  .scrim {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(118% 108% at 0% 24%,
+        rgba(0,37,32,0.90) 0%,
+        rgba(0,37,32,0.68) 30%,
+        rgba(0,37,32,0.38) 50%,
+        rgba(0,37,32,0.10) 68%,
+        rgba(0,37,32,0) 84%),
+      linear-gradient(180deg,
+        rgba(0,37,32,0.68) 0%,
+        rgba(0,37,32,0.52) 24%,
+        rgba(0,37,32,0.22) 46%,
+        rgba(0,37,32,0.02) 64%,
+        rgba(0,37,32,0.42) 100%);
+  }
+
+  .content {
+    position: relative; height: 100%;
+    padding: 56px 64px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    color: #FEFEFE;
+  }
+
+  .brand { display: flex; align-items: center; gap: 12px; }
+  /* На темному тлі знак лаймовий із темним листком — так само, як у футері
+     сайту. Темно-зелене коло тут просто зникало у фоні. */
+  .mark {
+    width: 52px; height: 52px; border-radius: 999px;
+    background: #95E362; color: #0E0F0C;
+    display: grid; place-items: center;
+  }
+  .brand-name { font-size: 25px; font-weight: 800; letter-spacing: -0.02em; }
+
+  .eyebrow {
+    font-size: 16px; font-weight: 700; letter-spacing: 0.04em;
+    text-transform: uppercase; color: #95E362;
+  }
+  h1 {
+    margin-top: 18px;
+    font-size: 68px; font-weight: 400; line-height: 1.02;
+    letter-spacing: -0.035em; max-width: 800px;
+  }
+  h1 em { color: #95E362; font-style: normal; }
+  .sub {
+    margin-top: 22px; max-width: 560px;
+    font-size: 23px; line-height: 1.35; letter-spacing: -0.02em;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .foot { display: flex; align-items: center; gap: 14px; }
+  .pill {
+    font-size: 14px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 11px 20px; border-radius: 999px;
+    background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.22);
+    color: #FEFEFE; backdrop-filter: blur(6px);
+  }
+  .pill.accent { background: #95E362; border-color: #95E362; color: #0E0F0C; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <img class="photo" src="http://localhost:4002/hero/00-STARYI-fon.jpg" alt="" />
+    <div class="scrim"></div>
+
+    <div class="content">
+      <div class="brand">
+        <span class="mark">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M20 3c0 9-5.5 14-12 14a6 6 0 0 1 0-12c4 0 6-2 12-2ZM4 21c2-6 6-9 10-10"
+                  stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+        </span>
+        <span class="brand-name">Родоніт Агро</span>
+      </div>
+
+      <div>
+        <p class="eyebrow">Оптимальні витрати — максимальний урожай</p>
+        <h1>Технології підвищення <em>врожайності</em></h1>
+        <p class="sub">Стимулятори росту, мікродобрива та захист рослин для аграріїв України.</p>
+      </div>
+
+      <div class="foot">
+        <span class="pill accent">6 препаратів</span>
+        <span class="pill">22 культури в регламентах</span>
+        <span class="pill">з 2019 року</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
