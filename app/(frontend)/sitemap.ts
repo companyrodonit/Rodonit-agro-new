@@ -4,7 +4,7 @@ import { culturePages } from '@/lib/cultures';
 import { solutions } from '@/lib/solutions';
 import { allTags, blogCategories, posts } from '@/lib/posts';
 
-const SITE = 'https://rodonit-redesign.vercel.app';
+import { SITE } from '@/lib/site';
 
 /**
  * Sitemap. lastModified свідомо не проставляємо там, де реальної дати немає:

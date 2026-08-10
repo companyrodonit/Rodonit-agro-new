@@ -1,6 +1,6 @@
 import { posts } from '@/lib/posts';
 
-const SITE = 'https://rodonit-redesign.vercel.app';
+import { SITE } from '@/lib/site';
 
 /** Мінімальне екранування для XML — інакше «&» у заголовку ламає фід. */
 const esc = (s: string) =>

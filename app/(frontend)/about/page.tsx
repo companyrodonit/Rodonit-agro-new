@@ -13,7 +13,7 @@ import { SiteFooter } from '../site-footer';
 import { BlogHero } from '../blog/blog-ui';
 import { Timeline, type Milestone } from './timeline';
 
-const SITE = 'https://rodonit-redesign.vercel.app';
+import { SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Про компанію | Родоніт Агро',

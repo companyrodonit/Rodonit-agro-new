@@ -7,7 +7,7 @@ import { SiteFooter } from '../../site-footer';
 import { BlogHero, PostBody, PostCard, TagList } from '../blog-ui';
 import { ReadProgressBar, ShareButtons, TableOfContents } from '../blog-client';
 
-const SITE = 'https://rodonit-redesign.vercel.app';
+import { SITE } from '@/lib/site';
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));

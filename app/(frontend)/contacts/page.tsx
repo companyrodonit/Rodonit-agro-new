@@ -6,7 +6,7 @@ import { SiteFooter } from '../site-footer';
 import { SocialIcon } from '../social-icons';
 import { BlogHero } from '../blog/blog-ui';
 
-const SITE = 'https://rodonit-redesign.vercel.app';
+import { SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Контакти | Родоніт Агро',

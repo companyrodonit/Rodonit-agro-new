@@ -5,7 +5,7 @@ import { ScrollToTop, SiteHeader } from '../../../interactive';
 import { SiteFooter } from '../../../site-footer';
 import { BlogHero, EmptyState, PostGrid } from '../../blog-ui';
 
-const SITE = 'https://rodonit-redesign.vercel.app';
+import { SITE } from '@/lib/site';
 
 const getCategory = (slug: string) => blogCategories.find((c) => c.slug === slug);
 

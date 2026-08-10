@@ -6,7 +6,7 @@ import { ArrowRight, LeadForm, Phone, Reveal, ScrollToTop, SiteHeader } from '..
 import { SiteFooter } from '../../site-footer';
 import { BlogHero } from '../../blog/blog-ui';
 
-const SITE = 'https://rodonit-redesign.vercel.app';
+import { SITE } from '@/lib/site';
 
 export function generateStaticParams() {
   return solutions.map((s) => ({ slug: s.slug }));

@@ -4,7 +4,7 @@ import { ArrowRight, LeadForm, Reveal, ScrollToTop, SiteHeader } from '../intera
 import { SiteFooter } from '../site-footer';
 import { BlogHero } from '../blog/blog-ui';
 
-const SITE = 'https://rodonit-redesign.vercel.app';
+import { SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Культури | Родоніт Агро',

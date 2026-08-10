@@ -7,7 +7,7 @@ import { ArrowRight, LeadForm, Phone, Reveal, ScrollToTop, SiteHeader } from '..
 import { SiteFooter } from '../../site-footer';
 import { BlogHero, PostCard } from '../../blog/blog-ui';
 
-const SITE = 'https://rodonit-redesign.vercel.app';
+import { SITE } from '@/lib/site';
 
 export function generateStaticParams() {
   return culturePages.map((c) => ({ slug: c.slug }));

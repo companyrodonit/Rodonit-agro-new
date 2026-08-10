@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Onest } from 'next/font/google';
+import { SITE } from '@/lib/site';
 import './globals.css';
 
 // Figtree/Switzer зі стайлгайду — латиниця-онлі. Для українського контенту
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
   // metadataBase обов'язковий: без нього Next віддає відносний /og.jpg, а
   // Facebook, LinkedIn і Telegram відносних шляхів не розуміють і показують
   // посилання взагалі без картинки.
-  metadataBase: new URL('https://rodonit-redesign.vercel.app'),
+  metadataBase: new URL(SITE),
   title,
   description,
   openGraph: {

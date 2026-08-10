@@ -5,7 +5,7 @@ import { SiteFooter } from '../site-footer';
 import { BlogHero, EmptyState, PostGrid } from './blog-ui';
 
 const PER_PAGE = 9;
-const SITE = 'https://rodonit-redesign.vercel.app';
+import { SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Новини та статті | Родоніт Агро',
