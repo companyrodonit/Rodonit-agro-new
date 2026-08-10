@@ -565,3 +565,45 @@ textarea.field {
     max-width: none;
   }
 }
+
+/* ===================================================== ЛОГОТИП: ЕЛЕКТРОНИ
+
+   Електрони йдуть по орбіті засобами offset-path — сам елемент рухається
+   вздовж контуру еліпса, тому крива й траєкторія завжди збігаються.
+   Контур той самий, що в logo.tsx (rx 48.6, ry 23.6, центр 50/50), але
+   не повернутий: поворот дає група-предок, і електрон їде разом з нею.
+
+   Тривалості взаємно непарні (5.1 / 6.7 / 4.3 / 7.9) — спільний період
+   виходить у кілька хвилин, тож око не вловлює повтору. Відʼємні затримки
+   стартують електрони з різних точок, щоб при завантаженні сторінки вони
+   не вишикувалися в один ряд.
+
+   Уся анімація загорнута в @supports: без offset-path електрон стає
+   в (0,0), тобто в лівий верхній кут знака, — тому в старих браузерах
+   (Safari до 16) електронів просто немає, а логотип лишається цілим. */
+@supports (offset-path: path('M 0 0')) {
+  .logo-e {
+    offset-path: path('M 1.4 50 a 48.6 23.6 0 1 0 97.2 0 a 48.6 23.6 0 1 0 -97.2 0');
+    offset-rotate: 0deg;
+    animation: logo-orbit linear infinite;
+  }
+  .logo-e-1 { animation-duration: 5.1s; }
+  .logo-e-2 { animation-duration: 6.7s; animation-delay: -2.2s; }
+  .logo-e-3 { animation-duration: 4.3s; animation-delay: -3.4s; }
+  .logo-e-4 { animation-duration: 7.9s; animation-delay: -1.1s; }
+
+  @keyframes logo-orbit {
+    from { offset-distance: 0%; }
+    to { offset-distance: 100%; }
+  }
+
+  /* Кому рух протипоказаний — електрони лишаються, але стоять,
+     і кожен на своєму місці, щоб знак не виглядав збитим набік. */
+  @media (prefers-reduced-motion: reduce) {
+    .logo-e { animation: none; }
+    .logo-e-1 { offset-distance: 8%; }
+    .logo-e-2 { offset-distance: 33%; }
+    .logo-e-3 { offset-distance: 58%; }
+    .logo-e-4 { offset-distance: 81%; }
+  }
+}

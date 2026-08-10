@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
+import { AtomLogo } from './logo';
 import {
   distributorFilters,
   distributors,
@@ -481,7 +482,7 @@ export function SiteHeader({
             aria-label="Родоніт Агро — на головну"
             className="flex shrink-0 items-center gap-2"
           >
-            <img src="/logo.png" alt="" className="h-9 w-9 object-contain" />
+            <AtomLogo size={36} className="shrink-0" />
             <span className="whitespace-nowrap text-[18px] font-[800] tracking-[-0.02em] text-[var(--color-dark)]">
               Родоніт Агро
             </span>
