@@ -1,13 +1,8 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import {
-  catalogCategories,
-  catalogCultures,
-  catalogProducts,
-  filterCatalog,
-  type CatalogProduct,
-} from '@/lib/catalog';
+import { type CatalogProduct } from '@/lib/catalog';
+import type { CatalogData } from '@/lib/cms';
 import { ArrowRight, Check, Chevron, Close } from '../interactive';
 
 /* Фільтр каталогу. Два зрізи, якими аграрій реально шукає препарат:
@@ -25,7 +20,7 @@ function updateUrl(cat: string, culture: string) {
   window.history.replaceState(null, '', qs ? `/preparaty?${qs}` : '/preparaty');
 }
 
-function ProductCard({ product }: { product: CatalogProduct }) {
+function ProductCard({ product, image }: { product: CatalogProduct; image?: string }) {
   return (
     <a
       href={`/preparaty/${product.slug}`}
@@ -36,7 +31,7 @@ function ProductCard({ product }: { product: CatalogProduct }) {
           картка каталогу має показувати шість штук, а не три. */}
       <div className="mb-5 grid h-[150px] place-items-center">
         <img
-          src={`/products/${product.slug}.png`}
+          src={image ?? `/products/${product.slug}.png`}
           alt={product.name}
           loading="lazy"
           className="max-h-[140px] w-auto max-w-full object-contain drop-shadow-[0_10px_18px_rgba(0,0,0,0.14)]"
@@ -64,17 +59,26 @@ function ProductCard({ product }: { product: CatalogProduct }) {
 }
 
 export function Catalog({
+  data,
   initialCategory = '',
   initialCulture = '',
 }: {
+  data: CatalogData;
   initialCategory?: string;
   initialCulture?: string;
 }) {
+  const { products: catalogProducts, categories: catalogCategories, cultures: catalogCultures, images } = data;
   const [cat, setCat] = useState(initialCategory);
   const [culture, setCulture] = useState(initialCulture);
   const [cultureOpen, setCultureOpen] = useState(false);
 
-  const shown = useMemo(() => filterCatalog(cat, culture), [cat, culture]);
+  const shown = useMemo(
+    () =>
+      catalogProducts.filter(
+        (p) => (!cat || p.categorySlug === cat) && (!culture || p.cultures.includes(culture)),
+      ),
+    [catalogProducts, cat, culture],
+  );
   const activeCulture = catalogCultures.find((c) => c.slug === culture);
   const hasFilter = Boolean(cat || culture);
 
@@ -186,7 +190,7 @@ export function Catalog({
 
       <div data-testid="catalog-grid" className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {shown.map((p) => (
-          <ProductCard key={p.slug} product={p} />
+          <ProductCard key={p.slug} product={p} image={images[p.slug]} />
         ))}
       </div>
 

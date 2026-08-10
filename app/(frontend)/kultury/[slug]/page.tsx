@@ -1,16 +1,18 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { culturePages, getCulture, rateCoverage } from '@/lib/cultures';
-import { problems } from '@/lib/content';
-import { postsByTag } from '@/lib/posts';
-import { ArrowRight, LeadForm, Phone, Reveal, ScrollToTop, SiteHeader } from '../../interactive';
+import { rateCoverage } from '@/lib/cultures';
+import { getContacts, getCultureBySlug, getCulturePages, getPostsByTag, getProblems } from '@/lib/cms';
+import { ArrowRight, LeadForm, Phone, Reveal, ScrollToTop } from '../../interactive';
+import { SiteHeader } from '../../site-header';
 import { SiteFooter } from '../../site-footer';
 import { BlogHero, PostCard } from '../../blog/blog-ui';
 
 import { SITE } from '@/lib/site';
 
-export function generateStaticParams() {
-  return culturePages.map((c) => ({ slug: c.slug }));
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  return (await getCulturePages()).map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({
@@ -19,7 +21,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const c = getCulture(slug);
+  const c = await getCultureBySlug(slug);
   if (!c) return {};
   return {
     title: `${c.name} — препарати та норми | Родоніт Агро`,
@@ -29,9 +31,12 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const contacts = await getContacts();
+  const mainPhone = contacts.phones[0];
   const { slug } = await params;
-  const culture = getCulture(slug);
+  const culture = await getCultureBySlug(slug);
   if (!culture) notFound();
+  const problems = await getProblems();
 
   const { total, withRate } = rateCoverage(culture);
 
@@ -44,7 +49,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     problem: problems.find((pr) => pr.slug === p.slug),
   }));
 
-  const relatedPosts = postsByTag(culture.slug).slice(0, 3);
+  const relatedPosts = (await getPostsByTag(culture.slug)).slice(0, 3);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -211,10 +216,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                   у вашій системі захисту.
                 </p>
                 <a
-                  href="tel:+380444995049"
+                  href={mainPhone?.href ?? 'tel:+380444995049'}
                   className="mt-8 flex w-fit items-center gap-3 text-[18px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                 >
-                  <Phone size={16} /> +38 (044) 499-50-49
+                  <Phone size={16} /> {mainPhone?.value ?? '+38 (044) 499-50-49'}
                 </a>
                 <a
                   href="/kultury"

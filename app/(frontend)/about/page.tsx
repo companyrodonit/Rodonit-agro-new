@@ -1,14 +1,7 @@
 import type { Metadata } from 'next';
-import { contacts, hero } from '@/lib/content';
-import {
-  ArrowRight,
-  CountUp,
-  LeadForm,
-  Phone,
-  Reveal,
-  ScrollToTop,
-  SiteHeader,
-} from '../interactive';
+import { getContacts, getHero } from '@/lib/cms';
+import { ArrowRight, CountUp, LeadForm, Phone, Reveal, ScrollToTop } from '../interactive';
+import { SiteHeader } from '../site-header';
 import { SiteFooter } from '../site-footer';
 import { BlogHero } from '../blog/blog-ui';
 import { Timeline, type Milestone } from './timeline';
@@ -65,7 +58,10 @@ const team: { role: string; name: string; degree?: string; photo: string }[] = [
   },
 ];
 
-export default function Page() {
+export const revalidate = 300;
+
+export default async function Page() {
+  const [contacts, hero] = await Promise.all([getContacts(), getHero()]);
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',

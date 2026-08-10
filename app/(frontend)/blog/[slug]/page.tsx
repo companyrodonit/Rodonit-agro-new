@@ -1,16 +1,20 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { getPost, postHeadings, posts, relatedPosts } from '@/lib/posts';
-import { ArrowRight, LeadForm, Phone, Reveal, ScrollToTop, SiteHeader } from '../../interactive';
+import { postHeadings } from '@/lib/posts';
+import { getContacts, getPostBySlug, getPosts, getRelatedPosts } from '@/lib/cms';
+import { ArrowRight, LeadForm, Phone, Reveal, ScrollToTop } from '../../interactive';
+import { SiteHeader } from '../../site-header';
 import { SiteFooter } from '../../site-footer';
 import { BlogHero, PostBody, PostCard, TagList } from '../blog-ui';
 import { ReadProgressBar, ShareButtons, TableOfContents } from '../blog-client';
 
 import { SITE } from '@/lib/site';
 
-export function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }));
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  return (await getPosts()).map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -19,7 +23,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPostBySlug(slug);
   if (!post) return {};
   return {
     title: `${post.title} | Родоніт Агро`,
@@ -42,12 +46,14 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const contacts = await getContacts();
+  const mainPhone = contacts.phones[0];
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPostBySlug(slug);
   if (!post) notFound();
 
   const headings = postHeadings(post);
-  const related = relatedPosts(post.slug);
+  const related = await getRelatedPosts(post.slug);
   const url = `${SITE}/blog/${post.slug}`;
 
   const jsonLd = [
@@ -172,10 +178,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                   у вашій системі захисту.
                 </p>
                 <a
-                  href="tel:+380444995049"
+                  href={mainPhone?.href ?? 'tel:+380444995049'}
                   className="mt-8 flex w-fit items-center gap-3 text-[18px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                 >
-                  <Phone size={16} /> +38 (044) 499-50-49
+                  <Phone size={16} /> {mainPhone?.value ?? '+38 (044) 499-50-49'}
                 </a>
                 <a
                   href="/preparaty"

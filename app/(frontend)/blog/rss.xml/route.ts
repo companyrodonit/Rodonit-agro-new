@@ -1,4 +1,4 @@
-import { posts } from '@/lib/posts';
+import { getPosts } from '@/lib/cms';
 
 import { SITE } from '@/lib/site';
 
@@ -13,7 +13,10 @@ const esc = (s: string) =>
 
 export const dynamic = 'force-static';
 
-export function GET() {
+export const revalidate = 300;
+
+export async function GET() {
+  const posts = await getPosts();
   const items = posts
     .slice(0, 30)
     .map((p) => {
@@ -26,7 +29,10 @@ export function GET() {
       <guid isPermaLink="true">${url}</guid>
       <description>${esc(p.excerpt)}</description>
       <category>${esc(p.category)}</category>${
-        p.cover ? `\n      <enclosure url="${SITE}${p.cover}" type="image/jpeg" />` : ''
+        // Обкладинка з CMS може бути вже абсолютним URL (Vercel Blob).
+        p.cover
+          ? `\n      <enclosure url="${p.cover.startsWith('http') ? p.cover : SITE + p.cover}" type="image/jpeg" />`
+          : ''
       }
     </item>`;
     })

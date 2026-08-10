@@ -1,8 +1,12 @@
 import type { MetadataRoute } from 'next';
-import { products } from '@/lib/content';
-import { culturePages } from '@/lib/cultures';
-import { solutions } from '@/lib/solutions';
-import { allTags, blogCategories, posts } from '@/lib/posts';
+import {
+  getAllTags,
+  getBlogCategories,
+  getCulturePages,
+  getPosts,
+  getProducts,
+  getSolutions,
+} from '@/lib/cms';
 
 import { SITE } from '@/lib/site';
 
@@ -11,7 +15,10 @@ import { SITE } from '@/lib/site';
  * поточна дата в lastmod бреше пошуковику про свіжість і з часом привчає його
  * ігнорувати поле. Дати зʼявляться разом із published_date у постах.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [products, culturePages, solutions, posts, blogCategories, allTags] = await Promise.all([
+    getProducts(), getCulturePages(), getSolutions(), getPosts(), getBlogCategories(), getAllTags(),
+  ]);
   const staticPages: MetadataRoute.Sitemap = [
     { url: `${SITE}/`, changeFrequency: 'monthly', priority: 1 },
     { url: `${SITE}/preparaty`, changeFrequency: 'monthly', priority: 0.9 },

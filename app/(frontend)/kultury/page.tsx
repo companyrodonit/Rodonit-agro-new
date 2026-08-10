@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
-import { culturePages, rateCoverage } from '@/lib/cultures';
-import { ArrowRight, LeadForm, Reveal, ScrollToTop, SiteHeader } from '../interactive';
+import { rateCoverage } from '@/lib/cultures';
+import { getCulturePages } from '@/lib/cms';
+import { ArrowRight, LeadForm, Reveal, ScrollToTop } from '../interactive';
+import { SiteHeader } from '../site-header';
 import { SiteFooter } from '../site-footer';
 import { BlogHero } from '../blog/blog-ui';
 
@@ -13,7 +15,10 @@ export const metadata: Metadata = {
   alternates: { canonical: '/kultury' },
 };
 
-export default function Page() {
+export const revalidate = 300;
+
+export default async function Page() {
+  const culturePages = await getCulturePages();
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',

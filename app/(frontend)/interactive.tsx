@@ -417,7 +417,13 @@ export function CtaLink({
 
 /* ================================================================= HEADER */
 
-export function SiteHeader() {
+export function SiteHeader({
+  nav: navItems = nav,
+  phone = { value: '+38 (044) 499-50-49', href: 'tel:+380444995049' },
+}: {
+  nav?: { label: string; href: string }[];
+  phone?: { value: string; href: string };
+} = {}) {
   // Хедер — світлий pill на всіх сторінках і з самого верху (правка 28.07).
   // До цього на головній він був прозорий зі світлими лейблами й білішав
   // лише при скролі; тепер вигляд однаковий скрізь, а скрол додає лише
@@ -470,7 +476,7 @@ export function SiteHeader() {
           </a>
 
           <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Головне меню">
-            {nav.map((item) => (
+            {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
@@ -483,10 +489,10 @@ export function SiteHeader() {
 
           <div className="flex shrink-0 items-center gap-3">
             <a
-              href="tel:+380444995049"
+              href={phone.href}
               className="hidden items-center gap-2 whitespace-nowrap text-[13px] font-[700] text-[var(--color-dark)] transition-colors sm:flex"
             >
-              <Phone /> +38 (044) 499-50-49
+              <Phone /> {phone.value}
             </a>
             <span className="hidden sm:block">
               <CtaLink className="btn btn-primary btn-sm whitespace-nowrap">
@@ -537,7 +543,7 @@ export function SiteHeader() {
             </button>
           </div>
           <nav className="mt-8">
-            {nav.map((item) => (
+            {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
@@ -553,10 +559,10 @@ export function SiteHeader() {
             <ArrowRight size={14} />
           </CtaLink>
           <a
-            href="tel:+380444995049"
+            href={phone.href}
             className="mt-4 flex items-center justify-center gap-2 pb-2 text-[16px] font-[700] text-[var(--color-dark)]"
           >
-            <Phone size={16} /> +38 (044) 499-50-49
+            <Phone size={16} /> {phone.value}
           </a>
         </div>
       )}
@@ -566,7 +572,13 @@ export function SiteHeader() {
 
 /* ========================================================= PRODUCT SLIDER */
 
-export function ProductSlider() {
+export function ProductSlider({
+  products = SLIDER_PRODUCTS,
+  images,
+}: {
+  products?: typeof SLIDER_PRODUCTS;
+  images?: Record<string, string>;
+} = {}) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState({ ratio: 0, width: 1 });
   const [atStart, setAtStart] = useState(true);
@@ -617,7 +629,7 @@ export function ProductSlider() {
         data-testid="product-track"
         className="slider-track no-scrollbar flex snap-x overflow-x-auto pb-2"
       >
-        {SLIDER_PRODUCTS.map((p) => (
+        {products.map((p) => (
           <a
             key={p.slug}
             data-card
@@ -630,7 +642,7 @@ export function ProductSlider() {
                 а слоту лишалось 5px). Правка замовника 28.07. */}
             <div className="mb-6 grid h-[210px] place-items-center">
               <img
-                src={`/products/${p.slug}.png`}
+                src={images?.[p.slug] ?? `/products/${p.slug}.png`}
                 alt={p.name}
                 loading="lazy"
                 className="max-h-[200px] w-auto object-contain drop-shadow-[0_14px_24px_rgba(0,0,0,0.16)]"
@@ -719,14 +731,14 @@ export function ProductSlider() {
 
 /* =========================================================== PROBLEM PICK */
 
-export function ProblemSolution() {
+export function ProblemSolution({ items = problems }: { items?: typeof problems } = {}) {
   const [active, setActive] = useState(0);
-  const current = problems[active];
+  const current = items[active];
 
   return (
     <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16 [&>*]:min-w-0">
       <div>
-        {problems.map((p, i) => (
+        {items.map((p, i) => (
           <button
             key={p.problem}
             type="button"
@@ -794,14 +806,20 @@ export function ProblemSolution() {
 
 /* ========================================================== DISTRIBUTORS */
 
-export function DistributorList() {
-  const [filter, setFilter] = useState(distributorFilters[0]);
-  const shown = filter === distributorFilters[0] ? distributors : distributors.filter((d) => d.direction === filter);
+export function DistributorList({
+  items = distributors,
+  filters = distributorFilters,
+}: {
+  items?: typeof distributors;
+  filters?: readonly string[];
+} = {}) {
+  const [filter, setFilter] = useState(filters[0]);
+  const shown = filter === filters[0] ? items : items.filter((d) => d.direction === filter);
 
   return (
     <div>
       <div role="tablist" aria-label="Напрямки" className="flex flex-wrap gap-1 rounded-[24px] bg-[var(--color-surface)] p-1.5">
-        {distributorFilters.map((f) => (
+        {filters.map((f) => (
           <button
             key={f}
             role="tab"
@@ -1157,7 +1175,7 @@ export function ProductAccordion({
 
 /* ============================================================= HERO: ФОН */
 
-export function HeroBackground() {
+export function HeroBackground({ src }: { src?: string } = {}) {
   // Кадр обрано замовником 28.07 — «Сад на світанку», перший у heroBackgrounds.
   // Перемикач 1–8 і збереження вибору в localStorage прибрані тоді ж: свою
   // роботу вони зробили. Решта кандидатів лишились у lib/content.ts і
@@ -1167,7 +1185,7 @@ export function HeroBackground() {
   return (
     <>
       <img
-        src={`/hero/${current.file}`}
+        src={src ?? `/hero/${current.file}`}
         alt=""
         data-testid="hero-bg"
         className="absolute inset-0 h-full w-full object-cover"

@@ -19,3 +19,6 @@ next-env.d.ts
 .DS_Store
 /.verify
 REPORT.md
+
+# payload local uploads
+/public/uploads

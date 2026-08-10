@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import { contacts } from '@/lib/content';
 import { legalEntity } from '@/lib/legal';
-import { ArrowRight, LeadForm, Phone, Reveal, ScrollToTop, SiteHeader } from '../interactive';
+import { getContacts } from '@/lib/cms';
+import { ArrowRight, LeadForm, Phone, Reveal, ScrollToTop } from '../interactive';
+import { SiteHeader } from '../site-header';
 import { SiteFooter } from '../site-footer';
 import { SocialIcon } from '../social-icons';
 import { BlogHero } from '../blog/blog-ui';
@@ -17,7 +18,10 @@ export const metadata: Metadata = {
 
 const tel = (v: string) => `tel:${v.replace(/[^\d+]/g, '')}`;
 
-export default function Page() {
+export const revalidate = 300;
+
+export default async function Page() {
+  const contacts = await getContacts();
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',

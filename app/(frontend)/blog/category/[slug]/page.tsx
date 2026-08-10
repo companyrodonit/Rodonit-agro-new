@@ -1,16 +1,19 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { blogCategories, postsByCategory } from '@/lib/posts';
-import { ScrollToTop, SiteHeader } from '../../../interactive';
+import { getBlogCategories, getPostsByCategory } from '@/lib/cms';
+import { ScrollToTop } from '../../../interactive';
+import { SiteHeader } from '../../../site-header';
 import { SiteFooter } from '../../../site-footer';
 import { BlogHero, EmptyState, PostGrid } from '../../blog-ui';
 
 import { SITE } from '@/lib/site';
 
-const getCategory = (slug: string) => blogCategories.find((c) => c.slug === slug);
+const getCategory = async (slug: string) => (await getBlogCategories()).find((c) => c.slug === slug);
 
-export function generateStaticParams() {
-  return blogCategories.map((c) => ({ slug: c.slug }));
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  return (await getBlogCategories()).map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({
@@ -19,7 +22,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const cat = getCategory(slug);
+  const cat = await getCategory(slug);
   if (!cat) return {};
   return {
     title: `${cat.name} | Блог Родоніт Агро`,
@@ -30,10 +33,10 @@ export async function generateMetadata({
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const cat = getCategory(slug);
+  const cat = await getCategory(slug);
   if (!cat) notFound();
 
-  const items = postsByCategory(cat.slug);
+  const items = await getPostsByCategory(cat.slug);
 
   const jsonLd = {
     '@context': 'https://schema.org',

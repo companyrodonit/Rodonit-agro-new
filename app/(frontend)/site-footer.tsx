@@ -1,9 +1,10 @@
-import { contacts, footerColumns } from '@/lib/content';
+import { getContacts, getFooterColumns } from '@/lib/cms';
 import { ArrowRight, CtaLink } from './interactive';
 import { SocialIcon } from './social-icons';
 
-/** Один футер на всі сторінки — той самий, що на головній. */
-export function SiteFooter() {
+/** Один футер на всі сторінки — той самий, що на головній. Дані — з CMS. */
+export async function SiteFooter() {
+  const [contacts, footerColumns] = await Promise.all([getContacts(), getFooterColumns()]);
   // Скруглені лише два верхні кути — низ упирається в край сторінки.
   // Футер спільний, тож це діє і на сторінках препаратів: там рамки немає,
   // але скруглений верх на світлому тлі виглядає так само.

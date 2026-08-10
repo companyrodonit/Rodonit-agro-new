@@ -1,25 +1,23 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { delivery, packaging, products } from '@/lib/content';
-import { getProduct, productDetails } from '@/lib/products-detail';
 import {
-  ArrowRight,
-  Check,
-  CultureApplications,
-  DeliveryIcon,
-  LeadForm,
-  Phone,
-  ProductAccordion,
-  RegulationTable,
-  Reveal,
-  ScrollToTop,
-  SiteHeader,
-} from '../../interactive';
+  getContacts,
+  getDelivery,
+  getPackaging,
+  getProductBySlug,
+  getProductDetails,
+  getProductImages,
+  getProducts,
+} from '@/lib/cms';
+import { ArrowRight, Check, CultureApplications, DeliveryIcon, LeadForm, Phone, ProductAccordion, RegulationTable, Reveal, ScrollToTop } from '../../interactive';
+import { SiteHeader } from '../../site-header';
 import { SiteFooter } from '../../site-footer';
 
-export function generateStaticParams() {
-  return productDetails.map((p) => ({ slug: p.slug }));
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  return (await getProductDetails()).map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -28,7 +26,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const p = getProduct(slug);
+  const p = await getProductBySlug(slug);
   if (!p) return {};
   return { title: `${p.name} | Родоніт Агро`, description: p.metaDescription };
 }
@@ -66,11 +64,15 @@ function CheckList({ items }: { items: string[] }) {
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const p = getProduct(slug);
+  const p = await getProductBySlug(slug);
   if (!p) notFound();
 
+  const [packaging, products, images, delivery, contacts] = await Promise.all([
+    getPackaging(), getProducts(), getProductImages(), getDelivery(), getContacts(),
+  ]);
   const packs = packaging[p.slug] ?? [];
   const related = products.filter((x) => x.slug !== p.slug).slice(0, 3);
+  const phone = contacts.phones[0];
 
   const sections = [
     p.specs.length && {
@@ -171,7 +173,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             {/* Картка з фото */}
             <div className="grid place-items-center rounded-[24px] bg-[var(--color-surface)] p-8">
               <Image
-                src={`/products/${p.slug}.png`}
+                src={images[p.slug] ?? `/products/${p.slug}.png`}
                 alt={p.name}
                 width={600}
                 height={790}
@@ -303,7 +305,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 >
                   <div className="mb-6 grid h-[190px] place-items-center overflow-hidden">
                     <Image
-                      src={`/products/${r.slug}.png`}
+                      src={images[r.slug] ?? `/products/${r.slug}.png`}
                       alt={r.name}
                       width={600}
                       height={790}
@@ -342,10 +344,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                   вашій системі захисту.
                 </p>
                 <a
-                  href="tel:+380444995049"
+                  href={phone?.href ?? 'tel:+380444995049'}
                   className="mt-8 flex w-fit items-center gap-3 text-[18px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                 >
-                  <Phone size={16} /> +38 (044) 499-50-49
+                  <Phone size={16} /> {phone?.value ?? '+38 (044) 499-50-49'}
                 </a>
               </div>
             </Reveal>

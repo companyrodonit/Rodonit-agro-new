@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { legalEntity, legalUpdated } from '@/lib/legal';
-import { ArrowRight, ScrollToTop, SiteHeader } from '../interactive';
+import { ArrowRight, ScrollToTop } from '../interactive';
+import { SiteHeader } from '../site-header';
 import { SiteFooter } from '../site-footer';
 import { BlogHero } from '../blog/blog-ui';
 import { LegalBody, LegalMeta, type LegalBlock } from '../legal-ui';

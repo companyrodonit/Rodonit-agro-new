@@ -1,16 +1,19 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { allTags, postsByTag } from '@/lib/posts';
-import { ScrollToTop, SiteHeader } from '../../../interactive';
+import { getAllTags, getPostsByTag } from '@/lib/cms';
+import { ScrollToTop } from '../../../interactive';
+import { SiteHeader } from '../../../site-header';
 import { SiteFooter } from '../../../site-footer';
 import { BlogHero, EmptyState, PostGrid } from '../../blog-ui';
 
 import { SITE } from '@/lib/site';
 
-const getTag = (slug: string) => allTags.find((t) => t.slug === slug);
+const getTag = async (slug: string) => (await getAllTags()).find((t) => t.slug === slug);
 
-export function generateStaticParams() {
-  return allTags.map((t) => ({ slug: t.slug }));
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  return (await getAllTags()).map((t) => ({ slug: t.slug }));
 }
 
 export async function generateMetadata({
@@ -19,7 +22,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const tag = getTag(slug);
+  const tag = await getTag(slug);
   if (!tag) return {};
   const what = tag.kind === 'product' ? `препарат ${tag.label}` : `культуру «${tag.label}»`;
   return {
@@ -31,10 +34,10 @@ export async function generateMetadata({
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const tag = getTag(slug);
+  const tag = await getTag(slug);
   if (!tag) notFound();
 
-  const items = postsByTag(tag.slug);
+  const items = await getPostsByTag(tag.slug);
   const isProduct = tag.kind === 'product';
 
   const jsonLd = {

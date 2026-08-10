@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
-import { ArrowRight, Phone, ScrollToTop, SiteHeader } from './interactive';
+import { ArrowRight, Phone, ScrollToTop } from './interactive';
+import { SiteHeader } from './site-header';
 import { SiteFooter } from './site-footer';
+import { getContacts } from '@/lib/cms';
 
 export const metadata: Metadata = {
   title: 'Сторінку не знайдено | Родоніт Агро',
@@ -18,7 +20,9 @@ const exits = [
   { href: '/distributors', title: 'Де купити', text: 'Офіційні дистрибʼютори по регіонах і напрямках.' },
 ];
 
-export default function NotFound() {
+export default async function NotFound() {
+  const contacts = await getContacts();
+  const mainPhone = contacts.phones[0];
   return (
     <div className="page-frame">
       <SiteHeader />
@@ -59,10 +63,10 @@ export default function NotFound() {
             <h2 className="text-h4 mt-3 max-w-[520px]">Зателефонуйте — підкажемо</h2>
             <div className="mt-6 flex flex-wrap items-center gap-4">
               <a
-                href="tel:+380444995049"
+                href={mainPhone?.href ?? 'tel:+380444995049'}
                 className="flex items-center gap-3 text-[18px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
               >
-                <Phone size={16} /> +38 (044) 499-50-49
+                <Phone size={16} /> {mainPhone?.value ?? '+38 (044) 499-50-49'}
               </a>
               <a href="/contacts" className="btn btn-primary">
                 Усі контакти <ArrowRight size={14} />

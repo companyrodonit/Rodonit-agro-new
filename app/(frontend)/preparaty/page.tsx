@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { catalogCategories, catalogProducts } from '@/lib/catalog';
-import { contacts } from '@/lib/content';
-import { ArrowRight, LeadForm, Phone, Reveal, ScrollToTop, SiteHeader } from '../interactive';
+import { getCatalog, getContacts } from '@/lib/cms';
+import { ArrowRight, LeadForm, Phone, Reveal, ScrollToTop } from '../interactive';
+import { SiteHeader } from '../site-header';
 import { SiteFooter } from '../site-footer';
 import { BlogHero } from '../blog/blog-ui';
 import { Catalog } from './catalog';
@@ -23,6 +23,8 @@ export default async function Page({
   searchParams: Promise<{ cat?: string; culture?: string }>;
 }) {
   const { cat, culture } = await searchParams;
+  const [catalog, contacts] = await Promise.all([getCatalog(), getContacts()]);
+  const { products: catalogProducts, categories: catalogCategories } = catalog;
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -53,7 +55,7 @@ export default async function Page({
 
       <section className="bg-[var(--color-bg)]">
         <div className="container-page py-16">
-          <Catalog initialCategory={cat ?? ''} initialCulture={culture ?? ''} />
+          <Catalog data={catalog} initialCategory={cat ?? ''} initialCulture={culture ?? ''} />
         </div>
       </section>
 

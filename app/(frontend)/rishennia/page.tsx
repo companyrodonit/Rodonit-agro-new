@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { solutions } from '@/lib/solutions';
-import { problems, products } from '@/lib/content';
-import { ArrowRight, LeadForm, Reveal, ScrollToTop, SiteHeader } from '../interactive';
+import { getProblems, getProducts, getSolutions } from '@/lib/cms';
+import { ArrowRight, LeadForm, Reveal, ScrollToTop } from '../interactive';
+import { SiteHeader } from '../site-header';
 import { SiteFooter } from '../site-footer';
 import { BlogHero } from '../blog/blog-ui';
 
@@ -14,7 +14,12 @@ export const metadata: Metadata = {
   alternates: { canonical: '/rishennia' },
 };
 
-export default function Page() {
+export const revalidate = 300;
+
+export default async function Page() {
+  const [solutions, problems, products] = await Promise.all([
+    getSolutions(), getProblems(), getProducts(),
+  ]);
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',

@@ -1,14 +1,7 @@
 import type { Metadata } from 'next';
-import { contacts } from '@/lib/content';
-import {
-  ArrowRight,
-  DistributorList,
-  LeadForm,
-  Phone,
-  Reveal,
-  ScrollToTop,
-  SiteHeader,
-} from '../interactive';
+import { getContacts, getDistributorFilters, getDistributors } from '@/lib/cms';
+import { ArrowRight, DistributorList, LeadForm, Phone, Reveal, ScrollToTop } from '../interactive';
+import { SiteHeader } from '../site-header';
 import { SiteFooter } from '../site-footer';
 
 export const metadata: Metadata = {
@@ -23,7 +16,12 @@ export const metadata: Metadata = {
    Контент узято зі старого rodonit-new.vercel.app/distributors; він уже
    лежав у lib/content.ts, бо ця ж четвірка партнерів показується на головній. */
 
-export default function Page() {
+export const revalidate = 300;
+
+export default async function Page() {
+  const [contacts, distributors, distributorFilters] = await Promise.all([
+    getContacts(), getDistributors(), getDistributorFilters(),
+  ]);
   return (
     <div className="page-frame">
       <SiteHeader />
@@ -56,7 +54,7 @@ export default function Page() {
       {/* ═══════════════════════════════════════════ 2 — СПИСОК ПАРТНЕРІВ */}
       <section id="distributors" className="bg-[var(--color-bg)]">
         <div className="container-page py-24">
-          <DistributorList />
+          <DistributorList items={distributors} filters={distributorFilters} />
         </div>
       </section>
 

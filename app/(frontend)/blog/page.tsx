@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import { allTags, blogCategories, posts } from '@/lib/posts';
-import { ArrowRight, LeadForm, Reveal, ScrollToTop, SiteHeader } from '../interactive';
+import { getAllTags, getBlogCategories, getPosts } from '@/lib/cms';
+import { ArrowRight, LeadForm, Reveal, ScrollToTop } from '../interactive';
+import { SiteHeader } from '../site-header';
 import { SiteFooter } from '../site-footer';
 import { BlogHero, EmptyState, PostGrid } from './blog-ui';
 
@@ -20,6 +21,9 @@ export default async function Page({
   searchParams: Promise<{ page?: string }>;
 }) {
   const { page } = await searchParams;
+  const [posts, blogCategories, allTags] = await Promise.all([
+    getPosts(), getBlogCategories(), getAllTags(),
+  ]);
   const total = Math.max(1, Math.ceil(posts.length / PER_PAGE));
   // Некоректний ?page схлопуємо до першої сторінки, а не в 404: посилання
   // з поламаним параметром має показувати блог, а не помилку.

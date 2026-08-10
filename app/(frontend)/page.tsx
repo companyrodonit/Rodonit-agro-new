@@ -1,32 +1,26 @@
 import Image from 'next/image';
 import {
-  about,
-  categories,
-  contacts,
-  cta,
-  cultures,
-  footerColumns,
-  hero,
-  news,
-  products,
-  trust,
-} from '@/lib/content';
-import {
-  ArrowRight,
-  HeroBackground,
-  DistributorList,
-  CategoryIconFor,
-  LeadForm,
-  Phone,
-  ProblemSolution,
-  ProductSlider,
-  Reveal,
-  ScrollToTop,
-  SiteHeader,
-  Tooltip,
-} from './interactive';
+  getAbout,
+  getCategories,
+  getContacts,
+  getCta,
+  getCulturesIndex,
+  getDistributorFilters,
+  getDistributors,
+  getHero,
+  getNews,
+  getProblems,
+  getProductImages,
+  getProducts,
+  getTrust,
+} from '@/lib/cms';
+import { ArrowRight, HeroBackground, DistributorList, CategoryIconFor, LeadForm, Phone, ProblemSolution, ProductSlider, Reveal, ScrollToTop, Tooltip } from './interactive';
+import { SiteHeader } from './site-header';
 import { SiteFooter } from './site-footer';
 import { TrustArtFor } from './trust-art';
+
+/** ISR: правки в адмінці зʼявляються на сайті протягом ~5 хвилин. */
+export const revalidate = 300;
 
 /* ------------------------------------------------------------- helpers */
 
@@ -66,7 +60,14 @@ function SectionHead({
 
 /* ================================================================= PAGE */
 
-export default function Page() {
+export default async function Page() {
+  const [hero, categories, cultures, about, trust, cta, contacts, news] = await Promise.all([
+    getHero(), getCategories(), getCulturesIndex(), getAbout(),
+    getTrust(), getCta(), getContacts(), getNews(),
+  ]);
+  const [products, productImages, problems, distributors, distributorFilters] = await Promise.all([
+    getProducts(), getProductImages(), getProblems(), getDistributors(), getDistributorFilters(),
+  ]);
   return (
     /* Зовнішня рамка 6px по колу сторінки (правка замовника 28.07).
        Хедер і кнопка «нагору» лишаються поза нею — вони fixed і рахуються
@@ -88,7 +89,7 @@ export default function Page() {
            висота його б обрізала. */
         className="relative isolate flex min-h-[min(100svh,750px)] flex-col overflow-hidden rounded-b-[32px] bg-[var(--color-dark)]"
       >
-        <HeroBackground />
+        <HeroBackground src={hero.background} />
 
         {/* w-full обов'язковий: .container-page має margin-inline:auto, і як
             флекс-елемент секції він інакше стискається під ширину контенту й
@@ -138,7 +139,7 @@ export default function Page() {
           </Reveal>
 
           <div className="mt-12">
-            <ProductSlider />
+            <ProductSlider products={products} images={productImages} />
           </div>
         </div>
       </section>
@@ -239,7 +240,7 @@ export default function Page() {
             />
           </Reveal>
           <div className="mt-12">
-            <ProblemSolution />
+            <ProblemSolution items={problems} />
           </div>
         </div>
       </section>
@@ -317,7 +318,7 @@ export default function Page() {
             />
           </Reveal>
           <div className="mt-12">
-            <DistributorList />
+            <DistributorList items={distributors} filters={distributorFilters} />
           </div>
         </div>
       </section>
@@ -341,7 +342,7 @@ export default function Page() {
                   className="group flex h-full flex-col overflow-hidden rounded-[24px] bg-[var(--color-dark)]"
                 >
                   <Image
-                    src={`/blog/${n.slug}.jpg`}
+                    src={n.cover}
                     alt=""
                     width={560}
                     height={360}
