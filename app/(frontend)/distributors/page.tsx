@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getContacts, getDistributorFilters, getDistributors } from '@/lib/cms';
-import { ArrowRight, DistributorList, LeadForm, Phone, Reveal, ScrollToTop } from '../interactive';
+import { ArrowRight, DistributorList, LeadForm, Mail, Phone, Reveal, ScrollToTop } from '../interactive';
 import { SiteHeader } from '../site-header';
 import { SiteFooter } from '../site-footer';
 
@@ -94,7 +94,7 @@ export default async function Page() {
                     href={`mailto:${contacts.email}`}
                     className="flex items-center gap-3 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                   >
-                    <span className="grid h-4 w-4 place-items-center">@</span> {contacts.email}
+                    <Mail size={16} /> {contacts.email}
                   </a>
                 </div>
                 <a

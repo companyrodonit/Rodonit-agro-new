@@ -14,7 +14,7 @@ import {
   getProducts,
   getTrust,
 } from '@/lib/cms';
-import { ArrowRight, HeroBackground, DistributorList, CategoryIconFor, LeadForm, Phone, ProblemSolution, ProductSlider, Reveal, ScrollToTop, Tooltip } from './interactive';
+import { ArrowRight, CategoryIconFor, DistributorList, HeroBackground, LeadForm, Mail, Phone, ProblemSolution, ProductSlider, Reveal, ScrollToTop, Tooltip } from './interactive';
 import { SiteHeader } from './site-header';
 import { SiteFooter } from './site-footer';
 import { TrustArtFor } from './trust-art';
@@ -390,7 +390,7 @@ export default async function Page() {
                     </a>
                   ))}
                   <a href={`mailto:${contacts.email}`} className="flex items-center gap-3 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]">
-                    <span className="grid h-4 w-4 place-items-center">@</span> {contacts.email}
+                    <Mail size={16} /> {contacts.email}
                   </a>
                 </div>
               </div>

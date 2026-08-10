@@ -55,6 +55,18 @@ export function Phone({ size = 14 }: { size?: number }) {
     </svg>
   );
 }
+/* Конверт для e-mail. Раніше на його місці стояв текстовий символ «@» у
+   коробці 16×16 — і рядок пошти помітно не тримав лінію з телефонами вище:
+   гліф має власні метрики й базову лінію, тож у флексі сидів нижче й лівіше
+   за SVG-іконки. Тепер це така сама іконка тієї ж родини, що Phone. */
+export function Mail({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <path d="m2.5 6.5 8.4 5.6a2 2 0 0 0 2.2 0l8.4-5.6" />
+    </svg>
+  );
+}
 export function Spinner({ size = 16 }: { size?: number }) {
   return (
     <svg className="spinner" width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
