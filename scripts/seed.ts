@@ -48,10 +48,12 @@ async function run() {
   const payload = await getPayload({ config });
   console.log('Payload піднято, схема:', process.env.PAYLOAD_DB_SCHEMA || 'public');
 
-  // Порядок: спершу залежні (posts, products), потім довідники, потім media.
+  // Порядок важливий: спершу все, що ПОСИЛАЄТЬСЯ на інші колекції, потім самі
+  // цілі. Культури тримають посилання на препарати, тож ідуть перед ними —
+  // інакше delete падає на зовнішньому ключі й уся транзакція відкочується.
   await clear(payload, [
-    'posts', 'solutions', 'products',
-    'blog-categories', 'cultures', 'categories', 'distributors', 'media',
+    'posts', 'solutions', 'cultures', 'products',
+    'blog-categories', 'categories', 'distributors', 'media',
   ]);
 
   /* ------------------------------------------------ Категорії препаратів */
