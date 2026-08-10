@@ -11,10 +11,8 @@
  * у PNG виміряно 14.5 — тобто це той самий знак, а не схожий.
  * У viewBox 100 усе перераховано з коефіцієнтом 100/74.
  *
- * Анімація (варіант «електрони по орбітах», обраний замовником): чотири
- * електрони йдуть кожен своєю орбітою. Тривалості взаємно непарні, тож
- * візерунок не повторюється і рух не читається як зациклений. Стилі —
- * у globals.css (`.logo-e`), там же вимкнення для prefers-reduced-motion.
+ * Рух електронів — у globals.css (`.logo-e`, `@keyframes logo-orbit`).
+ * Там же пояснено, чому кейфрейми згенеровані, а не через offset-path.
  */
 
 const ORBIT = '#86B0B7';
@@ -23,6 +21,9 @@ const NUCLEUS = '#B94F74';
 /** Ядро: правильний шестикутник вершиною вгору, вписаний у коло R=14.2. */
 const HEX = '50,35.8 62.3,42.9 62.3,57.1 50,64.2 37.7,57.1 37.7,42.9';
 
+/** Нахил орбіти → тривалість оберту, зсув фази, напрямок. */
+const ORBITS = [0, 45, 90, 135];
+
 export function AtomLogo({
   size = 36,
   className = '',
@@ -30,7 +31,7 @@ export function AtomLogo({
 }: {
   size?: number;
   className?: string;
-  /** Вимкнути рух там, де він недоречний (наприклад, у друкованій версії). */
+  /** Вимкнути рух там, де він недоречний. */
   animated?: boolean;
 }) {
   return (
@@ -41,8 +42,13 @@ export function AtomLogo({
       className={className}
       role="img"
       aria-label="Родоніт Агро"
+      /* overflow visible обовʼязково: на кінцях орбіт електрон виходить за
+         полотно приблизно на 5 одиниць, і за замовчуванням SVG зрізав би
+         йому півкола. Виступ у перерахунку на 36px — менше 2px, поруч
+         нічого немає, тож накласти нема на що. */
+      style={{ overflow: 'visible' }}
     >
-      {[0, 45, 90, 135].map((deg, i) => (
+      {ORBITS.map((deg, i) => (
         <g key={deg} transform={deg ? `rotate(${deg} 50 50)` : undefined}>
           <ellipse
             cx="50"
@@ -53,7 +59,9 @@ export function AtomLogo({
             stroke={ORBIT}
             strokeWidth="3.2"
           />
-          {animated && <circle className={`logo-e logo-e-${i + 1}`} r="6" fill={NUCLEUS} />}
+          {animated && (
+            <circle className={`logo-e logo-e-${i + 1}`} cx="50" cy="50" r="5.5" fill={NUCLEUS} />
+          )}
         </g>
       ))}
       <polygon points={HEX} fill={NUCLEUS} />

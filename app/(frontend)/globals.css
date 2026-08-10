@@ -568,42 +568,117 @@ textarea.field {
 
 /* ===================================================== ЛОГОТИП: ЕЛЕКТРОНИ
 
-   Електрони йдуть по орбіті засобами offset-path — сам елемент рухається
-   вздовж контуру еліпса, тому крива й траєкторія завжди збігаються.
-   Контур той самий, що в logo.tsx (rx 48.6, ry 23.6, центр 50/50), але
-   не повернутий: поворот дає група-предок, і електрон їде разом з нею.
+   Кейфрейми згенеровані (72 кроки), а не зроблені через offset-path, і це
+   принципово. offset-path жене елемент зі сталою швидкістю ПО ДОВЖИНІ ДУГИ:
+   електрон однаково швидко проходить і круті кінці еліпса, і пологі боки.
+   Орбіта в проєкції так не виглядає — там стала КУТОВА швидкість, і на
+   дальніх кінцях електрон видимо сповільнюється. Без цього рух читається
+   як механічне ковзання по кільцю, а не як обертання.
 
-   Тривалості взаємно непарні (5.1 / 6.7 / 4.3 / 7.9) — спільний період
-   виходить у кілька хвилин, тож око не вловлює повтору. Відʼємні затримки
-   стартують електрони з різних точок, щоб при завантаженні сторінки вони
-   не вишикувалися в один ряд.
+   Тому позиція рахується як (rx·cos θ, ry·sin θ) з рівним кроком по θ.
 
-   Уся анімація загорнута в @supports: без offset-path електрон стає
-   в (0,0), тобто в лівий верхній кут знака, — тому в старих браузерах
-   (Safari до 16) електронів просто немає, а логотип лишається цілим. */
-@supports (offset-path: path('M 0 0')) {
-  .logo-e {
-    offset-path: path('M 1.4 50 a 48.6 23.6 0 1 0 97.2 0 a 48.6 23.6 0 1 0 -97.2 0');
-    offset-rotate: 0deg;
-    animation: logo-orbit linear infinite;
-  }
-  .logo-e-1 { animation-duration: 5.1s; }
-  .logo-e-2 { animation-duration: 6.7s; animation-delay: -2.2s; }
-  .logo-e-3 { animation-duration: 4.3s; animation-delay: -3.4s; }
-  .logo-e-4 { animation-duration: 7.9s; animation-delay: -1.1s; }
+   Глибина. Еліпс — це коло, нахилене від глядача, тож нижня половина
+   (sin θ > 0) ближча, верхня дальша. Електрон на дальній половині менший
+   і тьмяніший — саме це дає обʼєм, якого не було.
 
-  @keyframes logo-orbit {
-    from { offset-distance: 0%; }
-    to { offset-distance: 100%; }
-  }
+   Напрямки різні: дві орбіти обертаються в інший бік (animation-direction:
+   reverse). Коли всі йшли в один, знак читався як єдиний вихор.
 
-  /* Кому рух протипоказаний — електрони лишаються, але стоять,
-     і кожен на своєму місці, щоб знак не виглядав збитим набік. */
-  @media (prefers-reduced-motion: reduce) {
-    .logo-e { animation: none; }
-    .logo-e-1 { offset-distance: 8%; }
-    .logo-e-2 { offset-distance: 33%; }
-    .logo-e-3 { offset-distance: 58%; }
-    .logo-e-4 { offset-distance: 81%; }
-  }
+   Тривалості близькі, але взаємно непарні (5.6 / 6.4 / 6.0 / 7.2) — рух
+   лишається злагодженим, але спільний період довгий і повтору око не ловить. */
+.logo-e {
+  fill: #B94F74;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: logo-orbit linear infinite;
+}
+.logo-e-1 { animation-duration: 5.6s; }
+.logo-e-2 { animation-duration: 6.4s; animation-delay: -2.2s; animation-direction: reverse; }
+.logo-e-3 { animation-duration: 6s;   animation-delay: -4.1s; }
+.logo-e-4 { animation-duration: 7.2s; animation-delay: -1.3s; animation-direction: reverse; }
+
+@keyframes logo-orbit {
+  0% { transform: translate(48.60px, 0.00px) scale(0.820); opacity: 0.725; }
+  1.3889% { transform: translate(48.42px, 2.06px) scale(0.837); opacity: 0.749; }
+  2.7778% { transform: translate(47.86px, 4.10px) scale(0.855); opacity: 0.773; }
+  4.1667% { transform: translate(46.94px, 6.11px) scale(0.872); opacity: 0.796; }
+  5.5556% { transform: translate(45.67px, 8.07px) scale(0.888); opacity: 0.819; }
+  6.9444% { transform: translate(44.05px, 9.97px) scale(0.905); opacity: 0.841; }
+  8.3333% { transform: translate(42.09px, 11.80px) scale(0.920); opacity: 0.863; }
+  9.7222% { transform: translate(39.81px, 13.54px) scale(0.935); opacity: 0.883; }
+  11.1111% { transform: translate(37.23px, 15.17px) scale(0.949); opacity: 0.902; }
+  12.5% { transform: translate(34.37px, 16.69px) scale(0.961); opacity: 0.919; }
+  13.8889% { transform: translate(31.24px, 18.08px) scale(0.973); opacity: 0.936; }
+  15.2778% { transform: translate(27.88px, 19.33px) scale(0.984); opacity: 0.950; }
+  16.6667% { transform: translate(24.30px, 20.44px) scale(0.993); opacity: 0.963; }
+  18.0556% { transform: translate(20.54px, 21.39px) scale(1.001); opacity: 0.974; }
+  19.4444% { transform: translate(16.62px, 22.18px) scale(1.008); opacity: 0.983; }
+  20.8333% { transform: translate(12.58px, 22.80px) scale(1.013); opacity: 0.991; }
+  22.2222% { transform: translate(8.44px, 23.24px) scale(1.017); opacity: 0.996; }
+  23.6111% { transform: translate(4.24px, 23.51px) scale(1.019); opacity: 0.999; }
+  25% { transform: translate(0.00px, 23.60px) scale(1.020); opacity: 1.000; }
+  26.3889% { transform: translate(-4.24px, 23.51px) scale(1.019); opacity: 0.999; }
+  27.7778% { transform: translate(-8.44px, 23.24px) scale(1.017); opacity: 0.996; }
+  29.1667% { transform: translate(-12.58px, 22.80px) scale(1.013); opacity: 0.991; }
+  30.5556% { transform: translate(-16.62px, 22.18px) scale(1.008); opacity: 0.983; }
+  31.9444% { transform: translate(-20.54px, 21.39px) scale(1.001); opacity: 0.974; }
+  33.3333% { transform: translate(-24.30px, 20.44px) scale(0.993); opacity: 0.963; }
+  34.7222% { transform: translate(-27.88px, 19.33px) scale(0.984); opacity: 0.950; }
+  36.1111% { transform: translate(-31.24px, 18.08px) scale(0.973); opacity: 0.936; }
+  37.5% { transform: translate(-34.37px, 16.69px) scale(0.961); opacity: 0.919; }
+  38.8889% { transform: translate(-37.23px, 15.17px) scale(0.949); opacity: 0.902; }
+  40.2778% { transform: translate(-39.81px, 13.54px) scale(0.935); opacity: 0.883; }
+  41.6667% { transform: translate(-42.09px, 11.80px) scale(0.920); opacity: 0.863; }
+  43.0556% { transform: translate(-44.05px, 9.97px) scale(0.905); opacity: 0.841; }
+  44.4444% { transform: translate(-45.67px, 8.07px) scale(0.888); opacity: 0.819; }
+  45.8333% { transform: translate(-46.94px, 6.11px) scale(0.872); opacity: 0.796; }
+  47.2222% { transform: translate(-47.86px, 4.10px) scale(0.855); opacity: 0.773; }
+  48.6111% { transform: translate(-48.42px, 2.06px) scale(0.837); opacity: 0.749; }
+  50% { transform: translate(-48.60px, 0.00px) scale(0.820); opacity: 0.725; }
+  51.3889% { transform: translate(-48.42px, -2.06px) scale(0.803); opacity: 0.701; }
+  52.7778% { transform: translate(-47.86px, -4.10px) scale(0.785); opacity: 0.677; }
+  54.1667% { transform: translate(-46.94px, -6.11px) scale(0.768); opacity: 0.654; }
+  55.5556% { transform: translate(-45.67px, -8.07px) scale(0.752); opacity: 0.631; }
+  56.9444% { transform: translate(-44.05px, -9.97px) scale(0.735); opacity: 0.609; }
+  58.3333% { transform: translate(-42.09px, -11.80px) scale(0.720); opacity: 0.588; }
+  59.7222% { transform: translate(-39.81px, -13.54px) scale(0.705); opacity: 0.567; }
+  61.1111% { transform: translate(-37.23px, -15.17px) scale(0.691); opacity: 0.548; }
+  62.5% { transform: translate(-34.37px, -16.69px) scale(0.679); opacity: 0.531; }
+  63.8889% { transform: translate(-31.24px, -18.08px) scale(0.667); opacity: 0.514; }
+  65.2778% { transform: translate(-27.88px, -19.33px) scale(0.656); opacity: 0.500; }
+  66.6667% { transform: translate(-24.30px, -20.44px) scale(0.647); opacity: 0.487; }
+  68.0556% { transform: translate(-20.54px, -21.39px) scale(0.639); opacity: 0.476; }
+  69.4444% { transform: translate(-16.62px, -22.18px) scale(0.632); opacity: 0.467; }
+  70.8333% { transform: translate(-12.58px, -22.80px) scale(0.627); opacity: 0.459; }
+  72.2222% { transform: translate(-8.44px, -23.24px) scale(0.623); opacity: 0.454; }
+  73.6111% { transform: translate(-4.24px, -23.51px) scale(0.621); opacity: 0.451; }
+  75% { transform: translate(-0.00px, -23.60px) scale(0.620); opacity: 0.450; }
+  76.3889% { transform: translate(4.24px, -23.51px) scale(0.621); opacity: 0.451; }
+  77.7778% { transform: translate(8.44px, -23.24px) scale(0.623); opacity: 0.454; }
+  79.1667% { transform: translate(12.58px, -22.80px) scale(0.627); opacity: 0.459; }
+  80.5556% { transform: translate(16.62px, -22.18px) scale(0.632); opacity: 0.467; }
+  81.9444% { transform: translate(20.54px, -21.39px) scale(0.639); opacity: 0.476; }
+  83.3333% { transform: translate(24.30px, -20.44px) scale(0.647); opacity: 0.487; }
+  84.7222% { transform: translate(27.88px, -19.33px) scale(0.656); opacity: 0.500; }
+  86.1111% { transform: translate(31.24px, -18.08px) scale(0.667); opacity: 0.514; }
+  87.5% { transform: translate(34.37px, -16.69px) scale(0.679); opacity: 0.531; }
+  88.8889% { transform: translate(37.23px, -15.17px) scale(0.691); opacity: 0.548; }
+  90.2778% { transform: translate(39.81px, -13.54px) scale(0.705); opacity: 0.567; }
+  91.6667% { transform: translate(42.09px, -11.80px) scale(0.720); opacity: 0.587; }
+  93.0556% { transform: translate(44.05px, -9.97px) scale(0.735); opacity: 0.609; }
+  94.4444% { transform: translate(45.67px, -8.07px) scale(0.752); opacity: 0.631; }
+  95.8333% { transform: translate(46.94px, -6.11px) scale(0.768); opacity: 0.654; }
+  97.2222% { transform: translate(47.86px, -4.10px) scale(0.785); opacity: 0.677; }
+  98.6111% { transform: translate(48.42px, -2.06px) scale(0.803); opacity: 0.701; }
+  100% { transform: translate(48.60px, -0.00px) scale(0.820); opacity: 0.725; }
+}
+
+/* Кому рух протипоказаний — електрони стоять, кожен на своєму місці,
+   щоб знак не виглядав збитим набік. */
+@media (prefers-reduced-motion: reduce) {
+  .logo-e { animation: none; }
+  .logo-e-1 { transform: translate(48.6px, 0); }
+  .logo-e-2 { transform: translate(0, 23.6px); }
+  .logo-e-3 { transform: translate(-48.6px, 0); }
+  .logo-e-4 { transform: translate(0, -23.6px); }
 }
