@@ -59,7 +59,9 @@ export default async function Page({
 
       {/* Категорії текстом — щоб зрізи каталогу були в HTML і без JS:
           фільтр клієнтський, а ці посилання бачить і бот, і людина без скриптів. */}
-      <section className="rounded-[32px] bg-[var(--color-surface)]">
+      {/* id="cta" — тут стоїть LeadForm, тож кнопка «Консультація» з хедера
+          й футера скролить сюди, а не веде на /contacts (див. CtaLink). */}
+      <section id="cta" className="rounded-[32px] bg-[var(--color-surface)]">
         <div className="container-page py-24">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20 [&>*]:min-w-0">
             <Reveal>

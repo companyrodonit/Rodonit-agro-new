@@ -4,7 +4,6 @@ import {
   ArrowRight,
   CountUp,
   LeadForm,
-  Leaf,
   Phone,
   Reveal,
   ScrollToTop,
@@ -49,40 +48,21 @@ const milestones: Milestone[] = [
   },
 ];
 
-/**
- * Плейсхолдер під фото. Навмисно виглядає плейсхолдером, а не «дизайном»:
- * поки замовник не дасть реальні знімки, сторінка має чесно показувати, що
- * тут буде фото, а не імітувати його градієнтом.
- */
-function PhotoPlaceholder({
-  label,
-  className = '',
-}: {
-  label: string;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`grid place-items-center rounded-[24px] border border-dashed border-[rgba(0,0,0,0.16)] bg-[var(--color-surface)] ${className}`}
-    >
-      <div className="px-6 text-center">
-        <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-[var(--color-dark)] text-[var(--color-accent)]">
-          <Leaf size={20} />
-        </span>
-        <p className="mt-4 text-[13px] font-[700] uppercase tracking-[0.04em] text-[rgba(14,15,12,0.4)]">
-          Фото
-        </p>
-        <p className="mt-1 text-[14px] leading-[1.5] text-[rgba(14,15,12,0.45)]">{label}</p>
-      </div>
-    </div>
-  );
-}
-
-const team = [
-  'Керівництво',
-  'Агрономічний супровід',
-  'Відділ продажу',
-  'Наукові досліди',
+/* Тільки підтверджені замовником люди — імена й посади не вигадуємо,
+   а заглушку замість людини відвідувачу не показуємо. Нову людину
+   додавати сюди разом із фото 4:5 у public/about. */
+const team: { role: string; name: string; degree?: string; photo: string }[] = [
+  {
+    role: 'Директор',
+    name: 'Олег Дубина',
+    photo: '/about/oleh-dubyna.jpg',
+  },
+  {
+    role: 'Агрономічний супровід',
+    name: 'Матусевич Галина',
+    degree: 'кандидат сільськогосподарських наук',
+    photo: '/about/halyna.jpg',
+  },
 ];
 
 export default function Page() {
@@ -139,7 +119,17 @@ export default function Page() {
               </div>
             </Reveal>
             <Reveal delay={2}>
-              <PhotoPlaceholder label="Команда або офіс — горизонтальний кадр" className="aspect-[4/3]" />
+              {/* Фото від клієнта: директор Олег Дубина з лінійкою препаратів,
+                  вертикальний кадр 3:4 (банери по боках обрізані). Пробували
+                  ще горизонтальний 4:3 і вирізану постать на повний зріст —
+                  клієнт обрав саме цей варіант. */}
+              <img
+                src="/about/director.jpg"
+                alt="Олег Дубина, директор «Родоніт Агро», з препаратами компанії"
+                width={900}
+                height={1200}
+                className="mx-auto aspect-[3/4] w-full max-w-[420px] rounded-[24px] object-cover"
+              />
             </Reveal>
           </div>
         </div>
@@ -165,7 +155,17 @@ export default function Page() {
         <div className="container-page py-24">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20 [&>*]:min-w-0">
             <Reveal>
-              <PhotoPlaceholder label="Препарати в полі або на складі" className="aspect-[4/3]" />
+              {/* Колаж зібрано зі студійних фото самих препаратів
+                  (public/products, прозорий фон) — два рівні без вертикального
+                  перекриття, щоб усі шість читались. Скрипт складання:
+                  scratchpad/collage2.py, фон = --color-surface. */}
+              <img
+                src="/about/portfolio.jpg"
+                alt="Шість препаратів Родоніт Агро: Нордокс 75 WG, Верно СаВ, Верно FG, Гідролип, Міра РК, Сільвер Мікс"
+                width={1200}
+                height={900}
+                className="aspect-[4/3] w-full rounded-[24px] object-cover"
+              />
             </Reveal>
             <Reveal delay={2}>
               <div>
@@ -254,19 +254,28 @@ export default function Page() {
             <h2 className="text-h3 mt-3 max-w-[620px]">
               Фахівці з профільною агрономічною підготовкою
             </h2>
-            <p className="mt-6 max-w-[620px] text-[17px] leading-[1.7] text-[rgba(14,15,12,0.6)]">
-              Блок чекає на фото й підписи від замовника — імена та посади ми не вигадуємо.
-            </p>
           </Reveal>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {team.map((role, i) => (
-              <Reveal key={role} delay={((i % 4) + 1) as 1 | 2 | 3 | 4}>
+          {/* Показуємо тільки людей, яких підтвердив замовник. Порожніх
+              карток-заглушок тут більше немає — «Імʼя Прізвище» і «Портрет 4:5»
+              бачив кінцевий відвідувач. */}
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {team.map((m, i) => (
+              <Reveal key={m.role} delay={((i % 4) + 1) as 1 | 2 | 3 | 4}>
                 <div>
-                  <PhotoPlaceholder label="Портрет 4:5" className="aspect-[4/5]" />
-                  <p className="mt-4 text-[17px] font-[500] text-[var(--color-dark)]">
-                    Імʼя Прізвище
-                  </p>
-                  <p className="mt-1 text-[14px] text-[rgba(14,15,12,0.5)]">{role}</p>
+                  <img
+                    src={m.photo}
+                    alt={`${m.name} — ${m.role}, «Родоніт Агро»`}
+                    width={480}
+                    height={600}
+                    className="aspect-[4/5] w-full rounded-[24px] object-cover"
+                  />
+                  <p className="mt-4 text-[17px] font-[500] text-[var(--color-dark)]">{m.name}</p>
+                  <p className="mt-1 text-[14px] text-[rgba(14,15,12,0.5)]">{m.role}</p>
+                  {m.degree && (
+                    <p className="mt-1 text-[13px] leading-[1.45] text-[rgba(14,15,12,0.4)]">
+                      {m.degree}
+                    </p>
+                  )}
                 </div>
               </Reveal>
             ))}

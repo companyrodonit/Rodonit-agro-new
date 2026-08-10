@@ -87,7 +87,9 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="rounded-[32px] bg-[var(--color-surface)]">
+      {/* id="cta" — тут стоїть LeadForm, тож кнопка «Консультація» з хедера
+          й футера скролить сюди, а не веде на /contacts (див. CtaLink). */}
+      <section id="cta" className="rounded-[32px] bg-[var(--color-surface)]">
         <div className="container-page py-24">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20 [&>*]:min-w-0">
             <Reveal>

@@ -3,6 +3,7 @@ import { contacts } from '@/lib/content';
 import { legalEntity } from '@/lib/legal';
 import { ArrowRight, LeadForm, Phone, Reveal, ScrollToTop, SiteHeader } from '../interactive';
 import { SiteFooter } from '../site-footer';
+import { SocialIcon } from '../social-icons';
 import { BlogHero } from '../blog/blog-ui';
 
 const SITE = 'https://rodonit-redesign.vercel.app';
@@ -49,7 +50,9 @@ export default function Page() {
         description="Зателефонуйте у відділ продажу або залиште заявку — консультант підбере схему під вашу культуру."
       />
 
-      <section className="bg-[var(--color-bg)]">
+      {/* id="cta" — сюди веде кнопка «Консультація» з хедера/футера на
+          сторінках, де власної CTA-секції немає (див. CtaLink). */}
+      <section id="cta" className="bg-[var(--color-bg)]">
         <div className="container-page py-24">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20 [&>*]:min-w-0">
             <Reveal>
@@ -101,8 +104,9 @@ export default function Page() {
                         href={s.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="rounded-full bg-[var(--color-surface)] px-5 py-2.5 text-[15px] text-[var(--color-text)] transition-colors hover:bg-[var(--color-dark)] hover:text-[var(--color-bg)]"
+                        className="flex items-center gap-2 rounded-full bg-[var(--color-surface)] py-2.5 pl-4 pr-5 text-[15px] text-[var(--color-text)] transition-colors hover:bg-[var(--color-dark)] hover:text-[var(--color-bg)]"
                       >
+                        <SocialIcon name={s.name} />
                         {s.name}
                       </a>
                     ))}

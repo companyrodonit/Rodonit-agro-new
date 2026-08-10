@@ -61,6 +61,11 @@ export default function Page() {
       </section>
 
       {/* ═══════════════════════════════════════════ 3 — ЯК СТАТИ ПАРТНЕРОМ */}
+      {/* Окремий якір, бо id секції вже зайнятий під #partnership (лишаємо —
+          на нього могли посилатися ззовні). Тут LeadForm, тож «Консультація»
+          з хедера/футера скролить сюди, а не веде на /contacts (див. CtaLink).
+          Відступ під фіксований хедер дає глобальне [id]{scroll-margin-top}. */}
+      <div id="cta" aria-hidden="true" />
       <section id="partnership" className="rounded-[32px] bg-[var(--color-surface)]">
         <div className="container-page py-24">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-20 [&>*]:min-w-0">

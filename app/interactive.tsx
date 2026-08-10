@@ -70,13 +70,6 @@ export function Warning({ size = 14 }: { size?: number }) {
     </svg>
   );
 }
-export function Leaf({ size = 18 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M20 3c0 9-5.5 14-12 14a6 6 0 0 1 0-12c4 0 6-2 12-2ZM4 21c2-6 6-9 10-10" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 /* ------------------------------------------- ІКОНКИ ПРОБЛЕМ (секція 5)
 
@@ -249,6 +242,7 @@ export function CategoryIconFor({ name, size = 28 }: { name?: string; size?: num
   return Icon ? <Icon size={size} /> : null;
 }
 
+
 const PROBLEM_ICONS = {
   'fruit-crack': IconFruitCrack,
   'shield-break': IconShieldBreak,
@@ -381,6 +375,46 @@ export function Tooltip({ label }: { label: string }) {
   );
 }
 
+/* =================================================================== CTA */
+
+/* Посилання на форму консультації.
+
+   Було просто href="#cta" у хедері, футері й кількох блоках. Секція
+   id="cta" є лише на 6 сторінках із 16 (головна, про компанію, картки
+   препарату/культури/рішення, стаття) — на решті (контакти, каталоги,
+   блог-списки, дистрибʼютори, privacy, terms) клік не робив НІЧОГО.
+
+   Тепер: якщо секція на сторінці є — плавний скрол до неї (як і було);
+   якщо немає — звичайний перехід на /contacts#cta, де стоїть та сама
+   LeadForm. href лишається справжнім, тож працює і без JS, і на
+   середній клік / «відкрити в новій вкладці». */
+export function CtaLink({
+  className,
+  children,
+  onNavigate,
+}: {
+  className?: string;
+  children: ReactNode;
+  onNavigate?: () => void;
+}) {
+  const handle = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Не перехоплюємо клік із модифікаторами — хай браузер відкриє вкладку.
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    const target = document.getElementById('cta');
+    if (!target) return; // секції немає — йдемо на /contacts#cta
+    e.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    history.replaceState(null, '', '#cta');
+    onNavigate?.();
+  };
+
+  return (
+    <a href="/contacts#cta" onClick={handle} className={className}>
+      {children}
+    </a>
+  );
+}
+
 /* ================================================================= HEADER */
 
 export function SiteHeader() {
@@ -415,45 +449,50 @@ export function SiteHeader() {
         <div
           data-testid="header-pill"
           className={`pointer-events-auto mx-[12.8px] mt-[6.4px] flex h-16 items-center justify-between rounded-[24px] border border-[rgba(0,0,0,0.08)] px-4 backdrop-blur-[12px] transition-[background-color] duration-300 ${
-            scrolled ? 'bg-[rgba(255,255,255,0.92)]' : 'bg-[rgba(255,255,255,0.78)]'
+            scrolled ? 'bg-[rgba(255,255,255,0.96)]' : 'bg-[rgba(255,255,255,0.94)]'
           }`}
         >
           {/* На головну, а не на #top: хедер спільний, і на сторінках
               препаратів, каталогу, блогу й дистрибʼюторів якір просто
               скролив угору тієї ж сторінки замість переходу додому. */}
-          <a href="/" aria-label="Родоніт Агро — на головну" className="flex items-center gap-2">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-[var(--color-dark)] text-[var(--color-accent)]">
-              <Leaf />
-            </span>
-            <span className="text-[18px] font-[800] tracking-[-0.02em] text-[var(--color-dark)]">
+          {/* shrink-0 + nowrap по всьому ряду: після додавання сьомого пункту
+              меню («Контакти») хедер став тісним, і флекс почав переносити
+              «Агро», «Про компанію» та номер телефону на другий рядок. */}
+          <a
+            href="/"
+            aria-label="Родоніт Агро — на головну"
+            className="flex shrink-0 items-center gap-2"
+          >
+            <img src="/logo.png" alt="" className="h-9 w-9 object-contain" />
+            <span className="whitespace-nowrap text-[18px] font-[800] tracking-[-0.02em] text-[var(--color-dark)]">
               Родоніт Агро
             </span>
           </a>
 
-          <nav className="hidden items-center gap-1 lg:flex" aria-label="Головне меню">
+          <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Головне меню">
             {nav.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="btn-nav text-[var(--color-dark)] transition-colors hover:text-[color:#03594C]"
+                className="btn-nav whitespace-nowrap text-[var(--color-dark)] transition-colors hover:text-[color:#03594C]"
               >
                 {item.label}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex shrink-0 items-center gap-3">
             <a
               href="tel:+380444995049"
-              className="hidden items-center gap-2 text-[13px] font-[700] text-[var(--color-dark)] transition-colors sm:flex"
+              className="hidden items-center gap-2 whitespace-nowrap text-[13px] font-[700] text-[var(--color-dark)] transition-colors sm:flex"
             >
               <Phone /> +38 (044) 499-50-49
             </a>
             <span className="hidden sm:block">
-              <a href="#cta" className="btn btn-primary btn-sm whitespace-nowrap">
+              <CtaLink className="btn btn-primary btn-sm whitespace-nowrap">
                 Консультація
                 <ArrowRight size={14} />
-              </a>
+              </CtaLink>
             </span>
             <button
               type="button"
@@ -476,11 +515,24 @@ export function SiteHeader() {
           role="dialog"
           aria-modal="true"
           aria-label="Меню"
-          className="on-dark fixed inset-0 z-[400] gradient-dark px-5 py-6 text-[var(--color-bg)]"
+          className="fixed inset-0 z-[400] overflow-y-auto bg-[var(--color-bg)] px-5 py-6 text-[var(--color-text)]"
         >
+          {/* Світлий фон замість темного градієнта — решта сайту світла, і
+              темна шторка читалась як чужий екран. Шапка шторки повторює
+              хедер один в один: той самий знак + накреслення назви. */}
           <div className="flex items-center justify-between">
-            <span className="text-[18px] font-[800]">Родоніт Агро</span>
-            <button type="button" aria-label="Закрити меню" onClick={() => setMobileOpen(false)}>
+            <span className="flex items-center gap-2">
+              <img src="/logo.png" alt="" className="h-9 w-9 object-contain" />
+              <span className="text-[18px] font-[800] tracking-[-0.02em] text-[var(--color-dark)]">
+                Родоніт Агро
+              </span>
+            </span>
+            <button
+              type="button"
+              aria-label="Закрити меню"
+              onClick={() => setMobileOpen(false)}
+              className="grid h-11 w-11 place-items-center rounded-full bg-[var(--color-surface)] text-[var(--color-dark)]"
+            >
               <Close />
             </button>
           </div>
@@ -490,17 +542,20 @@ export function SiteHeader() {
                 key={item.label}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className="flex h-14 items-center border-b border-[rgba(255,255,255,0.12)] text-[22px]"
+                className="flex h-14 items-center border-b border-[rgba(0,0,0,0.08)] text-[22px] text-[var(--color-dark)]"
               >
                 {item.label}
               </a>
             ))}
           </nav>
-          <a href="#cta" onClick={() => setMobileOpen(false)} className="btn btn-primary mt-8 w-full">
+          <CtaLink onNavigate={() => setMobileOpen(false)} className="btn btn-primary mt-8 w-full">
             Замовити консультацію
             <ArrowRight size={14} />
-          </a>
-          <a href="tel:+380444995049" className="mt-4 flex items-center justify-center gap-2 text-[16px] text-[rgba(255,255,255,0.8)]">
+          </CtaLink>
+          <a
+            href="tel:+380444995049"
+            className="mt-4 flex items-center justify-center gap-2 pb-2 text-[16px] font-[700] text-[var(--color-dark)]"
+          >
             <Phone size={16} /> +38 (044) 499-50-49
           </a>
         </div>
@@ -599,10 +654,17 @@ export function ProductSlider() {
           data-card
           className="slider-card flex snap-start flex-col rounded-[24px] bg-[var(--color-accent)] p-7 text-center"
         >
+          {/* Фото директора замість спільної іконки-листка: за консультацією
+              стоїть конкретна людина, і це працює краще за абстрактний знак.
+              Тонка світла обводка відділяє знімок від акцентного фону картки. */}
           <div className="mb-6 grid h-[210px] place-items-center">
-            <span className="grid h-20 w-20 place-items-center rounded-full bg-[var(--color-dark)] text-[var(--color-accent)]">
-              <Leaf size={34} />
-            </span>
+            <img
+              src="/about/oleh-avatar.jpg"
+              alt="Олег Дубина — директор «Родоніт Агро»"
+              width={400}
+              height={400}
+              className="h-[132px] w-[132px] rounded-full object-cover ring-4 ring-[var(--color-bg)]"
+            />
           </div>
           <h3 className="text-[22px] font-[500] leading-[1.25] text-[var(--color-text)]">
             Не знаєте, що обрати?
@@ -611,9 +673,9 @@ export function ProductSlider() {
             Підкажемо схему під вашу культуру, фазу розвитку й задачу в полі.
           </p>
           <div className="mt-auto w-full pt-6">
-            <a href="#cta" className="btn btn-white w-full">
+            <CtaLink className="btn btn-white w-full">
               Підібрати препарат <ArrowRight size={14} />
-            </a>
+            </CtaLink>
           </div>
         </div>
       </div>
@@ -760,9 +822,15 @@ export function DistributorList() {
       <div data-testid="distrib-grid" className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {shown.map((d) => (
           <div key={d.name} className="card-hover flex h-full flex-col rounded-[24px] border border-[rgba(0,0,0,0.1)] bg-[var(--color-bg)] p-6">
-            <span className="grid h-11 w-11 place-items-center rounded-full bg-[var(--color-dark)] text-[var(--color-accent)]">
-              <Leaf />
-            </span>
+            {/* Логотип замість спільного листка. Бокс фіксованої висоти, лого
+                вписується в нього (object-contain) — при різних пропорціях
+                оригіналів (квадратні НК Рекорд/Баланс vs витягнуті Biochem/
+                Агро Мрія) висота боксу спільна, тож картки не стрибають.
+                56px, а не 44: на 44 квадратні лого читались помітно дрібнішими
+                за горизонтальні, бо їх обмежувала висота, а не ширина. */}
+            <div className="flex h-14 items-center justify-center">
+              <img src={d.logo} alt={d.name} className="max-h-14 w-auto max-w-[150px] object-contain" />
+            </div>
             <h3 className="mt-5 text-[19px] font-[500] text-[var(--color-dark)]">{d.name}</h3>
             <p className="mt-2 text-[14px] leading-[1.5] text-[rgba(14,15,12,0.55)]">{d.role}</p>
             {d.address && <p className="mt-3 text-[13px] leading-[1.5] text-[rgba(14,15,12,0.45)]">{d.address}</p>}
@@ -962,9 +1030,9 @@ export function RegulationTable({ rows }: { rows: { culture: string; rate: strin
               <tr>
                 <td colSpan={2} className="px-6 py-10 text-center text-[rgba(14,15,12,0.45)]">
                   Нічого не знайшли. Спробуйте іншу назву або{' '}
-                  <a href="#cta" className="underline underline-offset-2">
+                  <CtaLink className="underline underline-offset-2">
                     запитайте консультанта
-                  </a>
+                  </CtaLink>
                   .
                 </td>
               </tr>

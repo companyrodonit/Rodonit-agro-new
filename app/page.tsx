@@ -13,7 +13,6 @@ import {
 } from '@/lib/content';
 import {
   ArrowRight,
-  Check,
   HeroBackground,
   DistributorList,
   CategoryIconFor,
@@ -27,6 +26,7 @@ import {
   Tooltip,
 } from './interactive';
 import { SiteFooter } from './site-footer';
+import { TrustArtFor } from './trust-art';
 
 /* ------------------------------------------------------------- helpers */
 
@@ -155,10 +155,13 @@ export default function Page() {
                 {/* Іконка вгорі, текст притиснутий до низу, між ними повітря —
                     за макетом від 28.07. mt-auto стоїть на заголовку, а не на
                     лічильнику: інакше вільний простір ділився б між ними
-                    навпіл і текст висів би посеред картки. */}
+                    навпіл і текст висів би посеред картки.
+                    min-height лише від sm: на одноколонковій мобільній сітці
+                    картка широка, контенту в ній мало, і 400px давали голу
+                    діру між іконкою та заголовком. */}
                 <a
                   href={`/preparaty?cat=${c.slug}`}
-                  className="card-hover flex h-full min-h-[400px] flex-col rounded-[24px] bg-[var(--color-bg)] p-8"
+                  className="card-hover flex h-full flex-col rounded-[24px] bg-[var(--color-bg)] p-8 sm:min-h-[400px]"
                 >
                   {/* Коло 44 → 56px: на 44 іконка в 20px губилась і читалась
                       зеленою плямою. Той самий розмір, що в картці «Рішення». */}
@@ -274,21 +277,26 @@ export default function Page() {
             />
           </Reveal>
           <Reveal delay={1}>
-            {/* Той самий крій, що в картках категорій: галочка вгорі ліворуч,
-                підпис притиснутий до низу, між ними повітря. Було —
-                компактна картка з усім по центру. Картка тут навмисно нижча
-                за категорійну (300 проти 400): підпис один рядок, а не
-                заголовок з описом, і 400px давали б порожню діру. */}
+            {/* Той самий крій, що в картках категорій: іконка вгорі ліворуч,
+                підпис притиснутий до низу. Раніше тут був однаковий чекмарк
+                на всіх чотирьох — саме тому середина картки була голою.
+                Іконка лишається навігаційним символом (той самий резолвер,
+                що в категоріях), а згенероване тематичне фото між іконкою і
+                підписом і заповнює простір, і пояснює пункт наочно. */}
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {trust.map((t) => (
                 <div
                   key={t.label}
-                  className="flex h-full min-h-[300px] flex-col rounded-[24px] bg-[var(--color-bg)] p-8"
+                  className="flex h-full flex-col rounded-[24px] bg-[var(--color-bg)] p-8 sm:min-h-[300px]"
                 >
-                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[var(--color-accent)] text-[var(--color-text)]">
-                    <Check size={20} />
-                  </span>
-                  <p className="mt-auto flex items-center gap-1.5 pt-10 text-[17px] font-[500] leading-[1.35] text-[var(--color-dark)]">
+                  {/* Кружок-чекмарк (h-12 w-12, bg dark, accent-іконка, Check
+                      size 20, shrink-0, першим елементом перед ілюстрацією)
+                      прибрано на прохання — лишити тут на пам'ять, якщо
+                      знадобиться повернути. */}
+                  <div className="w-full flex-1 overflow-hidden rounded-[16px]">
+                    <TrustArtFor name={t.icon} />
+                  </div>
+                  <p className="mt-6 flex items-center justify-center gap-1.5 text-center text-[17px] font-[500] leading-[1.35] text-[var(--color-dark)]">
                     {t.label} <Tooltip label={t.tooltip} />
                   </p>
                 </div>

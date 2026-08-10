@@ -1,5 +1,6 @@
 import { contacts, footerColumns } from '@/lib/content';
-import { ArrowRight, Leaf } from './interactive';
+import { ArrowRight, CtaLink } from './interactive';
+import { SocialIcon } from './social-icons';
 
 /** Один футер на всі сторінки — той самий, що на головній. */
 export function SiteFooter() {
@@ -12,18 +13,18 @@ export function SiteFooter() {
         <div className="grid gap-16 lg:grid-cols-[2fr_3fr]">
           <div>
             <div className="flex items-center gap-2">
-              <span className="grid h-9 w-9 place-items-center rounded-full bg-[var(--color-accent)] text-[var(--color-text)]">
-                <Leaf />
-              </span>
+              {/* На темному фоні лого лишається читабельним: знак світлий
+                  контурний, підкладка під нього не потрібна. */}
+              <img src="/logo.png" alt="" className="h-9 w-9 object-contain" />
               <span className="text-[18px] font-[800]">Родоніт Агро</span>
             </div>
             <h3 className="text-h4 mt-8 !text-[var(--color-bg)]">
               Технології підвищення <em className="accent-word">врожайності</em>
             </h3>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href="#cta" className="btn btn-primary btn-sm">
+              <CtaLink className="btn btn-primary btn-sm">
                 Консультація <ArrowRight size={12} />
-              </a>
+              </CtaLink>
               <a href="/contacts" className="btn btn-outline-light btn-sm">
                 Контакти
               </a>
@@ -35,9 +36,11 @@ export function SiteFooter() {
                   href={s.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="grid h-10 w-10 place-items-center rounded-full bg-[rgba(255,255,255,0.1)] text-[11px] font-[700] transition-colors hover:bg-[var(--color-accent)] hover:text-[var(--color-text)]"
+                  aria-label={s.name}
+                  title={s.name}
+                  className="grid h-10 w-10 place-items-center rounded-full bg-[rgba(255,255,255,0.1)] transition-colors hover:bg-[var(--color-accent)] hover:text-[var(--color-text)]"
                 >
-                  {s.name.slice(0, 2).toUpperCase()}
+                  <SocialIcon name={s.name} />
                 </a>
               ))}
             </div>
