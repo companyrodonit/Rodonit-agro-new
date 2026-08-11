@@ -464,8 +464,58 @@ export const Posts: CollectionConfig = {
   ],
 };
 
+/**
+ * Заявки з форми «Отримати консультацію».
+ *
+ * Пишемо в базу, а не тільки шлемо листом: пошта може відвалитися, зміниться
+ * скринька, лист піде в спам — а заявка аграрія загубитися не має права.
+ * Лист — це сповіщення поверх запису, а не сам запис.
+ *
+ * Створювати може будь-хто (форма публічна), читати — тільки залогінені.
+ */
+export const Leads: CollectionConfig = {
+  slug: 'leads',
+  labels: { singular: 'Заявка', plural: 'Заявки' },
+  access: {
+    create: () => true,
+    read: ({ req }) => Boolean(req.user),
+    update: ({ req }) => Boolean(req.user),
+    delete: ({ req }) => Boolean(req.user),
+  },
+  admin: {
+    useAsTitle: 'name',
+    defaultColumns: ['name', 'phone', 'status', 'createdAt'],
+    group: 'Система',
+  },
+  fields: [
+    { name: 'name', type: 'text', required: true, label: 'Імʼя' },
+    { name: 'phone', type: 'text', required: true, label: 'Телефон' },
+    { name: 'comment', type: 'textarea', label: 'Коментар' },
+    {
+      name: 'status',
+      type: 'select',
+      defaultValue: 'new',
+      label: 'Статус',
+      options: [
+        { label: 'Нова', value: 'new' },
+        { label: 'В роботі', value: 'in-progress' },
+        { label: 'Опрацьована', value: 'done' },
+        { label: 'Спам', value: 'spam' },
+      ],
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'page',
+      type: 'text',
+      label: 'Сторінка, з якої надіслали',
+      admin: { readOnly: true, position: 'sidebar' },
+    },
+  ],
+};
+
 export const collections: CollectionConfig[] = [
   Users,
+  Leads,
   Media,
   Categories,
   Products,

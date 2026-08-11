@@ -906,13 +906,24 @@ export function LeadForm() {
   const phoneValid = digits.length >= 10 && digits.length <= 13;
   const nameValid = name.trim().length > 1;
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setTouched(true);
     if (!nameValid || !phoneValid) return;
     setState('loading');
-    // Реального ендпоінта тут ще немає — на бойовому сайті це POST /form-submit.
-    window.setTimeout(() => setState('success'), 1000);
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, page: window.location.pathname }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      setState('success');
+    } catch {
+      // Показуємо помилку чесно. Раніше форма малювала «дякуємо» завжди —
+      // і заявка зникала, а людина була впевнена, що їй передзвонять.
+      setState('error');
+    }
   };
 
   if (state === 'success') {
@@ -943,6 +954,16 @@ export function LeadForm() {
 
   return (
     <form onSubmit={submit} noValidate className="rounded-[24px] border border-[rgba(0,0,0,0.1)] bg-[var(--color-bg)] p-8">
+      {state === 'error' && (
+        <p
+          data-testid="form-error"
+          role="alert"
+          className="mb-6 rounded-[16px] bg-[rgba(200,40,40,0.08)] p-4 text-[15px] leading-[1.5] text-[color:#B02020]"
+        >
+          Не вдалося надіслати заявку. Спробуйте ще раз або зателефонуйте нам —
+          номер угорі сторінки.
+        </p>
+      )}
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="lead-name" className="block text-[14px] font-[700]">
