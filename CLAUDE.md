@@ -80,11 +80,16 @@
   - Дані, що НЕ в CMS свідомо: тексти /privacy і /terms (авторські юр. документи,
     lib/legal.ts), блок «проблема→препарат» на головній (авторські тексти, lib/content).
 
-### Що треба від Бро для прод-запуску CMS (крок 3-фінал)
-1. Neon-база на акаунті клієнта (або дозвіл лишити на нашому) → POSTGRES_URL.
-2. На Vercel проєкту rodonit-agro-new: POSTGRES_URL, PAYLOAD_SECRET (новий!),
-   NEXT_PUBLIC_SITE_URL, BLOB_READ_WRITE_TOKEN (Storage → Create Blob store).
-3. Прогнати `npm run seed` з прод-env (локально, .env тимчасовий) → контент+медіа в проді.
+### Прод-CMS (крок 3-фінал) — інфраструктура готова 11.08
+✅ Бро створив на Vercel-акаунті клієнта (team Rodonit): Neon-базу
+(Frankfurt, Free, інтеграція сама додала `DATABASE_URL` і PG*-змінні —
+`POSTGRES_URL` вона БІЛЬШЕ НЕ СТВОРЮЄ, код читає обидва імені),
+Blob-сховище (Public + галочка read-write token → `BLOB_READ_WRITE_TOKEN`),
+`PAYLOAD_SECRET` (Production, Sensitive).
+`NEXT_PUBLIC_SITE_URL` свідомо не ставимо до дня перемикання домену.
+🔄 Лишилось: отримати від Бро connection string (Storage → база →
+Quickstart) → локально прогнати push схеми + `npm run seed` → створити
+адміна Олега → перевірити /admin на проді.
 
 ## Зроблено в цій сесії (коміт `c8744b9`)
 

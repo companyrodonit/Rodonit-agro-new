@@ -10,7 +10,10 @@ import { globals } from './payload/globals';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const connectionString = process.env.POSTGRES_URL ?? '';
+// POSTGRES_URL — наше локальне ім'я (.env.local). DATABASE_URL — те, що
+// створює інтеграція Neon на Vercel у 2026: перевірено на проді 11.08,
+// змінної POSTGRES_URL вона більше не додає взагалі.
+const connectionString = process.env.POSTGRES_URL ?? process.env.DATABASE_URL ?? '';
 const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
 
 /**
