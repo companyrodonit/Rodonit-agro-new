@@ -1,7 +1,12 @@
 import type { NextConfig } from 'next';
 import { withPayload } from '@payloadcms/next/withPayload';
+import { legacyRedirects } from './lib/redirects';
 
 const nextConfig: NextConfig = {
+  // Карта 301 зі старого OpenCart. Генерується з tools/redirects-draft.csv,
+  // працює лише після перемикання домену — на vercel.app цих адрес ніхто
+  // не питає. 102 інфосторінки поки без призначення: чекають рішення Олега.
+  redirects: async () => legacyRedirects,
   // drizzle-kit лишається зовнішнім пакетом: інакше Turbopack намагається
   // трансформувати require('drizzle-kit/api') всередині Payload і збірка падає.
   serverExternalPackages: ['drizzle-kit'],

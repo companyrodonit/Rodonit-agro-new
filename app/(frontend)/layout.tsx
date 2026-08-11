@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Onest } from 'next/font/google';
 import { SITE } from '@/lib/site';
 import { SiteSchema } from './site-schema';
+import { Analytics } from './analytics';
 import './globals.css';
 
 // Figtree/Switzer зі стайлгайду — латиниця-онлі. Для українського контенту
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <SiteSchema />
         {children}
+        <Analytics />
       </body>
     </html>
   );
