@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import {
   getAbout,
@@ -21,6 +22,12 @@ import { TrustArtFor } from './trust-art';
 
 /** ISR: правки в адмінці зʼявляються на сайті протягом ~5 хвилин. */
 export const revalidate = 300;
+
+/* Title і description головної живуть у layout — тут лишається тільки
+   canonical. У root layout його ставити не можна: alternates успадковується
+   всіма сторінками, які не задали свій, і вони почали б віддавати canonical
+   на «/». */
+export const metadata: Metadata = { alternates: { canonical: '/' } };
 
 /* ------------------------------------------------------------- helpers */
 
@@ -384,13 +391,13 @@ export default async function Page() {
                 <p className="mt-4 text-[17px] leading-[1.6] text-[rgba(14,15,12,0.6)]">{cta.subtitle}</p>
                 <div className="mt-8 space-y-3">
                   {contacts.phones.map((p) => (
-                    <a key={p.value} href={p.href} className="flex items-center gap-3 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]">
-                      <Phone size={16} /> {p.value}
+                    <a key={p.value} href={p.href} className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]">
+                      <Phone size={16} className="shrink-0" /> <span className="whitespace-nowrap">{p.value}</span>
                       <span className="text-[13px] font-[400] text-[rgba(14,15,12,0.45)]">— {p.label}</span>
                     </a>
                   ))}
-                  <a href={`mailto:${contacts.email}`} className="flex items-center gap-3 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]">
-                    <Mail size={16} /> {contacts.email}
+                  <a href={`mailto:${contacts.email}`} className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]">
+                    <Mail size={16} className="shrink-0" /> <span className="whitespace-nowrap">{contacts.email}</span>
                   </a>
                 </div>
               </div>

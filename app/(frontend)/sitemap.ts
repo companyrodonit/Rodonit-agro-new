@@ -1,8 +1,8 @@
 import type { MetadataRoute } from 'next';
 import {
-  getAllTags,
   getBlogCategories,
   getCulturePages,
+  getIndexableTags,
   getPosts,
   getProducts,
   getSolutions,
@@ -16,8 +16,12 @@ import { SITE } from '@/lib/site';
  * ігнорувати поле. Дати зʼявляться разом із published_date у постах.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  /* Теги беремо не всі: сторінка тега з однією статтею віддає noindex
+     (див. TAG_INDEX_THRESHOLD), а класти в sitemap те, що самі закрили від
+     індексації, — прямий привід для помилки «Submitted URL marked noindex»
+     у Search Console. */
   const [products, culturePages, solutions, posts, blogCategories, allTags] = await Promise.all([
-    getProducts(), getCulturePages(), getSolutions(), getPosts(), getBlogCategories(), getAllTags(),
+    getProducts(), getCulturePages(), getSolutions(), getPosts(), getBlogCategories(), getIndexableTags(),
   ]);
   const staticPages: MetadataRoute.Sitemap = [
     { url: `${SITE}/`, changeFrequency: 'monthly', priority: 1 },

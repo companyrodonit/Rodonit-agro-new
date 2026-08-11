@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Onest } from 'next/font/google';
 import { SITE } from '@/lib/site';
+import { SiteSchema } from './site-schema';
 import './globals.css';
 
 // Figtree/Switzer зі стайлгайду — латиниця-онлі. Для українського контенту
@@ -23,6 +24,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title,
   description,
+  // ⚠️ canonical тут НЕ ставити. alternates із root layout успадковується
+  // кожною сторінкою, яка його не перевизначає, — і всі такі сторінки почали б
+  // віддавати canonical на головну. Canonical живе в metadata самої сторінки,
+  // головна — в app/(frontend)/page.tsx.
   openGraph: {
     type: 'website',
     locale: 'uk_UA',
@@ -50,7 +55,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="uk" className={onest.variable}>
-      <body>{children}</body>
+      <body>
+        <SiteSchema />
+        {children}
+      </body>
     </html>
   );
 }

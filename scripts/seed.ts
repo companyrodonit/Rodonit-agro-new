@@ -93,6 +93,7 @@ async function run() {
         storage: d.storage.map(t),
         regulations: d.regulations,
         problems: d.problems.map((p) => ({ title: p.title, body: p.body.map(t) })),
+        seoTitle: d.seoTitle,
         metaDescription: d.metaDescription,
         featured: card?.featured ?? false,
         order: i,
@@ -175,6 +176,9 @@ async function run() {
         category: blogCatId[p.categorySlug],
         cover: coverId,
         date: p.date,
+        author: p.author,
+        seoTitle: p.seoTitle,
+        metaDescription: p.metaDescription,
         readMinutes: p.readMinutes,
         tags: p.tags,
         blocks: p.blocks.map((b) =>

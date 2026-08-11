@@ -10,9 +10,9 @@ import { BlogHero } from '../blog/blog-ui';
 import { SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Контакти | Родоніт Агро',
+  title: 'Контакти Родоніт Агро — телефони відділу продажу, Київ',
   description:
-    "Зв'яжіться з нами: телефони відділу продажу, email, поштова адреса. Консультація спеціаліста з підбору препаратів.",
+    "Телефони відділу продажу та приймальні, email і поштова адреса в Києві. Зателефонуйте — консультант підбере схему захисту й живлення під вашу культуру.",
   alternates: { canonical: '/contacts' },
 };
 
@@ -22,22 +22,16 @@ export const revalidate = 300;
 
 export default async function Page() {
   const contacts = await getContacts();
+  /* Повний опис організації — у site-schema.tsx під @id `#org`. Тут тільки
+     тип сторінки й посилання на ту саму сутність, щоб не плодити дублікати. */
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: legalEntity.name,
-    alternateName: legalEntity.shortName,
-    url: SITE,
-    email: contacts.email,
-    telephone: contacts.allPhones[0].numbers,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'вул. Юрія Шумського, 1б, оф. 117',
-      addressLocality: 'Київ',
-      postalCode: '02098',
-      addressCountry: 'UA',
-    },
-    sameAs: contacts.socials.map((s) => s.href),
+    '@type': 'ContactPage',
+    url: `${SITE}/contacts`,
+    name: `Контакти ${legalEntity.shortName}`,
+    inLanguage: 'uk-UA',
+    mainEntity: { '@id': `${SITE}/#org` },
+    isPartOf: { '@id': `${SITE}/#website` },
   };
 
   return (
@@ -71,9 +65,9 @@ export default async function Page() {
                         <a
                           key={n}
                           href={tel(n)}
-                          className="flex items-center gap-3 text-[18px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
+                          className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[18px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                         >
-                          <Phone size={16} /> {n}
+                          <Phone size={16} className="shrink-0" /> <span className="whitespace-nowrap">{n}</span>
                         </a>
                       ))}
                     </div>
@@ -86,7 +80,7 @@ export default async function Page() {
                     href={`mailto:${contacts.email}`}
                     className="mt-4 flex w-fit items-center gap-3 text-[18px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                   >
-                    <Mail size={16} /> {contacts.email}
+                    <Mail size={16} className="shrink-0" /> <span className="whitespace-nowrap">{contacts.email}</span>
                   </a>
                 </div>
 

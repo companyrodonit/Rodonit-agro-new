@@ -9,9 +9,9 @@ import { Catalog } from './catalog';
 import { SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Препарати | Родоніт Агро',
+  title: 'Препарати для захисту й живлення рослин — каталог | Родоніт',
   description:
-    'Каталог препаратів Родоніт Агро: стимулятори росту, мікродобрива, фунгіциди та прилипачі. Фільтр за категорією і культурою.',
+    'Каталог із шести препаратів Родоніт Агро: стимулятори росту, мікродобрива, фунгіциди та прилипачі. Фільтр за категорією і культурою, норми витрати на кожній картці.',
   // canonical на чистий /preparaty: фільтр живе в ?cat= і ?culture=, і всі
   // 90+ комбінацій не мають потрапляти в індекс окремими сторінками.
   alternates: { canonical: '/preparaty' },
@@ -95,9 +95,9 @@ export default async function Page({
                     <a
                       key={p.value}
                       href={p.href}
-                      className="flex items-center gap-3 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
+                      className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                     >
-                      <Phone size={16} /> {p.value}
+                      <Phone size={16} className="shrink-0" /> <span className="whitespace-nowrap">{p.value}</span>
                       <span className="text-[13px] font-[400] text-[rgba(14,15,12,0.45)]">
                         — {p.label}
                       </span>

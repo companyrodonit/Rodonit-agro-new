@@ -10,6 +10,7 @@ import {
   getProductImages,
   getProducts,
 } from '@/lib/cms';
+import { SITE } from '@/lib/site';
 import { ArrowRight, Check, CultureApplications, DeliveryIcon, LeadForm, Phone, ProductAccordion, RegulationTable, Reveal, ScrollToTop } from '../../interactive';
 import { SiteHeader } from '../../site-header';
 import { SiteFooter } from '../../site-footer';
@@ -28,7 +29,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const p = await getProductBySlug(slug);
   if (!p) return {};
-  return { title: `${p.name} | Родоніт Агро`, description: p.metaDescription };
+  return {
+    // seoTitle заповнений у CMS: «Нордокс 75 WG» сам по собі не каже
+    // пошуковику, що це фунгіцид. Фолбек лишається на назву.
+    title: p.seoTitle || `${p.name} | Родоніт Агро`,
+    description: p.metaDescription,
+    alternates: { canonical: `/preparaty/${p.slug}` },
+  };
 }
 
 /* ------------------------------------------------------------- helpers */
@@ -145,10 +152,46 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     },
   ].filter(Boolean) as { key: string; label: string; render: React.ReactNode }[];
 
+  const url = `${SITE}/preparaty/${p.slug}`;
+  /* Product без Offer. Ціни на сайті немає (продаж через дистрибʼюторів),
+     а Offer із порожньою ціною Google читає як биту розмітку — гірше, ніж
+     її відсутність. Наявність описуємо через seller у BreadcrumbList вище
+     не потрібно; коли Олег дасть ціни — сюди додається offers. */
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: p.name,
+      description: p.metaDescription || p.tagline,
+      url,
+      image: [`${SITE}${images[p.slug] ?? `/products/${p.slug}.png`}`],
+      category: p.category,
+      brand: { '@type': 'Brand', name: 'Родоніт Агро' },
+      manufacturer: { '@id': `${SITE}/#org` },
+      ...(p.keySpecs.length && {
+        additionalProperty: p.keySpecs.map((s) => ({
+          '@type': 'PropertyValue',
+          name: s.label,
+          value: s.value,
+        })),
+      }),
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Головна', item: SITE },
+        { '@type': 'ListItem', position: 2, name: 'Препарати', item: `${SITE}/preparaty` },
+        { '@type': 'ListItem', position: 3, name: p.name, item: url },
+      ],
+    },
+  ];
+
   return (
     <>
       <SiteHeader />
       <ScrollToTop />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* ═══════════════════════════════════════════ 1 — ПЕРШИЙ ЕКРАН */}
       <section id="top" className="bg-[var(--color-bg)] pt-[104px]">
@@ -347,7 +390,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                   href={phone?.href ?? 'tel:+380444995049'}
                   className="mt-8 flex w-fit items-center gap-3 text-[18px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                 >
-                  <Phone size={16} /> {phone?.value ?? '+38 (044) 499-50-49'}
+                  <Phone size={16} className="shrink-0" /> <span className="whitespace-nowrap">{phone?.value ?? '+38 (044) 499-50-49'}</span>
                 </a>
               </div>
             </Reveal>

@@ -25,24 +25,43 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) return {};
+  const title = post.seoTitle || `${clamp(post.title, 45)} | Родоніт Агро`;
+  const description = post.metaDescription || clamp(post.excerpt, 158);
   return {
-    title: `${post.title} | Родоніт Агро`,
-    description: post.excerpt,
+    title,
+    description,
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       type: 'article',
+      // В OG лишається ПОВНИЙ заголовок: у стрічці Facebook чи Telegram
+      // нічого не обрізається на 60 символах, і різати там нема сенсу.
       title: post.title,
-      description: post.excerpt,
+      description,
       url: `/blog/${post.slug}`,
       images: post.cover ? [{ url: post.cover, width: 1200, height: 630, alt: post.title }] : undefined,
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
-      description: post.excerpt,
+      description,
       images: post.cover ? [post.cover] : undefined,
     },
   };
+}
+
+/**
+ * Обрізає по межі слова, з еліпсисом. Потрібно, бо заголовки статей у
+ * блозі — журналістські, до 119 символів, а Google показує ~60 і решту
+ * зрізає посеред слова. Те саме з excerpt: він писався як анонс на картці,
+ * не як meta description, і подекуди йде за 180 символів.
+ *
+ * Це фолбек. Коли в статті заповнені SEO-поля в адмінці, беруться вони.
+ */
+function clamp(text: string, max: number): string {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max - 1);
+  const space = cut.lastIndexOf(' ');
+  return `${(space > max * 0.6 ? cut.slice(0, space) : cut).replace(/[\s,;:—-]+$/, '')}…`;
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
@@ -68,14 +87,18 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       articleSection: post.category,
       keywords: post.tags.map((t) => t.label).join(', '),
       inLanguage: 'uk-UA',
-      // datePublished свідомо відсутній: реальних дат публікації немає
-      // ні в краулі, ні в старій БД. Вигадана дата в JSON-LD — це заявлений
-      // Google факт, тому краще не заявляти нічого.
-      publisher: {
-        '@type': 'Organization',
-        name: 'Родоніт Агро',
-        logo: { '@type': 'ImageObject', url: `${SITE}/og.jpg` },
-      },
+      // datePublished зʼявляється лише тоді, коли дата справді є в CMS.
+      // Реальних дат немає ні в краулі, ні в старій БД, а вигадана дата в
+      // JSON-LD — це заявлений Google факт, тому краще не заявляти нічого.
+      // Поле «Дата публікації» в адмінці є: щойно Олег заповнить — підхопиться.
+      ...(post.date && { datePublished: post.date, dateModified: post.date }),
+      // Автор потрібен Google для Article rich result і читається як сигнал
+      // E-E-A-T. Іменного автора в перенесених статтях немає, тому за
+      // замовчуванням автор — сама компанія; це правда, а не заглушка.
+      author: post.author
+        ? { '@type': 'Person', name: post.author }
+        : { '@id': `${SITE}/#org` },
+      publisher: { '@id': `${SITE}/#org` },
     },
     {
       '@context': 'https://schema.org',
@@ -181,7 +204,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                   href={mainPhone?.href ?? 'tel:+380444995049'}
                   className="mt-8 flex w-fit items-center gap-3 text-[18px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                 >
-                  <Phone size={16} /> {mainPhone?.value ?? '+38 (044) 499-50-49'}
+                  <Phone size={16} className="shrink-0" /> <span className="whitespace-nowrap">{mainPhone?.value ?? '+38 (044) 499-50-49'}</span>
                 </a>
                 <a
                   href="/preparaty"

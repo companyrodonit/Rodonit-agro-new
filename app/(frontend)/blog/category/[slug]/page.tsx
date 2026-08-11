@@ -24,9 +24,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const cat = await getCategory(slug);
   if (!cat) return {};
+  const posts = await getPostsByCategory(cat.slug);
   return {
-    title: `${cat.name} | Блог Родоніт Агро`,
-    description: cat.description,
+    title: `${cat.name} про агрономію та препарати | Родоніт Агро`,
+    // Опис рубрики писався для картки на /blog і має 81-89 символів —
+    // це половина місця у видачі. Добиваємо фактом про наповнення: він
+    // правдивий, оновлюється сам і дає користувачу привід клікнути.
+    description: `${cat.description} Усього ${posts.length} матеріалів від фахівців Родоніт Агро.`,
     alternates: { canonical: `/blog/category/${cat.slug}` },
   };
 }

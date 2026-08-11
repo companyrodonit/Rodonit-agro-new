@@ -320,6 +320,13 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Те, що видно синім рядком у Google. Google обрізає все після ~60 символів. Порожнє поле — заголовок збереться з назви препарату.
+   */
+  seoTitle?: string | null;
+  /**
+   * Сірий текст під заголовком у видачі. На позиції не впливає, на клікабельність — прямо. Коротше 120 символів — половина місця марно, довше 165 — обріжеться.
+   */
   metaDescription?: string | null;
   /**
    * Адреса сторінки: /preparaty/<слаг>
@@ -451,7 +458,22 @@ export interface Post {
   excerpt: string;
   category: number | BlogCategory;
   cover?: (number | null) | Media;
+  /**
+   * Заповніть — і Google зможе показати статтю розширеним сніпетом із датою. Порожнє поле краще за вигадану дату: дата в розмітці — це заявлений факт.
+   */
   date?: string | null;
+  /**
+   * Прізвище агронома чи фахівця, якщо матеріал авторський. Порожнє — автором вважається компанія. Авторство — прямий сигнал E-E-A-T для Google і для AI-пошуку.
+   */
+  author?: string | null;
+  /**
+   * Заголовки статей довгі, а Google показує ~60 символів і решту зрізає. Порожнє — заголовок обріжеться автоматично по слову.
+   */
+  seoTitle?: string | null;
+  /**
+   * Порожнє — візьметься короткий опис вище, обрізаний по слову.
+   */
+  metaDescription?: string | null;
   /**
    * Лишіть порожнім — порахується з обсягу тексту
    */
@@ -754,6 +776,7 @@ export interface ProductsSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  seoTitle?: T;
   metaDescription?: T;
   slug?: T;
   featured?: T;
@@ -842,6 +865,9 @@ export interface PostsSelect<T extends boolean = true> {
   category?: T;
   cover?: T;
   date?: T;
+  author?: T;
+  seoTitle?: T;
+  metaDescription?: T;
   readMinutes?: T;
   tags?:
     | T

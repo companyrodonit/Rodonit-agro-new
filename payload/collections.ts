@@ -155,10 +155,26 @@ export const Products: CollectionConfig = {
           label: 'SEO',
           fields: [
             {
+              name: 'seoTitle',
+              type: 'text',
+              label: 'Заголовок вкладки (title, 50–60 символів)',
+              maxLength: 70,
+              admin: {
+                description:
+                  'Те, що видно синім рядком у Google. Google обрізає все після ~60 символів. '
+                  + 'Порожнє поле — заголовок збереться з назви препарату.',
+              },
+            },
+            {
               name: 'metaDescription',
               type: 'textarea',
-              label: 'Опис для пошуковика (meta description)',
+              label: 'Опис для пошуковика (meta description, 150–160 символів)',
               maxLength: 200,
+              admin: {
+                description:
+                  'Сірий текст під заголовком у видачі. На позиції не впливає, на клікабельність — прямо. '
+                  + 'Коротше 120 символів — половина місця марно, довше 165 — обріжеться.',
+              },
             },
           ],
         },
@@ -315,7 +331,46 @@ export const Posts: CollectionConfig = {
       label: 'Рубрика',
     },
     { name: 'cover', type: 'upload', relationTo: 'media', label: 'Обкладинка' },
-    { name: 'date', type: 'date', label: 'Дата публікації' },
+    {
+      name: 'date',
+      type: 'date',
+      label: 'Дата публікації',
+      admin: {
+        description:
+          'Заповніть — і Google зможе показати статтю розширеним сніпетом із датою. '
+          + 'Порожнє поле краще за вигадану дату: дата в розмітці — це заявлений факт.',
+      },
+    },
+    {
+      name: 'author',
+      type: 'text',
+      label: 'Автор',
+      admin: {
+        description:
+          'Прізвище агронома чи фахівця, якщо матеріал авторський. Порожнє — автором '
+          + 'вважається компанія. Авторство — прямий сигнал E-E-A-T для Google і для AI-пошуку.',
+      },
+    },
+    {
+      name: 'seoTitle',
+      type: 'text',
+      label: 'Короткий заголовок для Google (50–60 символів)',
+      maxLength: 70,
+      admin: {
+        description:
+          'Заголовки статей довгі, а Google показує ~60 символів і решту зрізає. '
+          + 'Порожнє — заголовок обріжеться автоматично по слову.',
+      },
+    },
+    {
+      name: 'metaDescription',
+      type: 'textarea',
+      label: 'Опис для пошуковика (150–160 символів)',
+      maxLength: 200,
+      admin: {
+        description: 'Порожнє — візьметься короткий опис вище, обрізаний по слову.',
+      },
+    },
     {
       name: 'readMinutes',
       type: 'number',

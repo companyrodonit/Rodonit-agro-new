@@ -22,9 +22,16 @@ export async function generateMetadata({
   const { slug } = await params;
   const s = await getSolutionBySlug(slug);
   if (!s) return {};
+  const products = await getProducts();
+  const named = s.productSlugs
+    .map((ps) => products.find((p) => p.slug === ps)?.name)
+    .filter((n): n is string => Boolean(n));
   return {
     title: `${s.title} | Родоніт Агро`,
-    description: s.lead,
+    // lead — заголовковий підзаголовок на 90-108 символів. Для видачі
+    // додаємо, чим саме задача закривається: назви препаратів тягнуть
+    // брендові запити, а користувач одразу бачить відповідь, а не анонс.
+    description: named.length ? `${s.lead} Рішення: ${named.join(', ')}.` : s.lead,
     alternates: { canonical: `/rishennia/${s.slug}` },
   };
 }
@@ -165,7 +172,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                   href={mainPhone?.href ?? 'tel:+380444995049'}
                   className="mt-8 flex w-fit items-center gap-3 text-[18px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                 >
-                  <Phone size={16} /> {mainPhone?.value ?? '+38 (044) 499-50-49'}
+                  <Phone size={16} className="shrink-0" /> <span className="whitespace-nowrap">{mainPhone?.value ?? '+38 (044) 499-50-49'}</span>
                 </a>
               </div>
             </Reveal>

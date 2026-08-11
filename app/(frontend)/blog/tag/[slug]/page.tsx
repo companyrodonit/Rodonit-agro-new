@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getAllTags, getPostsByTag } from '@/lib/cms';
+import { TAG_INDEX_THRESHOLD, getAllTags, getPostsByTag } from '@/lib/cms';
 import { ScrollToTop } from '../../../interactive';
 import { SiteHeader } from '../../../site-header';
 import { SiteFooter } from '../../../site-footer';
@@ -29,6 +29,9 @@ export async function generateMetadata({
     title: `${tag.label} — матеріали | Родоніт Агро`,
     description: `Статті та новини Родоніт Агро, що згадують ${what}.`,
     alternates: { canonical: `/blog/tag/${tag.slug}` },
+    // follow, а не nofollow: сторінку в індекс не пускаємо, але вагу через
+    // неї на самі статті пропускаємо. Поріг і причина — у lib/cms.ts.
+    ...(tag.count < TAG_INDEX_THRESHOLD && { robots: { index: false, follow: true } }),
   };
 }
 

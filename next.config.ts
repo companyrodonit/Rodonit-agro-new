@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
   // На Desktop лежить сторонній package-lock.json — без явного root
   // Turbopack приймає його за корінь воркспейсу.
   turbopack: { root: import.meta.dirname },
+  images: {
+    // Картинки, залиті через адмінку, на проді лежать у Vercel Blob. Без
+    // цього дозволу next/image на них падає з «hostname is not configured»,
+    // і фон героя, замінений Олегом у CMS, просто не відрендериться.
+    remotePatterns: [{ protocol: 'https', hostname: '*.public.blob.vercel-storage.com' }],
+  },
 };
 
 export default withPayload(nextConfig);

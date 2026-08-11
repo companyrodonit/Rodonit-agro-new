@@ -25,9 +25,36 @@ export async function generateMetadata({
   if (!c) return {};
   return {
     title: `${c.name} — препарати та норми | Родоніт Агро`,
-    description: `${c.name}: ${c.products.length} препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.`,
+    description: cultureDescription(c.name, c.products),
     alternates: { canonical: `/kultury/${c.slug}` },
   };
+}
+
+/**
+ * Опис для видачі, 150-160 символів.
+ *
+ * Попередній варіант давав 94-110 — це половина місця, яке Google відводить
+ * під сірий рядок, віддана даремно. Назви препаратів у описі тягнуть ще й
+ * брендові запити («сільвер мікс для сої»), тому вставляємо стільки, скільки
+ * влізе, і добиваємо хвостом. Довжину рахуємо, а не прикидаємо: назви культур
+ * різні за довжиною («Соя» проти «Кісточкові культури»), і фіксований шаблон
+ * то не добирав би до 120, то вилітав би за 165.
+ */
+function cultureDescription(name: string, products: { name: string }[]): string {
+  const TAIL = ' Фази внесення, бакові суміші, консультація агронома.';
+  const head = `${name}: ${products.length} препаратів Родоніт Агро з нормами витрати —`;
+  const LIMIT = 160;
+
+  let listed = '';
+  for (const p of products) {
+    const next = listed ? `${listed}, ${p.name}` : ` ${p.name}`;
+    if (head.length + next.length + 1 + TAIL.length > LIMIT) break;
+    listed = next;
+  }
+  // Жодна назва не влізла (довга культура + довгий препарат) — краще без
+  // переліку, ніж обрізаний посеред назви.
+  if (!listed) return `${head.slice(0, -2)}.${TAIL}`;
+  return `${head}${listed}.${TAIL}`;
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
@@ -219,7 +246,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                   href={mainPhone?.href ?? 'tel:+380444995049'}
                   className="mt-8 flex w-fit items-center gap-3 text-[18px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                 >
-                  <Phone size={16} /> {mainPhone?.value ?? '+38 (044) 499-50-49'}
+                  <Phone size={16} className="shrink-0" /> <span className="whitespace-nowrap">{mainPhone?.value ?? '+38 (044) 499-50-49'}</span>
                 </a>
                 <a
                   href="/kultury"

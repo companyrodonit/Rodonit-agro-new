@@ -9,9 +9,9 @@ import { Timeline, type Milestone } from './timeline';
 import { SITE } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Про компанію | Родоніт Агро',
+  title: 'Про компанію Родоніт Агро — препарати для агробізнесу',
   description:
-    'ТОВ «Родоніт Агро» (засн. 2019) — аграрний сектор України. Шість препаратів для захисту й живлення рослин, власні науково-виробничі досліди.',
+    'ТОВ «Родоніт Агро» працює з 2019 року: шість препаратів для захисту й живлення рослин, власні науково-виробничі досліди, мережа офіційних дистрибʼюторів.',
   alternates: { canonical: '/about' },
 };
 
@@ -62,24 +62,21 @@ export const revalidate = 300;
 
 export default async function Page() {
   const [contacts, hero] = await Promise.all([getContacts(), getHero()]);
+  /* Організацію описує site-schema.tsx (рендериться в layout) під @id `#org`.
+     Тут лише дописуємо те, що стосується саме цієї сторінки, і посилаємось на
+     той самий @id — інакше Google бачить два незалежні описи однієї компанії. */
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'ТОВ «Родоніт Агро»',
-    url: SITE,
-    logo: `${SITE}/og.jpg`,
-    foundingDate: '2019',
-    description:
-      'Аграрний сектор України: препарати для захисту й живлення рослин, власні науково-виробничі досліди.',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'вул. Юрія Шумського, 1б, оф. 117',
-      addressLocality: 'Київ',
-      postalCode: '02098',
-      addressCountry: 'UA',
+    '@type': 'AboutPage',
+    url: `${SITE}/about`,
+    name: 'Про компанію Родоніт Агро',
+    inLanguage: 'uk-UA',
+    mainEntity: {
+      '@id': `${SITE}/#org`,
+      description:
+        'Аграрний сектор України: препарати для захисту й живлення рослин, власні науково-виробничі досліди.',
     },
-    telephone: contacts.phones[0]?.value,
-    email: contacts.email,
+    isPartOf: { '@id': `${SITE}/#website` },
   };
 
   return (
@@ -294,9 +291,9 @@ export default async function Page() {
                     <a
                       key={p.value}
                       href={p.href}
-                      className="flex items-center gap-3 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
+                      className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                     >
-                      <Phone size={16} /> {p.value}
+                      <Phone size={16} className="shrink-0" /> <span className="whitespace-nowrap">{p.value}</span>
                       <span className="text-[13px] font-[400] text-[rgba(14,15,12,0.45)]">
                         — {p.label}
                       </span>
@@ -304,9 +301,9 @@ export default async function Page() {
                   ))}
                   <a
                     href={`mailto:${contacts.email}`}
-                    className="flex items-center gap-3 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
+                    className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                   >
-                    <Mail size={16} /> {contacts.email}
+                    <Mail size={16} className="shrink-0" /> <span className="whitespace-nowrap">{contacts.email}</span>
                   </a>
                 </div>
                 <p className="mt-6 text-[15px] leading-[1.6] text-[rgba(14,15,12,0.55)]">

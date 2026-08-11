@@ -5,9 +5,10 @@ import { SiteHeader } from '../site-header';
 import { SiteFooter } from '../site-footer';
 
 export const metadata: Metadata = {
-  title: 'Дистрибʼютори | Родоніт Агро',
+  title: 'Офіційні дистрибʼютори препаратів Родоніт Агро в Україні',
   description:
-    'Офіційні дистрибʼютори Родоніт Агро по регіонах і напрямках: садівництво, технічні культури, овочівництво, центральний регіон.',
+    'Офіційні дистрибʼютори Родоніт Агро по напрямках: садівництво, технічні культури, овочівництво, центральний регіон. Телефони партнерів — телефонуйте напряму.',
+  alternates: { canonical: '/distributors' },
 };
 
 /* Сторінка зібрана з наявних блоків, нічого нового не малювалось:
@@ -82,9 +83,9 @@ export default async function Page() {
                     <a
                       key={p.value}
                       href={p.href}
-                      className="flex items-center gap-3 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
+                      className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                     >
-                      <Phone size={16} /> {p.value}
+                      <Phone size={16} className="shrink-0" /> <span className="whitespace-nowrap">{p.value}</span>
                       <span className="text-[13px] font-[400] text-[rgba(14,15,12,0.45)]">
                         — {p.label}
                       </span>
@@ -92,9 +93,9 @@ export default async function Page() {
                   ))}
                   <a
                     href={`mailto:${contacts.email}`}
-                    className="flex items-center gap-3 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
+                    className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
                   >
-                    <Mail size={16} /> {contacts.email}
+                    <Mail size={16} className="shrink-0" /> <span className="whitespace-nowrap">{contacts.email}</span>
                   </a>
                 </div>
                 <a

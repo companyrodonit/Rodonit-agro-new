@@ -64,9 +64,9 @@ export default async function NotFound() {
             <div className="mt-6 flex flex-wrap items-center gap-4">
               <a
                 href={mainPhone?.href ?? 'tel:+380444995049'}
-                className="flex items-center gap-3 text-[18px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
+                className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[18px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
               >
-                <Phone size={16} /> {mainPhone?.value ?? '+38 (044) 499-50-49'}
+                <Phone size={16} className="shrink-0" /> <span className="whitespace-nowrap">{mainPhone?.value ?? '+38 (044) 499-50-49'}</span>
               </a>
               <a href="/contacts" className="btn btn-primary">
                 Усі контакти <ArrowRight size={14} />

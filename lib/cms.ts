@@ -146,6 +146,7 @@ export const getProductDetails = cache(async (): Promise<ProductDetail[]> => {
     category: singular(relName(d.category as Rel)),
     categorySlug: relSlug(d.category as Rel),
     tagline: (d.tagline as string) ?? '',
+    seoTitle: (d.seoTitle as string) ?? '',
     metaDescription: (d.metaDescription as string) ?? '',
     keySpecs: ((d.keySpecs as { label: string; value: string }[]) ?? []).map(
       ({ label, value }) => ({ label, value }),
@@ -423,6 +424,9 @@ export const getPosts = cache(async (): Promise<Post[]> => {
         readMinutes: (p.readMinutes as number) || Math.max(1, Math.round(words / 180)),
         cover: mediaUrl(p.cover as MediaDoc, '') || undefined,
         date: (p.date as string | undefined)?.slice(0, 10) || undefined,
+        author: (p.author as string | undefined) || undefined,
+        seoTitle: (p.seoTitle as string | undefined) || undefined,
+        metaDescription: (p.metaDescription as string | undefined) || undefined,
         tags: ((p.tags as PostTag[]) ?? []).map(({ slug, label, kind }) => ({ slug, label, kind })),
         blocks,
       };
@@ -453,6 +457,24 @@ export const getAllTags = cache(async (): Promise<(PostTag & { count: number })[
   }
   return [...map.values()].sort((a, b) => b.count - a.count);
 });
+
+/**
+ * Скільки статей має бути під тегом, щоб його сторінку пускати в індекс.
+ *
+ * Тег з однією статтею — це та сама стаття, показана вдруге: 120-200 слів,
+ * жодного власного тексту. Для Google це thin content, і масив таких сторінок
+ * псує оцінку домену цілком, а crawl budget витрачається на них замість
+ * сторінок препаратів. Такі теги лишаються робочими посиланнями для людей,
+ * але віддають `noindex, follow` і не потрапляють у sitemap.
+ *
+ * Поріг у трьох місцях мусить бути один — тому живе тут, а не в сторінках.
+ */
+export const TAG_INDEX_THRESHOLD = 3;
+
+/** Теги, чиї сторінки достатньо наповнені, щоб їх індексувати. */
+export const getIndexableTags = cache(async () =>
+  (await getAllTags()).filter((t) => t.count >= TAG_INDEX_THRESHOLD),
+);
 
 /** Та сама логіка, що relatedPosts у lib/posts, але поверх CMS-даних. */
 export const getRelatedPosts = async (slug: string, limit = 3): Promise<Post[]> => {

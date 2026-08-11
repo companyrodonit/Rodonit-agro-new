@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { AtomLogo } from './logo';
 import {
@@ -49,9 +50,9 @@ export function Info({ size = 14 }: { size?: number }) {
     </svg>
   );
 }
-export function Phone({ size = 14 }: { size?: number }) {
+export function Phone({ size = 14, className = '' }: { size?: number; className?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z" />
     </svg>
   );
@@ -60,9 +61,9 @@ export function Phone({ size = 14 }: { size?: number }) {
    коробці 16×16 — і рядок пошти помітно не тримав лінію з телефонами вище:
    гліф має власні метрики й базову лінію, тож у флексі сидів нижче й лівіше
    за SVG-іконки. Тепер це така сама іконка тієї ж родини, що Phone. */
-export function Mail({ size = 14 }: { size?: number }) {
+export function Mail({ size = 14, className = '' }: { size?: number; className?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <rect x="2" y="4" width="20" height="16" rx="2" />
       <path d="m2.5 6.5 8.4 5.6a2 2 0 0 0 2.2 0l8.4-5.6" />
     </svg>
@@ -575,7 +576,7 @@ export function SiteHeader({
             href={phone.href}
             className="mt-4 flex items-center justify-center gap-2 pb-2 text-[16px] font-[700] text-[var(--color-dark)]"
           >
-            <Phone size={16} /> {phone.value}
+            <Phone size={16} className="shrink-0" /> <span className="whitespace-nowrap">{phone.value}</span>
           </a>
         </div>
       )}
@@ -653,11 +654,17 @@ export function ProductSlider({
             {/* overflow не ховаємо: висоту тримає max-h самої картинки, а
                 overflow-hidden різав тінь товару знизу (тінь падає на 14+24px,
                 а слоту лишалось 5px). Правка замовника 28.07. */}
+            {/* width/height = реальні пікселі файлу (усі упаковки 600x790),
+                тому пропорція точна і верстка не їде. Без next/image сюди
+                їхали PNG по 280-480 КБ на картку при показі 200px заввишки. */}
             <div className="mb-6 grid h-[210px] place-items-center">
-              <img
+              <Image
                 src={images?.[p.slug] ?? `/products/${p.slug}.png`}
                 alt={p.name}
+                width={600}
+                height={790}
                 loading="lazy"
+                sizes="200px"
                 className="max-h-[200px] w-auto object-contain drop-shadow-[0_14px_24px_rgba(0,0,0,0.16)]"
               />
             </div>
@@ -798,11 +805,14 @@ export function ProblemSolution({ items = problems }: { items?: typeof problems 
                 <ArrowRight size={14} />
               </a>
             </div>
-            <img
+            <Image
               key={current.slug}
               src={`/products/${current.slug}.png`}
               alt={current.product}
+              width={600}
+              height={790}
               loading="lazy"
+              sizes="180px"
               /* max-w обов'язковий: широкі кадри (мішки Верно, Нордокс) при
                  самому max-h вилазили за свою колонку й з'їдали текст. */
               /* На мобільному фото стає одразу під назву (order-first), а не
@@ -872,7 +882,7 @@ export function DistributorList({
                   href={`tel:${ph.replace(/[^\d+]/g, '')}`}
                   className="flex items-center gap-2 py-1 text-[15px] font-[700] text-[var(--color-dark)] hover:text-[color:#03594C]"
                 >
-                  <Phone /> {ph}
+                  <Phone className="shrink-0" /> <span className="whitespace-nowrap">{ph}</span>
                 </a>
               ))}
             </div>
@@ -1197,11 +1207,29 @@ export function HeroBackground({ src }: { src?: string } = {}) {
 
   return (
     <>
-      <img
+      {/*
+        next/image, а не <img>: це LCP-елемент головної, і сирий JPEG важить
+        711 КБ. Заміряно на проді 11.08 — саме він давав LCP 1340 мс на
+        дротовому каналі; аудиторія сайту сидить у полі з мобільним, там це
+        4-6 секунд і провалений Core Web Vitals.
+          priority       — прибирає lazy і додає preload у <head>: без нього
+                           браузер знаходить фон аж коли розбере всю розмітку;
+          fill + sizes   — Next віддає AVIF/WebP під ширину екрана, ~70 КБ
+                           замість 711 на мобільному.
+        quality лишаємо дефолтну (75): у Next 16 інше значення треба окремо
+        дозволяти через images.qualities, а на фоні під темним скримом
+        різниці все одно не видно.
+        alt порожній свідомо: це декоративне тло, весь сенс екрана в тексті
+        поверх нього. Озвучувати його скрінрідеру нема чого.
+      */}
+      <Image
         src={src ?? `/hero/${current.file}`}
         alt=""
         data-testid="hero-bg"
-        className="absolute inset-0 h-full w-full object-cover"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
       />
       {/* Скрим — один шар, обидва градієнти зібрані в .gradient-scrim.
           Другий (рівний вертикальний) прибрано 28.07: він гасив поле по всій
