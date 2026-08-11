@@ -34,10 +34,36 @@ export async function POST(req: Request) {
 
   try {
     const payload = await getPayload({ config });
-    await payload.create({
+    const lead = await payload.create({
       collection: 'leads',
       data: { name: name.slice(0, 200), phone: phone.slice(0, 50), comment, page, status: 'new' },
     });
+
+    // Лист — сповіщення ПОВЕРХ запису, тому в окремому try: якщо пошта
+    // відвалилась, заявка вже в базі і користувач має бачити «дякуємо»,
+    // а не помилку.
+    const to = process.env.LEAD_NOTIFY_TO;
+    if (to && process.env.SMTP_PASS) {
+      try {
+        await payload.sendEmail({
+          to,
+          subject: `Заявка з сайту: ${name}`,
+          text: [
+            `Імʼя: ${name}`,
+            `Телефон: ${phone}`,
+            comment ? `Коментар: ${comment}` : null,
+            page ? `Сторінка: ${page}` : null,
+            '',
+            `Картка заявки: ${process.env.NEXT_PUBLIC_SITE_URL || ''}/admin/collections/leads/${lead.id}`,
+          ]
+            .filter(Boolean)
+            .join('\n'),
+        });
+      } catch (mailErr) {
+        console.error('lead: заявку збережено, але лист не пішов', mailErr);
+      }
+    }
+
     return NextResponse.json({ ok: true });
   } catch (e) {
     // Логуємо, але користувачу не показуємо кишки.

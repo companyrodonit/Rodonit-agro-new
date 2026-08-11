@@ -19,7 +19,7 @@ export const legalEntity = {
   legalAddress: 'Харківське шосе, 144В, Київ, 02091, Україна',
   /** Поштова адреса для листування — та, що вказана на сайті. */
   postalAddress: 'вул. Юрія Шумського, 1б, оф. 117, Київ, 02098, Україна',
-  email: 'info@rodonit-agro.com.ua',
+  email: 'info@rodonit.com.ua',
 } as const;
 
 /** Дата останнього перегляду легальних сторінок. */

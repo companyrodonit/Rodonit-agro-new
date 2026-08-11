@@ -324,7 +324,7 @@ export const contacts = {
     ] },
     { group: 'Приймальна секретаря', numbers: ['+38 (067) 325-72-54'] },
   ],
-  email: 'info@rodonit-agro.com.ua',
+  email: 'info@rodonit.com.ua',
   address: 'вул. Юрія Шумського, 1б, оф. 117, Київ, 02098, Україна',
   socials: [
     { name: 'Facebook', href: 'https://facebook.com/RodonitCompany' },
