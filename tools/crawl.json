@@ -1,0 +1,1610 @@
+[
+ {
+  "url": "https://rodonit-agro-new.vercel.app/",
+  "status": 200,
+  "title": "Родоніт Агро — препарати для захисту та стимуляції рослин",
+  "tlen": 57,
+  "desc": "Препарати для агробізнесу України: стимулятори росту, мікродобрива, фунгіциди, прилипачі. Сільвер Мікс, Міра РК, Верно, Гідролип, Нордокс 75 WG.",
+  "dlen": 144,
+  "canonical": null,
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Технології підвищення врожайності"
+  ],
+  "h1n": 1,
+  "h2n": 9,
+  "h3n": 20,
+  "imgs": 39,
+  "no_alt": 27,
+  "schema": [],
+  "words": 693,
+  "internal": 41,
+  "faq": false,
+  "html_bytes": 157364
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/preparaty",
+  "status": 200,
+  "title": "Препарати | Родоніт Агро",
+  "tlen": 24,
+  "desc": "Каталог препаратів Родоніт Агро: стимулятори росту, мікродобрива, фунгіциди та прилипачі. Фільтр за категорією і культурою.",
+  "dlen": 123,
+  "canonical": "https://rodonit-agro-new.vercel.app/preparaty",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Шість препаратів для вашого поля"
+  ],
+  "h1n": 1,
+  "h2n": 1,
+  "h3n": 7,
+  "imgs": 7,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 250,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 81410
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury",
+  "status": 200,
+  "title": "Культури | Родоніт Агро",
+  "tlen": 23,
+  "desc": "Препарати Родоніт Агро за культурами: зернові, кукурудза, ріпак, соняшник, соя, овочеві, ягідні та плодові — з нормами застосування.",
+  "dlen": 132,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Оберіть свою культуру"
+  ],
+  "h1n": 1,
+  "h2n": 23,
+  "h3n": 1,
+  "imgs": 23,
+  "no_alt": 23,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 621,
+  "internal": 38,
+  "faq": false,
+  "html_bytes": 125279
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/rishennia",
+  "status": 200,
+  "title": "Вирішення проблем | Родоніт Агро",
+  "tlen": 32,
+  "desc": "Типові задачі в полі та препарати, які їх закривають: змив робочого розчину, бактеріальний опік, розтріскування стручків.",
+  "dlen": 121,
+  "canonical": "https://rodonit-agro-new.vercel.app/rishennia",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Знайдіть свою проблему"
+  ],
+  "h1n": 1,
+  "h2n": 3,
+  "h3n": 9,
+  "imgs": 1,
+  "no_alt": 1,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 347,
+  "internal": 18,
+  "faq": false,
+  "html_bytes": 75970
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/contacts",
+  "status": 200,
+  "title": "Контакти | Родоніт Агро",
+  "tlen": 23,
+  "desc": "Зв&#x27;яжіться з нами: телефони відділу продажу, email, поштова адреса. Консультація спеціаліста з підбору препаратів.",
+  "dlen": 119,
+  "canonical": "https://rodonit-agro-new.vercel.app/contacts",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Готові проконсультувати з будь-яких питань"
+  ],
+  "h1n": 1,
+  "h2n": 1,
+  "h3n": 1,
+  "imgs": 1,
+  "no_alt": 1,
+  "schema": [
+   "Organization"
+  ],
+  "words": 187,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 78855
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/privacy",
+  "status": 200,
+  "title": "Політика конфіденційності | Родоніт Агро",
+  "tlen": 40,
+  "desc": "Які персональні дані збирає сайт Родоніт Агро, навіщо, як довго зберігає і які права має користувач.",
+  "dlen": 100,
+  "canonical": "https://rodonit-agro-new.vercel.app/privacy",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Політика конфіденційності"
+  ],
+  "h1n": 1,
+  "h2n": 9,
+  "h3n": 1,
+  "imgs": 1,
+  "no_alt": 1,
+  "schema": [],
+  "words": 574,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 73369
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/terms",
+  "status": 200,
+  "title": "Умови використання | Родоніт Агро",
+  "tlen": 33,
+  "desc": "Умови використання сайту Родоніт Агро: призначення матеріалів, статус інформації про препарати, права на контент.",
+  "dlen": 113,
+  "canonical": "https://rodonit-agro-new.vercel.app/terms",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Умови використання"
+  ],
+  "h1n": 1,
+  "h2n": 9,
+  "h3n": 1,
+  "imgs": 1,
+  "no_alt": 1,
+  "schema": [],
+  "words": 483,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 68796
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/about",
+  "status": 200,
+  "title": "Про компанію | Родоніт Агро",
+  "tlen": 27,
+  "desc": "ТОВ «Родоніт Агро» (засн. 2019) — аграрний сектор України. Шість препаратів для захисту й живлення рослин, власні науково-виробничі досліди.",
+  "dlen": 140,
+  "canonical": "https://rodonit-agro-new.vercel.app/about",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Поруч із аграрієм на кожному етапі технології"
+  ],
+  "h1n": 1,
+  "h2n": 6,
+  "h3n": 5,
+  "imgs": 5,
+  "no_alt": 1,
+  "schema": [
+   "Organization"
+  ],
+  "words": 428,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 84226
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/distributors",
+  "status": 200,
+  "title": "Дистрибʼютори | Родоніт Агро",
+  "tlen": 28,
+  "desc": "Офіційні дистрибʼютори Родоніт Агро по регіонах і напрямках: садівництво, технічні культури, овочівництво, центральний регіон.",
+  "dlen": 126,
+  "canonical": null,
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Офіційні партнери у вашому регіоні"
+  ],
+  "h1n": 1,
+  "h2n": 1,
+  "h3n": 5,
+  "imgs": 5,
+  "no_alt": 1,
+  "schema": [],
+  "words": 217,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 71000
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog",
+  "status": 200,
+  "title": "Новини та статті | Родоніт Агро",
+  "tlen": 31,
+  "desc": "Агрономія по суті: мідь у захисті зернових, кальцій і бор проти вершинної гнилі, події та конференції за участі Родоніт Агро.",
+  "dlen": 125,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Події компанії та корисне про агрономію"
+  ],
+  "h1n": 1,
+  "h2n": 1,
+  "h3n": 9,
+  "imgs": 9,
+  "no_alt": 9,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 457,
+  "internal": 36,
+  "faq": false,
+  "html_bytes": 104312
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/preparaty/nordoks",
+  "status": 200,
+  "title": "НОРДОКС 75 WG | Родоніт Агро",
+  "tlen": 28,
+  "desc": "Концентрований мідний фунгіцид і бактерицид. 75% складу — чиста біологічно активна мідь.",
+  "dlen": 88,
+  "canonical": null,
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "НОРДОКС 75 WG"
+  ],
+  "h1n": 1,
+  "h2n": 4,
+  "h3n": 11,
+  "imgs": 5,
+  "no_alt": 1,
+  "schema": [],
+  "words": 1727,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 159334
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/preparaty/silver-mix",
+  "status": 200,
+  "title": "Сільвер Мікс | Родоніт Агро",
+  "tlen": 27,
+  "desc": "Єдиний у світі препарат на основі колоїдного срібла. Стимулятор росту з бактерицидним і фунгіцидним ефектом. Раніше — «Зеребра Агро».",
+  "dlen": 133,
+  "canonical": null,
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Сільвер Мікс"
+  ],
+  "h1n": 1,
+  "h2n": 4,
+  "h3n": 7,
+  "imgs": 5,
+  "no_alt": 1,
+  "schema": [],
+  "words": 926,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 117066
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/preparaty/mira-rk",
+  "status": 200,
+  "title": "Міра, РК | Родоніт Агро",
+  "tlen": 23,
+  "desc": "Фульвово-гуміновий стимулятор росту спрямованої дії з антистресовими властивостями. Раніше — «Лігногумат БМ».",
+  "dlen": 109,
+  "canonical": null,
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Міра, РК"
+  ],
+  "h1n": 1,
+  "h2n": 4,
+  "h3n": 8,
+  "imgs": 5,
+  "no_alt": 1,
+  "schema": [],
+  "words": 912,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 112540
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/preparaty/verno-sav",
+  "status": 200,
+  "title": "Верно СаВ | Родоніт Агро",
+  "tlen": 24,
+  "desc": "Корекція дефіциту кальцію й бору. Запобігає розтріскуванню плодів та фізіологічним розладам рослин.",
+  "dlen": 99,
+  "canonical": null,
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Верно СаВ"
+  ],
+  "h1n": 1,
+  "h2n": 4,
+  "h3n": 8,
+  "imgs": 5,
+  "no_alt": 1,
+  "schema": [],
+  "words": 1198,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 117316
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/preparaty/verno-fg",
+  "status": 200,
+  "title": "Верно FG Cu30 + Zn30 | Родоніт Агро",
+  "tlen": 35,
+  "desc": "Мінеральне добриво для корекції дефіциту міді та цинку з природними ад’ювантами.",
+  "dlen": 80,
+  "canonical": null,
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Верно FG Cu30 + Zn30"
+  ],
+  "h1n": 1,
+  "h2n": 4,
+  "h3n": 8,
+  "imgs": 5,
+  "no_alt": 1,
+  "schema": [],
+  "words": 1093,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 114754
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/preparaty/hydrolip",
+  "status": 200,
+  "title": "Гідролип | Родоніт Агро",
+  "tlen": 23,
+  "desc": "Гідрогелевий прилипач. Утворює водо-газопроникну плівку, яка не змивається дощем уже через 30 хвилин після обробки.",
+  "dlen": 115,
+  "canonical": null,
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Гідролип"
+  ],
+  "h1n": 1,
+  "h2n": 4,
+  "h3n": 8,
+  "imgs": 5,
+  "no_alt": 1,
+  "schema": [],
+  "words": 916,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 119147
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/zernovi-kultury",
+  "status": 200,
+  "title": "Зернові культури — препарати та норми | Родоніт Агро",
+  "tlen": 52,
+  "desc": "Зернові культури: 6 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 107,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/zernovi-kultury",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Зернові культури"
+  ],
+  "h1n": 1,
+  "h2n": 3,
+  "h3n": 10,
+  "imgs": 10,
+  "no_alt": 4,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 542,
+  "internal": 19,
+  "faq": false,
+  "html_bytes": 101277
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/kukurudza",
+  "status": 200,
+  "title": "Кукурудза — препарати та норми | Родоніт Агро",
+  "tlen": 45,
+  "desc": "Кукурудза: 6 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 100,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/kukurudza",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Кукурудза"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 7,
+  "imgs": 7,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 447,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 90071
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/ripak",
+  "status": 200,
+  "title": "Ріпак — препарати та норми | Родоніт Агро",
+  "tlen": 41,
+  "desc": "Ріпак: 6 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 96,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/ripak",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Ріпак"
+  ],
+  "h1n": 1,
+  "h2n": 3,
+  "h3n": 8,
+  "imgs": 8,
+  "no_alt": 2,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 447,
+  "internal": 17,
+  "faq": false,
+  "html_bytes": 93478
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/soniashnyk",
+  "status": 200,
+  "title": "Соняшник — препарати та норми | Родоніт Агро",
+  "tlen": 44,
+  "desc": "Соняшник: 5 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 99,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/soniashnyk",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Соняшник"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 6,
+  "imgs": 6,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 371,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 84661
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/soia",
+  "status": 200,
+  "title": "Соя — препарати та норми | Родоніт Агро",
+  "tlen": 39,
+  "desc": "Соя: 5 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 94,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/soia",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Соя"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 6,
+  "imgs": 6,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 363,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 85426
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/buriak-stolovyi",
+  "status": 200,
+  "title": "Буряк столовий — препарати та норми | Родоніт Агро",
+  "tlen": 50,
+  "desc": "Буряк столовий: 4 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 105,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/buriak-stolovyi",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Буряк столовий"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 5,
+  "imgs": 5,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 336,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 81418
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/vynohrad",
+  "status": 200,
+  "title": "Виноград — препарати та норми | Родоніт Агро",
+  "tlen": 44,
+  "desc": "Виноград: 4 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 99,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/vynohrad",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Виноград"
+  ],
+  "h1n": 1,
+  "h2n": 3,
+  "h3n": 6,
+  "imgs": 6,
+  "no_alt": 2,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 394,
+  "internal": 17,
+  "faq": false,
+  "html_bytes": 85729
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/polunytsia",
+  "status": 200,
+  "title": "Полуниця — препарати та норми | Родоніт Агро",
+  "tlen": 44,
+  "desc": "Полуниця: 4 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 99,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/polunytsia",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Полуниця"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 5,
+  "imgs": 5,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 340,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 80891
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/horokh",
+  "status": 200,
+  "title": "Горох — препарати та норми | Родоніт Агро",
+  "tlen": 41,
+  "desc": "Горох: 3 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 96,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/horokh",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Горох"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 4,
+  "imgs": 4,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 286,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 76668
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/buriak-tsukrovyi",
+  "status": 200,
+  "title": "Буряк цукровий — препарати та норми | Родоніт Агро",
+  "tlen": 50,
+  "desc": "Буряк цукровий: 3 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 105,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/buriak-tsukrovyi",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Буряк цукровий"
+  ],
+  "h1n": 1,
+  "h2n": 3,
+  "h3n": 6,
+  "imgs": 6,
+  "no_alt": 3,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 355,
+  "internal": 18,
+  "faq": false,
+  "html_bytes": 84092
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/tomat",
+  "status": 200,
+  "title": "Томат — препарати та норми | Родоніт Агро",
+  "tlen": 41,
+  "desc": "Томат: 3 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 96,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/tomat",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Томат"
+  ],
+  "h1n": 1,
+  "h2n": 3,
+  "h3n": 5,
+  "imgs": 5,
+  "no_alt": 2,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 370,
+  "internal": 17,
+  "faq": false,
+  "html_bytes": 81286
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/perets",
+  "status": 200,
+  "title": "Перець — препарати та норми | Родоніт Агро",
+  "tlen": 42,
+  "desc": "Перець: 3 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 97,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/perets",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Перець"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 4,
+  "imgs": 4,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 294,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 76756
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/bashtanni-kultury",
+  "status": 200,
+  "title": "Баштанні культури — препарати та норми | Родоніт Агро",
+  "tlen": 53,
+  "desc": "Баштанні культури: 3 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 108,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/bashtanni-kultury",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Баштанні культури"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 4,
+  "imgs": 4,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 275,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 75917
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/malyna",
+  "status": 200,
+  "title": "Малина — препарати та норми | Родоніт Агро",
+  "tlen": 42,
+  "desc": "Малина: 3 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 97,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/malyna",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Малина"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 4,
+  "imgs": 4,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 298,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 76406
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/kistochkovi-kultury",
+  "status": 200,
+  "title": "Кісточкові культури — препарати та норми | Родоніт Агро",
+  "tlen": 55,
+  "desc": "Кісточкові культури: 3 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 110,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/kistochkovi-kultury",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Кісточкові культури"
+  ],
+  "h1n": 1,
+  "h2n": 3,
+  "h3n": 6,
+  "imgs": 6,
+  "no_alt": 3,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 354,
+  "internal": 18,
+  "faq": false,
+  "html_bytes": 84128
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/zerniatkovi",
+  "status": 200,
+  "title": "Зерняткові — препарати та норми | Родоніт Агро",
+  "tlen": 46,
+  "desc": "Зерняткові: 3 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 101,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/zerniatkovi",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Зерняткові"
+  ],
+  "h1n": 1,
+  "h2n": 3,
+  "h3n": 5,
+  "imgs": 5,
+  "no_alt": 2,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 341,
+  "internal": 17,
+  "faq": false,
+  "html_bytes": 81437
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/ohirok",
+  "status": 200,
+  "title": "Огірок — препарати та норми | Родоніт Агро",
+  "tlen": 42,
+  "desc": "Огірок: 2 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 97,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/ohirok",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Огірок"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 3,
+  "imgs": 3,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 256,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 72048
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/kapusta",
+  "status": 200,
+  "title": "Капуста — препарати та норми | Родоніт Агро",
+  "tlen": 43,
+  "desc": "Капуста: 2 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 98,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/kapusta",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Капуста"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 3,
+  "imgs": 3,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 228,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 71271
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/tsybulia",
+  "status": 200,
+  "title": "Цибуля — препарати та норми | Родоніт Агро",
+  "tlen": 42,
+  "desc": "Цибуля: 2 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 97,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/tsybulia",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Цибуля"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 3,
+  "imgs": 3,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 233,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 71299
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/kartoplia",
+  "status": 200,
+  "title": "Картопля — препарати та норми | Родоніт Агро",
+  "tlen": 44,
+  "desc": "Картопля: 2 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 99,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/kartoplia",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Картопля"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 3,
+  "imgs": 3,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 236,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 71343
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/kvitkovi-kultury",
+  "status": 200,
+  "title": "Квіткові культури — препарати та норми | Родоніт Агро",
+  "tlen": 53,
+  "desc": "Квіткові культури: 2 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 108,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/kvitkovi-kultury",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Квіткові культури"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 3,
+  "imgs": 3,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 261,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 72493
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/kultury/baklazhan",
+  "status": 200,
+  "title": "Баклажан — препарати та норми | Родоніт Агро",
+  "tlen": 44,
+  "desc": "Баклажан: 1 препаратів Родоніт Агро з нормами застосування — захист, живлення та утримання розчину.",
+  "dlen": 99,
+  "canonical": "https://rodonit-agro-new.vercel.app/kultury/baklazhan",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Баклажан"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 2,
+  "imgs": 2,
+  "no_alt": 1,
+  "schema": [
+   "ItemList"
+  ],
+  "words": 207,
+  "internal": 16,
+  "faq": false,
+  "html_bytes": 67598
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/rishennia/posylennia-dii-zzr",
+  "status": 200,
+  "title": "Посилення дії ЗЗР і добрив | Родоніт Агро",
+  "tlen": 41,
+  "desc": "Прилипач утримує робочий розчин на листку — і препарат встигає спрацювати замість того, щоб стекти на землю.",
+  "dlen": 108,
+  "canonical": "https://rodonit-agro-new.vercel.app/rishennia/posylennia-dii-zzr",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Посилення дії ЗЗР і добрив"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 2,
+  "imgs": 3,
+  "no_alt": 1,
+  "schema": [
+   "Article"
+  ],
+  "words": 552,
+  "internal": 17,
+  "faq": false,
+  "html_bytes": 75655
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/rishennia/roztriskuvannia-struchkiv",
+  "status": 200,
+  "title": "Розтріскування стручків | Родоніт Агро",
+  "tlen": 38,
+  "desc": "Втрати насіння на дозріванні сягають 15–45% врожаю. Плівка підклеює стручки без десикації.",
+  "dlen": 90,
+  "canonical": "https://rodonit-agro-new.vercel.app/rishennia/roztriskuvannia-struchkiv",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Розтріскування стручків"
+  ],
+  "h1n": 1,
+  "h2n": 2,
+  "h3n": 2,
+  "imgs": 2,
+  "no_alt": 1,
+  "schema": [
+   "Article"
+  ],
+  "words": 359,
+  "internal": 17,
+  "faq": false,
+  "html_bytes": 72437
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/ceredyna-travnia-na-zernovykh-na-shcho-dyvyty-126",
+  "status": 200,
+  "title": "Cередина травня на зернових: на що дивитися в полі і як вибудувати захист та живлення без зайвих ризиків | Родоніт Агро",
+  "tlen": 119,
+  "desc": "Усередині травня зернові вже виходять із фази «пережили весну» у фазу «формуємо майбутній урожай».",
+  "dlen": 98,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/ceredyna-travnia-na-zernovykh-na-shcho-dyvyty-126",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/blog/ceredyna-travnia-na-zernovykh-na-shcho-dyvyty-126.jpg",
+  "robots": null,
+  "h1": [
+   "Cередина травня на зернових: на що дивитися в полі і як вибудувати захист та живлення без зайвих ризиків"
+  ],
+  "h1n": 1,
+  "h2n": 8,
+  "h3n": 4,
+  "imgs": 5,
+  "no_alt": 4,
+  "schema": [
+   "Article",
+   "BreadcrumbList"
+  ],
+  "words": 727,
+  "internal": 24,
+  "faq": false,
+  "html_bytes": 95365
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/mid-u-zakhysti-zernovykh-kultur-chomu-nordoks-113",
+  "status": 200,
+  "title": "Мідь у захисті зернових культур: чому Нордокс 75 WG — це ваш найкращий вибір для успішного врожаю! | Родоніт Агро",
+  "tlen": 113,
+  "desc": "Важливість міді для здоров&#x27;я рослин неможливо переоцінити. Це не просто мікроелемент, а потужний активатор природних захисних механізмів, який підтримує стійкість рослин до хвороб.",
+  "dlen": 185,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/mid-u-zakhysti-zernovykh-kultur-chomu-nordoks-113",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/blog/mid-u-zakhysti-zernovykh-kultur-chomu-nordoks-113.jpg",
+  "robots": null,
+  "h1": [
+   "Мідь у захисті зернових культур: чому Нордокс 75 WG — це ваш найкращий вибір для успішного врожаю!"
+  ],
+  "h1n": 1,
+  "h2n": 9,
+  "h3n": 4,
+  "imgs": 5,
+  "no_alt": 4,
+  "schema": [
+   "Article",
+   "BreadcrumbList"
+  ],
+  "words": 790,
+  "internal": 23,
+  "faq": false,
+  "html_bytes": 102273
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/midna-bronia-ozymykh-nordox-75-wg-iak-strateh-114",
+  "status": 200,
+  "title": "Мідна броня озимих: Nordox 75 WG як стратегічний щит проти хвороб і резистентності | Родоніт Агро",
+  "tlen": 97,
+  "desc": "Озимі культури, як і люди, мають одну спільну слабкість — вони не люблять, коли їх атакують.",
+  "dlen": 92,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/midna-bronia-ozymykh-nordox-75-wg-iak-strateh-114",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/blog/covers/midna-bronia-ozymykh-nordox-75-wg-iak-strateh-114.jpg",
+  "robots": null,
+  "h1": [
+   "Мідна броня озимих: Nordox 75 WG як стратегічний щит проти хвороб і резистентності"
+  ],
+  "h1n": 1,
+  "h2n": 9,
+  "h3n": 4,
+  "imgs": 5,
+  "no_alt": 4,
+  "schema": [
+   "Article",
+   "BreadcrumbList"
+  ],
+  "words": 989,
+  "internal": 23,
+  "faq": false,
+  "html_bytes": 99956
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/mid-u-tekhnolohiiakh-vyroshchuvannia-tsukrovy-123",
+  "status": 200,
+  "title": "Мідь у технологіях вирощування цукрових буряків як недооцінений інструмент підвищення прибутковості | Родоніт Агро",
+  "tlen": 114,
+  "desc": "Коли технологія вирощування цукрових буряків працює на межі рентабельності, вирішальними стають не гучні обіцянки, а рішення, які реально додають цукор, знімають інфекційний тиск і не…",
+  "dlen": 184,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/mid-u-tekhnolohiiakh-vyroshchuvannia-tsukrovy-123",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/blog/covers/mid-u-tekhnolohiiakh-vyroshchuvannia-tsukrovy-123.jpg",
+  "robots": null,
+  "h1": [
+   "Мідь у технологіях вирощування цукрових буряків як недооцінений інструмент підвищення прибутковості"
+  ],
+  "h1n": 1,
+  "h2n": 3,
+  "h3n": 4,
+  "imgs": 5,
+  "no_alt": 4,
+  "schema": [
+   "Article",
+   "BreadcrumbList"
+  ],
+  "words": 405,
+  "internal": 22,
+  "faq": false,
+  "html_bytes": 85453
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/tsukrova-konferentsiia-sugar-world-110",
+  "status": 200,
+  "title": "Цукрова конференція SUGAR WORLD | Родоніт Агро",
+  "tlen": 46,
+  "desc": "27 лютого 2025 року в Тернополі відбулася конференція SUGAR WORLD 2025, яка зібрала провідних фахівців галузі цукрового виробництва з усієї України.",
+  "dlen": 148,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/tsukrova-konferentsiia-sugar-world-110",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/blog/covers/tsukrova-konferentsiia-sugar-world-110.jpg",
+  "robots": null,
+  "h1": [
+   "Цукрова конференція SUGAR WORLD"
+  ],
+  "h1n": 1,
+  "h2n": 4,
+  "h3n": 4,
+  "imgs": 5,
+  "no_alt": 4,
+  "schema": [
+   "Article",
+   "BreadcrumbList"
+  ],
+  "words": 442,
+  "internal": 21,
+  "faq": false,
+  "html_bytes": 85396
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/mizhnarodna-konferentsiia-uspishne-sadivnytst-111",
+  "status": 200,
+  "title": "Міжнародна конференція «Успішне садівництво і переробка: Кісточкові. Зерняткові. Горіхоплідні» | Родоніт Агро",
+  "tlen": 109,
+  "desc": "5-6 червня 2025 року відбудеться XII Міжнародна науково-практична конференція «Успішне садівництво і переробка: Кісточкові. Зерняткові.",
+  "dlen": 135,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/mizhnarodna-konferentsiia-uspishne-sadivnytst-111",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/blog/covers/mizhnarodna-konferentsiia-uspishne-sadivnytst-111.jpg",
+  "robots": null,
+  "h1": [
+   "Міжнародна конференція «Успішне садівництво і переробка: Кісточкові. Зерняткові. Горіхоплідні»"
+  ],
+  "h1n": 1,
+  "h2n": 3,
+  "h3n": 3,
+  "imgs": 4,
+  "no_alt": 3,
+  "schema": [
+   "Article",
+   "BreadcrumbList"
+  ],
+  "words": 294,
+  "internal": 21,
+  "faq": false,
+  "html_bytes": 82329
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/ahronomichnyi-treninh-112",
+  "status": 200,
+  "title": "Агрономічний тренінг | Родоніт Агро",
+  "tlen": 35,
+  "desc": "24 червня відбувся неймовірно цікавий та корисний вебінар з питань формування врожаю яблук та персиків у 2025 році, проведений компанією BRIDGES разом з партнерами — Родоніт Агро…",
+  "dlen": 179,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/ahronomichnyi-treninh-112",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/blog/covers/ahronomichnyi-treninh-112.jpg",
+  "robots": null,
+  "h1": [
+   "Агрономічний тренінг"
+  ],
+  "h1n": 1,
+  "h2n": 4,
+  "h3n": 3,
+  "imgs": 4,
+  "no_alt": 3,
+  "schema": [
+   "Article",
+   "BreadcrumbList"
+  ],
+  "words": 349,
+  "internal": 20,
+  "faq": false,
+  "html_bytes": 82445
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/vershynna-hnyl-tomativ-verno-cab",
+  "status": 200,
+  "title": "Вершинна гниль томатів: причини та захист кальцієм і бором (Верно CaB) | Родоніт Агро",
+  "tlen": 85,
+  "desc": "Кожен, хто вирощує помідори — на кількох сотках чи на промислових гектарах — рано чи пізно стикається з прикрою картиною: плоди наливаються, дозрівають, і раптом на їхній вершині…",
+  "dlen": 179,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/vershynna-hnyl-tomativ-verno-cab",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/blog/vershynna-hnyl-tomativ-verno-cab.jpg",
+  "robots": null,
+  "h1": [
+   "Вершинна гниль томатів: причини та захист кальцієм і бором (Верно CaB)"
+  ],
+  "h1n": 1,
+  "h2n": 12,
+  "h3n": 4,
+  "imgs": 5,
+  "no_alt": 4,
+  "schema": [
+   "Article",
+   "BreadcrumbList"
+  ],
+  "words": 1438,
+  "internal": 23,
+  "faq": false,
+  "html_bytes": 125674
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/category/statti",
+  "status": 200,
+  "title": "Статті | Блог Родоніт Агро",
+  "tlen": 26,
+  "desc": "Агрономія по суті: як працює мідь, кальцій і бор у полі, коли вносити й що це дає врожаю.",
+  "dlen": 89,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/category/statti",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Статті"
+  ],
+  "h1n": 1,
+  "h2n": 0,
+  "h3n": 6,
+  "imgs": 6,
+  "no_alt": 6,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 296,
+  "internal": 21,
+  "faq": false,
+  "html_bytes": 77142
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/category/novyny",
+  "status": 200,
+  "title": "Новини | Блог Родоніт Агро",
+  "tlen": 26,
+  "desc": "Конференції, тренінги та галузеві події, у яких бере участь команда Родоніт Агро.",
+  "dlen": 81,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/category/novyny",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Новини"
+  ],
+  "h1n": 1,
+  "h2n": 0,
+  "h3n": 4,
+  "imgs": 4,
+  "no_alt": 4,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 184,
+  "internal": 19,
+  "faq": false,
+  "html_bytes": 69281
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/tag/nordoks",
+  "status": 200,
+  "title": "Нордокс 75 WG — матеріали | Родоніт Агро",
+  "tlen": 40,
+  "desc": "Статті та новини Родоніт Агро, що згадують препарат Нордокс 75 WG.",
+  "dlen": 66,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/tag/nordoks",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Нордокс 75 WG"
+  ],
+  "h1n": 1,
+  "h2n": 1,
+  "h3n": 6,
+  "imgs": 6,
+  "no_alt": 6,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 301,
+  "internal": 21,
+  "faq": false,
+  "html_bytes": 77604
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/tag/zernovi-kultury",
+  "status": 200,
+  "title": "Зернові — матеріали | Родоніт Агро",
+  "tlen": 34,
+  "desc": "Статті та новини Родоніт Агро, що згадують культуру «Зернові».",
+  "dlen": 62,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/tag/zernovi-kultury",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Зернові"
+  ],
+  "h1n": 1,
+  "h2n": 0,
+  "h3n": 4,
+  "imgs": 4,
+  "no_alt": 4,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 203,
+  "internal": 19,
+  "faq": false,
+  "html_bytes": 69445
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/tag/verno-sav",
+  "status": 200,
+  "title": "Верно СаВ — матеріали | Родоніт Агро",
+  "tlen": 36,
+  "desc": "Статті та новини Родоніт Агро, що згадують препарат Верно СаВ.",
+  "dlen": 62,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/tag/verno-sav",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Верно СаВ"
+  ],
+  "h1n": 1,
+  "h2n": 1,
+  "h3n": 3,
+  "imgs": 3,
+  "no_alt": 3,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 179,
+  "internal": 18,
+  "faq": false,
+  "html_bytes": 65952
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/tag/buriak-tsukrovyi",
+  "status": 200,
+  "title": "Цукровий буряк — матеріали | Родоніт Агро",
+  "tlen": 41,
+  "desc": "Статті та новини Родоніт Агро, що згадують культуру «Цукровий буряк».",
+  "dlen": 69,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/tag/buriak-tsukrovyi",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Цукровий буряк"
+  ],
+  "h1n": 1,
+  "h2n": 0,
+  "h3n": 3,
+  "imgs": 3,
+  "no_alt": 3,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 163,
+  "internal": 18,
+  "faq": false,
+  "html_bytes": 65546
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/tag/kistochkovi-kultury",
+  "status": 200,
+  "title": "Кісточкові — матеріали | Родоніт Агро",
+  "tlen": 37,
+  "desc": "Статті та новини Родоніт Агро, що згадують культуру «Кісточкові».",
+  "dlen": 65,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/tag/kistochkovi-kultury",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Кісточкові"
+  ],
+  "h1n": 1,
+  "h2n": 0,
+  "h3n": 3,
+  "imgs": 3,
+  "no_alt": 3,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 151,
+  "internal": 18,
+  "faq": false,
+  "html_bytes": 65314
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/tag/verno-fg",
+  "status": 200,
+  "title": "Верно FG — матеріали | Родоніт Агро",
+  "tlen": 35,
+  "desc": "Статті та новини Родоніт Агро, що згадують препарат Верно FG.",
+  "dlen": 61,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/tag/verno-fg",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Верно FG"
+  ],
+  "h1n": 1,
+  "h2n": 1,
+  "h3n": 2,
+  "imgs": 2,
+  "no_alt": 2,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 136,
+  "internal": 17,
+  "faq": false,
+  "html_bytes": 62127
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/tag/vynohrad",
+  "status": 200,
+  "title": "Виноград — матеріали | Родоніт Агро",
+  "tlen": 35,
+  "desc": "Статті та новини Родоніт Агро, що згадують культуру «Виноград».",
+  "dlen": 63,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/tag/vynohrad",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Виноград"
+  ],
+  "h1n": 1,
+  "h2n": 0,
+  "h3n": 2,
+  "imgs": 2,
+  "no_alt": 2,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 134,
+  "internal": 17,
+  "faq": false,
+  "html_bytes": 61596
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/tag/ripak",
+  "status": 200,
+  "title": "Ріпак — матеріали | Родоніт Агро",
+  "tlen": 32,
+  "desc": "Статті та новини Родоніт Агро, що згадують культуру «Ріпак».",
+  "dlen": 60,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/tag/ripak",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Ріпак"
+  ],
+  "h1n": 1,
+  "h2n": 0,
+  "h3n": 2,
+  "imgs": 2,
+  "no_alt": 2,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 123,
+  "internal": 17,
+  "faq": false,
+  "html_bytes": 61378
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/tag/zerniatkovi",
+  "status": 200,
+  "title": "Зерняткові — матеріали | Родоніт Агро",
+  "tlen": 37,
+  "desc": "Статті та новини Родоніт Агро, що згадують культуру «Зерняткові».",
+  "dlen": 65,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/tag/zerniatkovi",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Зерняткові"
+  ],
+  "h1n": 1,
+  "h2n": 0,
+  "h3n": 2,
+  "imgs": 2,
+  "no_alt": 2,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 118,
+  "internal": 17,
+  "faq": false,
+  "html_bytes": 61589
+ },
+ {
+  "url": "https://rodonit-agro-new.vercel.app/blog/tag/tomat",
+  "status": 200,
+  "title": "Томат — матеріали | Родоніт Агро",
+  "tlen": 32,
+  "desc": "Статті та новини Родоніт Агро, що згадують культуру «Томат».",
+  "dlen": 60,
+  "canonical": "https://rodonit-agro-new.vercel.app/blog/tag/tomat",
+  "og_title": true,
+  "og_image": "https://rodonit-agro-new.vercel.app/og.jpg",
+  "robots": null,
+  "h1": [
+   "Томат"
+  ],
+  "h1n": 1,
+  "h2n": 0,
+  "h3n": 2,
+  "imgs": 2,
+  "no_alt": 2,
+  "schema": [
+   "CollectionPage"
+  ],
+  "words": 133,
+  "internal": 17,
+  "faq": false,
+  "html_bytes": 61289
+ }
+]
