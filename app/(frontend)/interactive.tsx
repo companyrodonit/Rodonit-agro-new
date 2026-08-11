@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { AtomLogo } from './logo';
+import { keepUnits } from '@/lib/typography';
 import {
   distributorFilters,
   distributors,
@@ -1064,7 +1065,7 @@ export function RegulationTable({ rows }: { rows: { culture: string; rate: strin
             {shown.map((r) => (
               <tr key={r.culture} className="border-t border-[rgba(0,0,0,0.06)] align-top">
                 <td className="px-6 py-4 font-[700] text-[var(--color-dark)]">{r.culture}</td>
-                <td className="px-6 py-4 leading-[1.6] text-[rgba(14,15,12,0.7)]">{r.rate}</td>
+                <td className="px-6 py-4 leading-[1.6] text-[rgba(14,15,12,0.7)]">{keepUnits(r.rate)}</td>
               </tr>
             ))}
             {!shown.length && (
@@ -1143,7 +1144,7 @@ export function CultureApplications({ rows }: { rows: { culture: string; rate: s
         </p>
         <p className="mt-3 text-[16px] leading-[1.65] text-[rgba(14,15,12,0.75)]">
           <span className="text-[rgba(14,15,12,0.45)]">Регламент застосування: </span>
-          {current.rate}
+          {keepUnits(current.rate)}
         </p>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { rateCoverage } from '@/lib/cultures';
+import { keepUnits } from '@/lib/typography';
 import { getContacts, getCultureBySlug, getCulturePages, getPostsByTag, getProblems } from '@/lib/cms';
 import { ArrowRight, LeadForm, Phone, Reveal, ScrollToTop } from '../../interactive';
 import { SiteHeader } from '../../site-header';
@@ -172,7 +173,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                         Норма на {culture.name.toLowerCase()}
                       </p>
                       {s.rate ? (
-                        <p className="mt-1.5 text-[15px] leading-[1.6] text-[var(--color-text)]">{s.rate}</p>
+                        <p className="mt-1.5 text-[15px] leading-[1.6] text-[var(--color-text)]">{keepUnits(s.rate)}</p>
                       ) : (
                         /* Порожній регламент показуємо як є. Підставити норму
                            «за аналогією» з іншої культури не можна: це вказівка

@@ -11,6 +11,7 @@ import {
   getProducts,
 } from '@/lib/cms';
 import { SITE } from '@/lib/site';
+import { keepUnits } from '@/lib/typography';
 import { ArrowRight, Check, CultureApplications, DeliveryIcon, LeadForm, Phone, ProductAccordion, RegulationTable, Reveal, ScrollToTop } from '../../interactive';
 import { SiteHeader } from '../../site-header';
 import { SiteFooter } from '../../site-footer';
@@ -45,7 +46,7 @@ function Prose({ items }: { items: string[] }) {
     <div className="max-w-[900px] space-y-4">
       {items.map((t, i) => (
         <p key={i} className="text-[16px] leading-[1.7] text-[rgba(14,15,12,0.75)]">
-          {t}
+          {keepUnits(t)}
         </p>
       ))}
     </div>
@@ -60,7 +61,7 @@ function CheckList({ items }: { items: string[] }) {
           <span className="mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[var(--color-accent)] text-[var(--color-text)]">
             <Check size={12} />
           </span>
-          <span className="text-[16px] leading-[1.65] text-[rgba(14,15,12,0.75)]">{t}</span>
+          <span className="text-[16px] leading-[1.65] text-[rgba(14,15,12,0.75)]">{keepUnits(t)}</span>
         </li>
       ))}
     </ul>
@@ -93,7 +94,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <div className="mt-3 space-y-3">
                 {s.body.map((b, i) => (
                   <p key={i} className="text-[16px] leading-[1.7] text-[rgba(14,15,12,0.72)]">
-                    {b}
+                    {keepUnits(b)}
                   </p>
                 ))}
               </div>
@@ -142,7 +143,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <p className="text-[17px] font-[500] text-[var(--color-dark)]">{pr.title}</p>
               {pr.body.map((b, j) => (
                 <p key={j} className="mt-3 text-[15px] leading-[1.65] text-[rgba(14,15,12,0.7)]">
-                  {b}
+                  {keepUnits(b)}
                 </p>
               ))}
             </div>
@@ -258,7 +259,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                       className="border-b border-[rgba(0,0,0,0.06)] py-3"
                     >
                       <dt className="text-[13px] text-[rgba(14,15,12,0.45)]">{k.label}</dt>
-                      <dd className="mt-1 text-[15px] leading-[1.5] text-[var(--color-text)]">{k.value}</dd>
+                      <dd className="mt-1 text-[15px] leading-[1.5] text-[var(--color-text)]">{keepUnits(k.value)}</dd>
                     </div>
                   ))}
                   {packs.length > 0 && (
@@ -358,7 +359,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                     {f.question}
                   </h3>
                   <p className="mt-3 text-[15px] leading-[1.7] text-[rgba(14,15,12,0.72)]">
-                    {f.answer}
+                    {keepUnits(f.answer)}
                   </p>
                 </div>
               ))}
