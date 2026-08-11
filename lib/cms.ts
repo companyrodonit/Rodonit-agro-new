@@ -168,6 +168,9 @@ export const getProductDetails = cache(async (): Promise<ProductDetail[]> => {
       title: p.title,
       body: texts(p.body),
     })),
+    faq: ((d.faq as { question: string; answer: string }[]) ?? []).map(
+      ({ question, answer }) => ({ question, answer }),
+    ),
   }));
 });
 

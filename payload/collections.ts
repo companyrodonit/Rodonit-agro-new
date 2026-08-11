@@ -152,6 +152,29 @@ export const Products: CollectionConfig = {
           ],
         },
         {
+          label: 'Часті запитання',
+          fields: [
+            {
+              name: 'faq',
+              type: 'array',
+              label: 'Питання та відповіді',
+              admin: {
+                initCollapsed: true,
+                description:
+                  'Найдешевший спосіб потрапити у відповіді ChatGPT, Perplexity і Google AI. '
+                  + 'Питання формулюйте так, як їх ставить агроном («Яка норма на кукурудзу?»), '
+                  + 'а не як написано на етикетці. Відповідь — 2-4 речення, конкретно. '
+                  + 'Оптимально 4-6 питань; блок зʼявляється на сторінці препарату, '
+                  + 'коли є хоча б одне.',
+              },
+              fields: [
+                { name: 'question', type: 'text', required: true, label: 'Питання' },
+                { name: 'answer', type: 'textarea', required: true, label: 'Відповідь' },
+              ],
+            },
+          ],
+        },
+        {
           label: 'SEO',
           fields: [
             {

@@ -8,6 +8,7 @@
 export type SpecSection = { title: string; body: string[] };
 export type Regulation = { culture: string; rate: string };
 export type SolvedProblem = { title: string; body: string[] };
+export type FaqItem = { question: string; answer: string };
 
 export type ProductDetail = {
   slug: string;
@@ -34,6 +35,12 @@ export type ProductDetail = {
   compatibility: string[];
   storage: string[];
   problems: SolvedProblem[];
+  /**
+   * Часті запитання. Порожньо → блок на сторінці не рендериться і FAQPage
+   * schema не віддається: порожній FAQPage Google рахує помилкою розмітки.
+   * Заповнюється в адмінці.
+   */
+  faq: FaqItem[];
 };
 
 export const productDetails: ProductDetail[] = [
@@ -207,6 +214,7 @@ export const productDetails: ProductDetail[] = [
         ],
       },
     ],
+    faq: [],
   },
   {
     slug: 'silver-mix',
@@ -317,6 +325,7 @@ export const productDetails: ProductDetail[] = [
         ],
       },
     ],
+    faq: [],
   },
   {
     slug: 'mira-rk',
@@ -424,6 +433,7 @@ export const productDetails: ProductDetail[] = [
         ],
       },
     ],
+    faq: [],
   },
   {
     slug: 'verno-sav',
@@ -521,6 +531,7 @@ export const productDetails: ProductDetail[] = [
         ],
       },
     ],
+    faq: [],
   },
   {
     slug: 'verno-fg',
@@ -623,6 +634,7 @@ export const productDetails: ProductDetail[] = [
         ],
       },
     ],
+    faq: [],
   },
   {
     slug: 'hydrolip',
@@ -737,6 +749,7 @@ export const productDetails: ProductDetail[] = [
         ],
       },
     ],
+    faq: [],
   },
 ];
 

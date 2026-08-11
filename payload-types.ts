@@ -321,6 +321,16 @@ export interface Product {
       }[]
     | null;
   /**
+   * Найдешевший спосіб потрапити у відповіді ChatGPT, Perplexity і Google AI. Питання формулюйте так, як їх ставить агроном («Яка норма на кукурудзу?»), а не як написано на етикетці. Відповідь — 2-4 речення, конкретно. Оптимально 4-6 питань; блок зʼявляється на сторінці препарату, коли є хоча б одне.
+   */
+  faq?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * Те, що видно синім рядком у Google. Google обрізає все після ~60 символів. Порожнє поле — заголовок збереться з назви препарату.
    */
   seoTitle?: string | null;
@@ -774,6 +784,13 @@ export interface ProductsSelect<T extends boolean = true> {
               text?: T;
               id?: T;
             };
+        id?: T;
+      };
+  faq?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
         id?: T;
       };
   seoTitle?: T;

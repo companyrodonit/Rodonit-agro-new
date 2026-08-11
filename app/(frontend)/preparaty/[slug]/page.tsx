@@ -185,6 +185,21 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         { '@type': 'ListItem', position: 3, name: p.name, item: url },
       ],
     },
+    // FAQPage тільки якщо питання реально є: порожній Google рахує биткою
+    // розміткою і може зняти довіру до решти розмітки сторінки.
+    ...(p.faq.length
+      ? [{
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          '@id': `${url}#faq`,
+          inLanguage: 'uk-UA',
+          mainEntity: p.faq.map((f) => ({
+            '@type': 'Question',
+            name: f.question,
+            acceptedAnswer: { '@type': 'Answer', text: f.answer },
+          })),
+        }]
+      : []),
   ];
 
   return (
@@ -320,6 +335,37 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
         </div>
       </section>
+
+      {/* ═══════════════════════════════════════════ 4b — ЧАСТІ ЗАПИТАННЯ
+
+          Свідомо ОКРЕМОЮ видимою секцією, а не ще однією вкладкою акордеона:
+          сенс блоку в тому, щоб питання й відповідь читались одразу — і оком,
+          і генеративним пошуком. ChatGPT, Perplexity і Google AI Overviews
+          беруть такі пари «питання → коротка відповідь» майже дослівно, а
+          FAQPage schema нижче дає Google підставу показати їх у сніпеті.
+          Порожній масив — секції немає взагалі: FAQPage без питань Google
+          позначає як биту розмітку. */}
+      {p.faq.length > 0 && (
+        <section id="faq" className="bg-[var(--color-bg)]">
+          <div className="container-page pb-20">
+            <Reveal>
+              <h2 className="text-h4">Часті запитання</h2>
+            </Reveal>
+            <div className="mt-8 max-w-[900px] space-y-6">
+              {p.faq.map((f) => (
+                <div key={f.question} className="rounded-[20px] bg-[var(--color-surface)] p-6">
+                  <h3 className="text-[17px] font-[500] leading-[1.4] text-[var(--color-dark)]">
+                    {f.question}
+                  </h3>
+                  <p className="mt-3 text-[15px] leading-[1.7] text-[rgba(14,15,12,0.72)]">
+                    {f.answer}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ═══════════════════════════════════════════ 5 — СХОЖІ ПРЕПАРАТИ */}
       <section id="related" className="bg-[var(--color-surface)]">

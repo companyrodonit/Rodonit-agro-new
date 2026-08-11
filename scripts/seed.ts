@@ -93,6 +93,7 @@ async function run() {
         storage: d.storage.map(t),
         regulations: d.regulations,
         problems: d.problems.map((p) => ({ title: p.title, body: p.body.map(t) })),
+        faq: d.faq,
         seoTitle: d.seoTitle,
         metaDescription: d.metaDescription,
         featured: card?.featured ?? false,
