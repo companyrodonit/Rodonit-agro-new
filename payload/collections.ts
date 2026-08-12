@@ -208,7 +208,10 @@ export const Products: CollectionConfig = {
       name: 'featured',
       type: 'checkbox',
       label: 'Показувати на головній',
-      admin: { position: 'sidebar' },
+      // Приховано: на головній портфель — рівна сітка 3×2 з усіх шести
+      // препаратів, виділених карток там немає (макет від 28.07). Галочка
+      // ні на що не впливала, а обіцяла керування показом.
+      admin: { position: 'sidebar', hidden: true },
     },
     orderField,
   ],
