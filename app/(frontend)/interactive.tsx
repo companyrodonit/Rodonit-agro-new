@@ -1032,13 +1032,29 @@ export function LeadForm() {
 
 export function ScrollToTop() {
   const [show, setShow] = useState(false);
+  const [overForm, setOverForm] = useState(false);
+
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > 800);
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-  if (!show) return null;
+
+  /* Ховаємо кнопку, поки на екрані форма заявки. Вона плаваюча, і на
+     мобільному сідає рівно поверх поля «Телефон» — людина цілиться в поле,
+     а потрапляє в «нагору» і летить на початок сторінки разом із набраним.
+     Ховати надійніше, ніж посувати: висота форми й клавіатури різна на
+     кожному апараті. */
+  useEffect(() => {
+    const form = document.querySelector('#cta');
+    if (!form) return;
+    const io = new IntersectionObserver(([e]) => setOverForm(e.isIntersecting));
+    io.observe(form);
+    return () => io.disconnect();
+  }, []);
+
+  if (!show || overForm) return null;
   return (
     <button
       type="button"
