@@ -40,10 +40,10 @@ if not urls:
 key_url = f'{SITE}/{KEY}.txt'
 try:
     if get(key_url).strip() != KEY:
-        print(f'✗ {key_url} віддає не той вміст'); sys.exit(1)
+        print(f'ПОМИЛКА: {key_url} віддає не той вміст'); sys.exit(1)
     print(f'файл-ключ на місці: {key_url}')
 except Exception as e:
-    print(f'✗ файл-ключ недоступний ({e}) — спершу задеплой сайт'); sys.exit(1)
+    print(f'ПОМИЛКА: файл-ключ недоступний: {e}'); sys.exit(1)
 
 body = json.dumps({
     'host': HOST,

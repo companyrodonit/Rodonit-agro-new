@@ -291,17 +291,17 @@ export default async function Page() {
                     <a
                       key={p.value}
                       href={p.href}
-                      className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
+                      className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C] sm:flex sm:flex-wrap sm:gap-y-1"
                     >
                       <Phone size={16} className="shrink-0" /> <span className="whitespace-nowrap">{p.value}</span>
-                      <span className="text-[13px] font-[400] text-[rgba(14,15,12,0.45)]">
-                        — {p.label}
+                      <span className="col-start-2 text-[13px] font-[400] leading-[1.35] text-[rgba(14,15,12,0.45)] sm:col-auto">
+                        <span className="hidden sm:inline">— </span>{p.label}
                       </span>
                     </a>
                   ))}
                   <a
                     href={`mailto:${contacts.email}`}
-                    className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C]"
+                    className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 text-[17px] font-[500] text-[var(--color-dark)] hover:text-[color:#03594C] sm:flex sm:flex-wrap sm:gap-y-1"
                   >
                     <Mail size={16} className="shrink-0" /> <span className="whitespace-nowrap">{contacts.email}</span>
                   </a>
