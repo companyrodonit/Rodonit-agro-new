@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { legalEntity } from '@/lib/legal';
-import { getContacts } from '@/lib/cms';
+import { getContacts, getLegal } from '@/lib/cms';
 import { ArrowRight, LeadForm, Mail, Phone, Reveal, ScrollToTop } from '../interactive';
 import { SiteHeader } from '../site-header';
 import { SiteFooter } from '../site-footer';
@@ -22,6 +22,10 @@ export const revalidate = 300;
 
 export default async function Page() {
   const contacts = await getContacts();
+  /* Реквізити — з CMS, щоб Олег міг їх правити сам. lib/legal.ts лишається
+     фолбеком: із нього беруться поля, яких у CMS немає (коротка назва,
+     дата реєстрації), і він рятує, якщо база недоступна. */
+  const legal = await getLegal();
   /* Повний опис організації — у site-schema.tsx під @id `#org`. Тут тільки
      тип сторінки й посилання на ту саму сутність, щоб не плодити дублікати. */
   const jsonLd = {
@@ -128,15 +132,15 @@ export default async function Page() {
         <div className="container-page py-24">
           <Reveal>
             <p className="eyebrow text-[rgba(14,15,12,0.4)]">Реквізити</p>
-            <h2 className="text-h3 mt-3 max-w-[560px]">{legalEntity.name}</h2>
+            <h2 className="text-h3 mt-3 max-w-[560px]">{legal.name || legalEntity.name}</h2>
           </Reveal>
           <Reveal delay={1}>
             <dl className="mt-10 grid max-w-[900px] gap-6 sm:grid-cols-2">
               {[
-                ['Код ЄДРПОУ', legalEntity.edrpou],
+                ['Код ЄДРПОУ', legal.edrpou || legalEntity.edrpou],
                 ['Дата реєстрації', legalEntity.registered],
-                ['Юридична адреса', legalEntity.legalAddress],
-                ['Поштова адреса', legalEntity.postalAddress],
+                ['Юридична адреса', legal.legalAddress || legalEntity.legalAddress],
+                ['Поштова адреса', legal.postalAddress || legalEntity.postalAddress],
               ].map(([k, v]) => (
                 <div key={k} className="rounded-[20px] bg-[var(--color-bg)] p-6">
                   <dt className="text-[12px] font-[700] uppercase tracking-[0.04em] text-[rgba(14,15,12,0.4)]">

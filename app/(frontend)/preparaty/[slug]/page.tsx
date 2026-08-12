@@ -8,6 +8,7 @@ import {
   getProductBySlug,
   getProductDetails,
   getProductImages,
+  getProductImageAlts,
   getProducts,
 } from '@/lib/cms';
 import { SITE } from '@/lib/site';
@@ -75,8 +76,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const p = await getProductBySlug(slug);
   if (!p) notFound();
 
-  const [packaging, products, images, delivery, contacts] = await Promise.all([
-    getPackaging(), getProducts(), getProductImages(), getDelivery(), getContacts(),
+  const [packaging, products, images, imageAlts, delivery, contacts] = await Promise.all([
+    getPackaging(), getProducts(), getProductImages(), getProductImageAlts(),
+    getDelivery(), getContacts(),
   ]);
   const packs = packaging[p.slug] ?? [];
   const related = products.filter((x) => x.slug !== p.slug).slice(0, 3);
@@ -233,7 +235,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <div className="grid place-items-center rounded-[24px] bg-[var(--color-surface)] p-8">
               <Image
                 src={images[p.slug] ?? `/products/${p.slug}.png`}
-                alt={p.name}
+                /* Підпис із медіатеки, якщо редактор його заповнив; інакше
+                   назва препарату. Раніше alt із CMS не використовувався. */
+                alt={imageAlts[p.slug] ?? p.name}
                 width={600}
                 height={790}
                 priority
@@ -396,7 +400,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                   <div className="mb-6 grid h-[190px] place-items-center overflow-hidden">
                     <Image
                       src={images[r.slug] ?? `/products/${r.slug}.png`}
-                      alt={r.name}
+                      alt={imageAlts[r.slug] ?? r.name}
                       width={600}
                       height={790}
                       className="max-h-[180px] w-auto object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.15)]"

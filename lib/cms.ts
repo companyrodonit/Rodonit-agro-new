@@ -42,7 +42,7 @@ const getClient = cache(async (): Promise<Payload | null> => {
 });
 
 /** media-поле → URL. Вміє і локальні файли, і Vercel Blob. */
-type MediaDoc = { url?: string | null } | number | null | undefined;
+type MediaDoc = { url?: string | null; alt?: string | null } | number | null | undefined;
 const mediaUrl = (m: MediaDoc, fallback: string): string =>
   (typeof m === 'object' && m?.url) || fallback;
 
@@ -185,6 +185,26 @@ export const getProductImages = cache(async (): Promise<Record<string, string>> 
   if (docs) {
     for (const d of docs) {
       out[d.slug as string] = mediaUrl(d.image as MediaDoc, `/products/${d.slug}.png`);
+    }
+  }
+  return out;
+});
+
+/**
+ * Підписи (alt) до фото препаратів із медіатеки.
+ *
+ * Поле alt обовʼязкове при завантаженні, тож редактор його заповнює — але
+ * до 12.08 воно нікуди не йшло, а в розмітку підставлялася назва препарату.
+ * Тепер працює як задумано: є свій alt — беремо його, немає — назва.
+ */
+export const getProductImageAlts = cache(async (): Promise<Record<string, string>> => {
+  const docs = await fetchProductsRaw();
+  const out: Record<string, string> = {};
+  if (docs) {
+    for (const d of docs) {
+      const img = d.image as MediaDoc;
+      const alt = typeof img === 'object' && img ? (img.alt as string | undefined) : undefined;
+      if (alt?.trim()) out[d.slug as string] = alt.trim();
     }
   }
   return out;

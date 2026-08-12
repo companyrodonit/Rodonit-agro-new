@@ -238,7 +238,10 @@ export const Settings: GlobalConfig = {
               name: 'legalUpdated',
               type: 'text',
               label: 'Дата оновлення документів',
-              admin: { description: 'Показується на /privacy і /terms' },
+              // Приховано: /privacy і /terms — авторські юридичні тексти,
+              // вони свідомо живуть у коді (lib/legal.ts) разом із датою.
+              // Поле в CMS ні на що не впливало.
+              admin: { hidden: true },
             },
           ],
         },
