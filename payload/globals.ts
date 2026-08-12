@@ -42,6 +42,15 @@ export const Home: GlobalConfig = {
               name: 'stats',
               type: 'array',
               label: 'Цифри під заголовком',
+              // Приховано з адмінки: статистику з героя прибрали на вимогу
+              // замовника 28.07, того ж дня — і з «Про компанію». Виводити її
+              // на сайті більше нема куди, тож у CMS це був важіль, який
+              // нічого не змінює — найкоротший шлях до «я міняв, а нічого не
+              // сталось». Поле лишаємо в схемі, щоб не чіпати таблицю в базі
+              // (drizzle push на зміні схеми вміє зависати на інтерактивному
+              // питанні). Знадобиться назад — прибрати hidden і повернути
+              // рендер у hero.
+              admin: { hidden: true },
               fields: [
                 { name: 'value', type: 'text', required: true, label: 'Значення' },
                 { name: 'label', type: 'text', required: true, label: 'Підпис' },
@@ -55,7 +64,9 @@ export const Home: GlobalConfig = {
           label: 'Про компанію (блок на головній)',
           fields: [
             { name: 'aboutEyebrow', type: 'text', label: 'Надзаголовок' },
-            { name: 'aboutTitle', type: 'text', label: 'Заголовок' },
+            // Приховано: на сайті цей блок показує надзаголовок і одразу
+            // великий текст — окремого заголовка в макеті немає.
+            { name: 'aboutTitle', type: 'text', label: 'Заголовок', admin: { hidden: true } },
             { name: 'aboutText', type: 'textarea', label: 'Текст' },
             { name: 'aboutLink', type: 'text', label: 'Підпис посилання' },
           ],
@@ -93,8 +104,12 @@ export const Home: GlobalConfig = {
             { name: 'ctaEyebrow', type: 'text', label: 'Надзаголовок' },
             { name: 'ctaTitle', type: 'text', label: 'Заголовок' },
             { name: 'ctaSubtitle', type: 'text', label: 'Підзаголовок' },
-            { name: 'ctaSubmit', type: 'text', label: 'Напис на кнопці' },
-            { name: 'ctaLegal', type: 'text', label: 'Дрібний текст під кнопкою' },
+            // Приховано: напис на кнопці форми зашитий у компоненті
+            // (ЗАМОВИТИ КОНСУЛЬТАЦІЮ), з CMS він не читається.
+            { name: 'ctaSubmit', type: 'text', label: 'Напис на кнопці', admin: { hidden: true } },
+            // Приховано: дрібного тексту під кнопкою в макеті немає,
+            // поле нікуди не виводиться.
+            { name: 'ctaLegal', type: 'text', label: 'Дрібний текст під кнопкою', admin: { hidden: true } },
           ],
         },
       ],
@@ -118,7 +133,9 @@ export const Settings: GlobalConfig = {
         {
           label: 'Контакти',
           fields: [
-            { name: 'company', type: 'text', label: 'Назва компанії' },
+            // Приховано: назва компанії на сайті береться з логотипа й
+            // блока юридичних даних, це поле нікуди не виводиться.
+            { name: 'company', type: 'text', label: 'Назва компанії', admin: { hidden: true } },
             {
               name: 'phones',
               type: 'array',
