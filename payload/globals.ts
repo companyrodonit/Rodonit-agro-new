@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload';
+import { revalidateGlobal } from './revalidate';
 
 /**
  * Головна сторінка. Hero — один, без каруселі: це LCP-блок, а карусель
@@ -9,6 +10,7 @@ export const Home: GlobalConfig = {
   slug: 'home',
   label: 'Головна сторінка',
   access: { read: () => true },
+  hooks: { afterChange: [revalidateGlobal] },
   admin: { group: 'Контент' },
   fields: [
     {
@@ -125,6 +127,7 @@ export const Settings: GlobalConfig = {
   slug: 'settings',
   label: 'Контакти й налаштування',
   access: { read: () => true },
+  hooks: { afterChange: [revalidateGlobal] },
   admin: { group: 'Система' },
   fields: [
     {

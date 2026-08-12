@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload';
+import { revalidateAfterChange } from './revalidate';
 import { bulletsField, orderField, paragraphsField, slugField } from './fields';
 
 /** Хто заходить в адмінку. Олег + за потреби його маркетолог. */
@@ -16,6 +17,7 @@ export const Users: CollectionConfig = {
  */
 export const Media: CollectionConfig = {
   slug: 'media',
+  hooks: { afterChange: [revalidateAfterChange], afterDelete: [revalidateAfterChange] },
   labels: { singular: 'Файл', plural: 'Медіа' },
   access: { read: () => true },
   admin: { group: 'Система' },
@@ -33,6 +35,7 @@ export const Media: CollectionConfig = {
 /** Категорії препаратів: стимулятори, мікродобрива, фунгіциди, прилипачі. */
 export const Categories: CollectionConfig = {
   slug: 'categories',
+  hooks: { afterChange: [revalidateAfterChange], afterDelete: [revalidateAfterChange] },
   labels: { singular: 'Категорія препаратів', plural: 'Категорії препаратів' },
   access: { read: () => true },
   admin: { useAsTitle: 'name', defaultColumns: ['name', 'slug', 'order'], group: 'Каталог' },
@@ -53,6 +56,7 @@ export const Categories: CollectionConfig = {
  */
 export const Products: CollectionConfig = {
   slug: 'products',
+  hooks: { afterChange: [revalidateAfterChange], afterDelete: [revalidateAfterChange] },
   labels: { singular: 'Препарат', plural: 'Препарати' },
   access: { read: () => true },
   admin: {
@@ -220,6 +224,7 @@ export const Products: CollectionConfig = {
 /** Дистрибʼютори — партнерська мережа. */
 export const Distributors: CollectionConfig = {
   slug: 'distributors',
+  hooks: { afterChange: [revalidateAfterChange], afterDelete: [revalidateAfterChange] },
   labels: { singular: 'Дистрибʼютор', plural: 'Дистрибʼютори' },
   access: { read: () => true },
   admin: { useAsTitle: 'name', defaultColumns: ['name', 'direction', 'order'], group: 'Каталог' },
@@ -257,6 +262,7 @@ export const Distributors: CollectionConfig = {
  */
 export const Cultures: CollectionConfig = {
   slug: 'cultures',
+  hooks: { afterChange: [revalidateAfterChange], afterDelete: [revalidateAfterChange] },
   labels: { singular: 'Культура', plural: 'Культури' },
   access: { read: () => true },
   admin: {
@@ -299,6 +305,7 @@ export const Cultures: CollectionConfig = {
 /** «Рішення» — типові проблеми поля і препарати під них. */
 export const Solutions: CollectionConfig = {
   slug: 'solutions',
+  hooks: { afterChange: [revalidateAfterChange], afterDelete: [revalidateAfterChange] },
   labels: { singular: 'Рішення', plural: 'Рішення' },
   access: { read: () => true },
   admin: { useAsTitle: 'title', defaultColumns: ['title', 'slug', 'order'], group: 'Контент' },
@@ -324,6 +331,7 @@ export const Solutions: CollectionConfig = {
  */
 export const BlogCategories: CollectionConfig = {
   slug: 'blog-categories',
+  hooks: { afterChange: [revalidateAfterChange], afterDelete: [revalidateAfterChange] },
   labels: { singular: 'Рубрика блогу', plural: 'Рубрики блогу' },
   access: { read: () => true },
   admin: { useAsTitle: 'name', defaultColumns: ['name', 'slug', 'order'], group: 'Блог' },
@@ -338,6 +346,7 @@ export const BlogCategories: CollectionConfig = {
 /** Статті блогу. */
 export const Posts: CollectionConfig = {
   slug: 'posts',
+  hooks: { afterChange: [revalidateAfterChange], afterDelete: [revalidateAfterChange] },
   labels: { singular: 'Стаття', plural: 'Статті' },
   access: { read: () => true },
   admin: {
