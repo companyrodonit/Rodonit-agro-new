@@ -75,6 +75,33 @@ export default async function Page() {
   const [products, productImages, problems, distributors, distributorFilters] = await Promise.all([
     getProducts(), getProductImages(), getProblems(), getDistributors(), getDistributorFilters(),
   ]);
+
+  /* Порядок чипів культур під мобільну сітку «один широкий, потім два».
+     У широкий слот (перший у кожній трійці) ставимо найдовшу назву групи —
+     інакше «Кісточкові культури» чи «Буряк столовий» потрапляють у вузьку
+     комірку й ламаються на два рядки. Сортування за кількістю препаратів
+     при цьому зберігається з точністю до трійки. */
+  const culturesRhythm = (() => {
+    const wideSlots = Math.ceil(cultures.length / 3);
+    // Найдовші назви — у широкі слоти. Розподіл глобальний, а не по трійках:
+    // у сусідніх трійках траплялось по дві довгі назви, і друга однаково
+    // потрапляла у вузьку комірку.
+    const wide = new Set(
+      [...cultures]
+        .sort((a, b) => b.name.length - a.name.length)
+        .slice(0, wideSlots)
+        .map((c) => c.slug),
+    );
+    const long = cultures.filter((c) => wide.has(c.slug));
+    const short = cultures.filter((c) => !wide.has(c.slug));
+    const out: typeof cultures = [];
+    while (long.length || short.length) {
+      if (long.length) out.push(long.shift()!);
+      out.push(...short.splice(0, 2));
+    }
+    return out;
+  })();
+
   return (
     /* Зовнішня рамка 6px по колу сторінки (правка замовника 28.07).
        Хедер і кнопка «нагору» лишаються поза нею — вони fixed і рахуються
@@ -205,13 +232,20 @@ export default async function Page() {
             />
           </Reveal>
           <Reveal delay={1}>
-            <div className="mx-auto mt-12 flex max-w-[1000px] flex-wrap justify-center gap-3">
-              {cultures.map((c) => (
+            {/* На мобільному — сітка з ритмом «один на всю ширину, потім два»
+                (кожен третій чип розтягується на дві колонки). Просте
+                flex-wrap тут давало рвану картинку: планки різної довжини
+                переносились як випаде, і блок виглядав розсипаним.
+                Від sm повертаємось до купчастого центрованого потоку. */}
+            <div className="mt-12 grid grid-cols-2 gap-3 sm:mx-auto sm:flex sm:max-w-[1000px] sm:flex-wrap sm:justify-center">
+              {culturesRhythm.map((c, i) => (
                 <a
                   key={c.slug}
                   href={`/kultury/${c.slug}`}
                   data-testid={`culture-${c.slug}`}
-                  className="group flex items-center gap-2 rounded-full bg-[var(--color-surface)] py-1.5 pl-1.5 pr-5 text-[15px] transition-colors hover:bg-[var(--color-dark)] hover:text-[var(--color-bg)]"
+                  className={`group flex items-center justify-center gap-2 rounded-full bg-[var(--color-surface)] py-1.5 pl-1.5 pr-5 text-[15px] transition-colors hover:bg-[var(--color-dark)] hover:text-[var(--color-bg)] ${
+                    i % 3 === 0 ? 'col-span-2' : ''
+                  }`}
                 >
                   {/* Ліве поле зменшене до 1.5 — картинка сама тримає відступ
                       своїм фоном, інакше чип виглядав би роздутим. */}
