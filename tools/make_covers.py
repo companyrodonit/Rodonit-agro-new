@@ -42,9 +42,12 @@ WIDTH, HEIGHT, SCALE = 1200, 630, 2
 
 # Сітка в координатах 1200x630. По вертикалі все у верхніх 490px, по
 # горизонталі — у центральних 900px: саме стільки видно в картці блогу.
-TOP_BRAND = 120
-TOP_TITLE = 200
-TOP_META = 408
+#
+# Рядок метаданих (культура + час читання) прибрано свідомо: рівно те саме
+# стоїть у білій картці під плашкою, а дубль на двох рівнях виглядав як
+# недогляд. Плашка тепер несе тільки бренд і заголовок.
+TOP_BRAND = 150
+TOP_TITLE = 240
 SIDE = 150
 
 
@@ -79,7 +82,6 @@ def load_posts() -> list[dict]:
 
 
 def page_html(post: dict, fonts: str) -> str:
-    meta = " • ".join([*post["tags"], f"{post['readMinutes']} хв читання"])
     accent = "accent" if post["category"].lower().startswith("нов") else ""
     return f"""<!doctype html><meta charset="utf-8"><style>
 {fonts}
@@ -110,9 +112,6 @@ h1{{position:absolute;top:{TOP_TITLE}px;left:{SIDE}px;right:{SIDE}px;
   font-size:50px;font-weight:700;line-height:1.16;letter-spacing:-.03em;
   text-align:center;text-wrap:balance;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
-.meta{{top:{TOP_META}px;font-size:16px;font-weight:700;letter-spacing:.07em;
-  text-transform:uppercase;color:rgba(255,255,255,.62)}}
-.meta b{{color:#95E362;font-weight:700}}
 </style>
 <div class="wrap">
   <div class="row brand">
@@ -122,7 +121,6 @@ h1{{position:absolute;top:{TOP_TITLE}px;left:{SIDE}px;right:{SIDE}px;
     <span class="pill {accent}">{post['category']}</span>
   </div>
   <h1>{post['title']}</h1>
-  <div class="row meta">{meta}</div>
 </div>"""
 
 
