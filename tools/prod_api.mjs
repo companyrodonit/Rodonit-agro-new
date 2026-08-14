@@ -75,6 +75,41 @@ if (cmd === 'posts') {
   }
 }
 
+/**
+ * Проставляє медіафайлам обкладинок описовий alt із lib/posts.ts.
+ *
+ * Окремою командою, бо alt живе не в статті, а в самому медіафайлі: замінювати
+ * через нього картинку не треба, достатньо оновити підпис.
+ */
+if (cmd === 'alts') {
+  const apply = process.argv.includes('--apply');
+  const auth = { Authorization: `JWT ${token}` };
+  const { posts } = await import('../lib/posts.ts');
+  const r = await fetch(`${BASE}/api/posts?limit=100&depth=1`, { headers: auth });
+  const { docs } = await r.json();
+
+  for (const doc of docs) {
+    const post = posts.find((p) => p.slug === doc.slug);
+    const want = post?.coverAlt;
+    if (!want || !doc.cover?.id) continue;
+    if (doc.cover.alt === want) {
+      console.log(`  вже стоїть  ${doc.slug.slice(0, 44)}`);
+      continue;
+    }
+    console.log(`  ${apply ? 'ставлю   ' : 'треба    '}  ${doc.slug.slice(0, 44)}`);
+    console.log(`      було : ${doc.cover.alt}`);
+    console.log(`      стане: ${want}`);
+    if (!apply) continue;
+    const up = await fetch(`${BASE}/api/media/${doc.cover.id}`, {
+      method: 'PATCH',
+      headers: { ...auth, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ alt: want }),
+    });
+    if (!up.ok) console.error(`      ! HTTP ${up.status}: ${(await up.text()).slice(0, 160)}`);
+  }
+  if (!apply) console.log('\nСухий прогін. Щоб записати — додайте --apply');
+}
+
 if (cmd === 'leads') {
   // Чи існує колекція заявок на проді — та сама діра, що була в базі розробки
   const r = await fetch(`${BASE}/api/leads?limit=1`, {
