@@ -20,7 +20,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageFilter
 
 for stream in (sys.stdout, sys.stderr):
     try:
@@ -35,9 +35,29 @@ WIDTH, HEIGHT = 2400, 1260
 BRAND_DARK = (1, 54, 46)
 
 
+def blurred_backdrop(src: Image.Image) -> Image.Image:
+    """
+    Підкладка з самого фото — збільшена до кадру й сильно розмита.
+
+    Плаский колір під поля не годиться: у картці блогу фон свій, і смуги
+    зверху й знизу читаються як приклеєні. Розмите продовження сцени зливається
+    з фото і працює на будь-якому тлі.
+    """
+    scale = max(WIDTH / src.width, HEIGHT / src.height)
+    big = src.resize((round(src.width * scale), round(src.height * scale)), Image.LANCZOS)
+    left = (big.width - WIDTH) // 2
+    top = (big.height - HEIGHT) // 2
+    return (
+        big.crop((left, top, left + WIDTH, top + HEIGHT))
+        .filter(ImageFilter.GaussianBlur(radius=WIDTH // 40))
+        .point(lambda v: int(v * 0.72))  # притемнюємо, щоб фото читалось як головне
+    )
+
+
 def build(src_path: Path, slug: str, fit: str) -> Path:
     src = Image.open(src_path).convert("RGB")
-    canvas = Image.new("RGB", (WIDTH, HEIGHT), BRAND_DARK)
+    canvas = blurred_backdrop(src) if fit == "contain" else Image.new(
+        "RGB", (WIDTH, HEIGHT), BRAND_DARK)
 
     scale = (
         max(WIDTH / src.width, HEIGHT / src.height)
