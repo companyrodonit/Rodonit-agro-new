@@ -1,8 +1,17 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { postHeadings } from '@/lib/posts';
-import { getContacts, getPostBySlug, getPosts, getRelatedPosts } from '@/lib/cms';
+import { postFaq, postHeadings } from '@/lib/posts';
+import {
+  getContacts,
+  getPostBySlug,
+  getPosts,
+  getProductDetails,
+  getProductImageAlts,
+  getProductImages,
+  getProducts,
+  getRelatedPosts,
+} from '@/lib/cms';
 import { ArrowRight, LeadForm, Phone, Reveal, ScrollToTop } from '../../interactive';
 import { SiteHeader } from '../../site-header';
 import { SiteFooter } from '../../site-footer';
@@ -75,6 +84,15 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const related = await getRelatedPosts(post.slug);
   const url = `${SITE}/blog/${post.slug}`;
 
+  // Дані каталогу для дизайн-блоків у тілі статті ([[product:…]], [[rates:…]]).
+  const [products, details, images, imageAlts] = await Promise.all([
+    getProducts(),
+    getProductDetails(),
+    getProductImages(),
+    getProductImageAlts(),
+  ]);
+  const faq = postFaq(post);
+
   const jsonLd = [
     {
       '@context': 'https://schema.org',
@@ -115,6 +133,21 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         { '@type': 'ListItem', position: 4, name: post.title, item: url },
       ],
     },
+    // FAQPage тільки якщо в статті реально є [[faq]]-блоки: порожній
+    // Google рахує битою розміткою — та сама механіка, що на препаратах.
+    ...(faq.length
+      ? [
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faq.map((f) => ({
+              '@type': 'Question',
+              name: f.question,
+              acceptedAnswer: { '@type': 'Answer', text: f.answer },
+            })),
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -145,6 +178,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 width={1200}
                 height={630}
                 priority
+                sizes="(max-width: 1200px) 100vw, 1200px"
+                // Тут кадр показується на всю ширину колонки і є LCP-елементом:
+                // дефолтні 75 помітно мʼякшать фото, яке вже було стиснуте.
+                quality={90}
                 className="aspect-[1200/630] w-full rounded-[24px] object-cover"
               />
             </Reveal>
@@ -152,7 +189,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
           <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-16">
             <div className="min-w-0">
-              <PostBody blocks={post.blocks} />
+              <PostBody blocks={post.blocks} media={{ products, details, images, imageAlts }} />
 
               <div className="mt-14 max-w-[720px] border-t border-[rgba(0,0,0,0.1)] pt-8">
                 <TagList tags={post.tags} />

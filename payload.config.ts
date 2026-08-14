@@ -66,7 +66,11 @@ export default buildConfig({
     // На проді він вішав білд попереднього проєкту на 35 хвилин: drizzle
     // впирався в інтерактивний промпт про перейменування enum і чекав
     // відповіді, якої в CI ніхто не дасть. Прод оновлюється міграціями.
-    push: process.env.NODE_ENV !== 'production',
+    //
+    // PAYLOAD_DB_PUSH=off — окремий вимикач для разових скриптів. Вони
+    // піднімають Payload з NODE_ENV=development і без нього тягнуть push
+    // на ту базу, на яку дивиться .env.local, тобто на живу.
+    push: process.env.NODE_ENV !== 'production' && process.env.PAYLOAD_DB_PUSH !== 'off',
   }),
   plugins: blobToken
     ? [

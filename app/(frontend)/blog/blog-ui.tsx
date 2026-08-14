@@ -1,7 +1,21 @@
 import Image from 'next/image';
+import type { Product } from '@/lib/content';
 import type { Post, PostBlock } from '@/lib/posts';
-import { headingSlug } from '@/lib/posts';
+import { headingSlug, parseMarker } from '@/lib/posts';
+import type { ProductDetail } from '@/lib/products-detail';
 import { ArrowRight, Reveal } from '../interactive';
+
+/**
+ * Дані каталогу для дизайн-блоків у тілі статті. Передаються пропсом, а не
+ * читаються тут: blog-ui лишається без залежності від CMS, як і решта
+ * серверних компонентів у цій теці.
+ */
+export type PostMedia = {
+  products: Product[];
+  details: ProductDetail[];
+  images: Record<string, string>;
+  imageAlts: Record<string, string>;
+};
 
 /* Серверні блоки блогу. Свідомо повторюють крій, який уже є на сайті:
    картка поста — той самий прийом із білою карткою внапуск на фото, що в
@@ -73,6 +87,10 @@ export function PostCard({ post, priority = false }: { post: Post; priority?: bo
           width={560}
           height={360}
           priority={priority}
+          // Без sizes next/image тягнув на картку кадр у 1200px — це зайва вага
+          // на кожну картку сітки. Три колонки на десктопі, дві на планшеті.
+          sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
+          quality={90}
           className="h-[260px] w-full object-cover"
         />
       )}
@@ -114,7 +132,224 @@ export function PostGrid({ items }: { items: Post[] }) {
 
 /* --------------------------------------------------------------- тіло статті */
 
-function Block({ block }: { block: PostBlock }) {
+/* ---------------------------------------------------- дизайн-блоки статті
+   Маркер — звичайний абзац виду [[product:nordoks]]; розбирає parseMarker
+   у lib/posts.ts. Дані картки й таблиці беруться з каталогу, а не дублюються
+   в тексті статті: змінилась норма в адмінці — змінилась і в статті. */
+
+/** Картка препарату всередині тексту. */
+function ProductCard({ slug, media }: { slug: string; media: PostMedia }) {
+  const product = media.products.find((p) => p.slug === slug);
+  if (!product) return null;
+  const image = media.images[slug];
+
+  return (
+    <aside className="mt-8 flex flex-col gap-5 rounded-[20px] border border-[rgba(1,54,46,0.12)] bg-[var(--color-surface)] p-6 sm:flex-row sm:items-center">
+      {image && (
+        <Image
+          src={image}
+          alt={media.imageAlts[slug] ?? product.name}
+          width={120}
+          height={158}
+          className="h-[130px] w-auto shrink-0 self-start object-contain"
+        />
+      )}
+      <div className="min-w-0">
+        <p className="eyebrow text-[rgba(14,15,12,0.45)]">{product.category}</p>
+        <p className="mt-1 text-[20px] font-[600] leading-[1.25] text-[var(--color-dark)]">
+          {product.name}
+        </p>
+        <p className="mt-2 text-[15px] leading-[1.6] text-[rgba(14,15,12,0.7)]">
+          {product.description}
+        </p>
+        <a
+          href={`/preparaty/${product.slug}`}
+          className="mt-4 inline-flex items-center gap-2 text-[14px] font-[600] text-[var(--color-dark)] underline-offset-4 hover:underline"
+        >
+          Картка препарату <ArrowRight size={13} />
+        </a>
+      </div>
+    </aside>
+  );
+}
+
+/** Таблиця регламенту препарату — джерело те саме, що на сторінці препарату. */
+function RatesTable({
+  slug,
+  filter,
+  media,
+}: {
+  slug: string;
+  filter?: string;
+  media: PostMedia;
+}) {
+  const detail = media.details.find((d) => d.slug === slug);
+  if (!detail?.regulations.length) return null;
+
+  // Фільтр звужує таблицю до культури статті. Якщо він нічого не знайшов —
+  // показуємо повний регламент: краще зайві рядки, ніж порожня таблиця.
+  const matched = filter
+    ? detail.regulations.filter((r) => r.culture.toLowerCase().includes(filter.toLowerCase()))
+    : [];
+  const rows = matched.length ? matched : detail.regulations;
+  const isPartial = rows.length < detail.regulations.length;
+
+  return (
+    <figure className="mt-8">
+      <figcaption className="eyebrow text-[rgba(14,15,12,0.45)]">
+        {detail.shortName} — норми застосування
+      </figcaption>
+      {/* Таблиця широка: на мобільному горизонтальний скрол лишається
+          всередині цього контейнера, сторінка вбік не їде. */}
+      <div className="mt-3 overflow-x-auto rounded-[16px] border border-[rgba(1,54,46,0.12)]">
+        <table className="w-full border-collapse text-left text-[15px]">
+          <thead>
+            <tr className="bg-[var(--color-surface)]">
+              <th className="whitespace-nowrap px-4 py-3 font-[600] text-[var(--color-dark)]">
+                Культура
+              </th>
+              <th className="px-4 py-3 font-[600] text-[var(--color-dark)]">Норма й спосіб</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.culture} className="border-t border-[rgba(1,54,46,0.1)]">
+                <td className="px-4 py-3 align-top font-[500] text-[var(--color-dark)]">
+                  {r.culture}
+                </td>
+                <td className="px-4 py-3 align-top tabular-nums text-[rgba(14,15,12,0.75)]">
+                  {r.rate}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {isPartial && (
+        <p className="mt-3 text-[14px] text-[rgba(14,15,12,0.55)]">
+          Норми по інших культурах —{' '}
+          <a
+            href={`/preparaty/${detail.slug}`}
+            className="font-[500] text-[var(--color-dark)] underline underline-offset-4"
+          >
+            у повному регламенті препарату
+          </a>
+          .
+        </p>
+      )}
+    </figure>
+  );
+}
+
+/**
+ * Довільна таблиця з тексту статті.
+ *
+ * Потрібна окремо від RatesTable: та збирається з каталогу, а тут дані живуть
+ * у самій статті — схеми обробок, фази розвитку, порівняння. При краулі старого
+ * сайту такі таблиці розсипались у стовпчик абзаців «| комірка |», і сторінка
+ * виглядала як помилка верстки.
+ */
+function DataTable({
+  caption,
+  head,
+  rows,
+}: {
+  caption?: string;
+  head: string[];
+  rows: string[][];
+}) {
+  return (
+    <figure className="mt-8">
+      {caption && <figcaption className="eyebrow text-[rgba(14,15,12,0.45)]">{caption}</figcaption>}
+      <div
+        className={`overflow-x-auto rounded-[16px] border border-[rgba(1,54,46,0.12)] ${
+          caption ? 'mt-3' : ''
+        }`}
+      >
+        <table className="w-full border-collapse text-left text-[15px]">
+          <thead>
+            <tr className="bg-[var(--color-surface)]">
+              {head.map((cell) => (
+                <th key={cell} className="px-4 py-3 font-[600] text-[var(--color-dark)]">
+                  {cell}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, i) => (
+              <tr key={row.join('|') || i} className="border-t border-[rgba(1,54,46,0.1)]">
+                {/* Рівно стільки комірок, скільки в шапці: недобір добиваємо
+                    порожніми, надлишок відрізаємо — інакше рядок «поїде». */}
+                {head.map((_, j) => (
+                  <td
+                    key={j}
+                    className={`px-4 py-3 align-top ${
+                      j === 0
+                        ? 'font-[500] text-[var(--color-dark)]'
+                        : 'tabular-nums text-[rgba(14,15,12,0.75)]'
+                    }`}
+                  >
+                    {row[j] ?? ''}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </figure>
+  );
+}
+
+/** Виноска «Важливо» — те, що читач має не проґавити. */
+function Callout({ title, text }: { title: string; text: string }) {
+  return (
+    <aside className="mt-8 border-l-[3px] border-[var(--color-accent)] bg-[var(--color-surface)] px-5 py-4">
+      <p className="eyebrow text-[var(--color-dark)]">{title}</p>
+      <p className="mt-2 text-[16px] leading-[1.7] text-[rgba(14,15,12,0.78)]">{text}</p>
+    </aside>
+  );
+}
+
+/**
+ * Питання-відповідь. Розгорнуте за замовчуванням: у пошуковій видачі й у
+ * відповідях AI-ботів важить сам текст, а прихований <details> частина
+ * краулерів усе одно бачить — зате читач одразу має відповідь перед очима.
+ */
+function FaqItem({ question, answer }: { question: string; answer: string }) {
+  return (
+    <details open className="mt-4 border-b border-[rgba(0,0,0,0.1)] pb-4">
+      <summary className="cursor-pointer list-none text-[17px] font-[600] text-[var(--color-dark)] marker:hidden">
+        {question}
+      </summary>
+      <p className="mt-2 text-[17px] leading-[1.75] text-[rgba(14,15,12,0.75)]">{answer}</p>
+    </details>
+  );
+}
+
+function Block({ block, media }: { block: PostBlock; media?: PostMedia }) {
+  if (block.type === 'paragraph') {
+    const marker = parseMarker(block.text);
+    // Таблиця, виноска й питання живуть у самому тексті, тому рендеряться
+    // завжди. Картка препарату й регламент тягнуть дані з каталогу — без
+    // media показуємо абзац як є, щоб не лишити на сторінці порожнє місце.
+    switch (marker?.kind) {
+      case 'table':
+        return <DataTable caption={marker.caption} head={marker.head} rows={marker.rows} />;
+      case 'callout':
+        return <Callout title={marker.title} text={marker.text} />;
+      case 'faq':
+        return <FaqItem question={marker.question} answer={marker.answer} />;
+      case 'product':
+        if (media) return <ProductCard slug={marker.slug} media={media} />;
+        break;
+      case 'rates':
+        if (media) return <RatesTable slug={marker.slug} filter={marker.filter} media={media} />;
+        break;
+    }
+  }
+
   if (block.type === 'heading') {
     return (
       <h2
@@ -140,11 +375,11 @@ function Block({ block }: { block: PostBlock }) {
   return <p className="mt-5 text-[17px] leading-[1.75] text-[rgba(14,15,12,0.75)]">{block.text}</p>;
 }
 
-export function PostBody({ blocks }: { blocks: PostBlock[] }) {
+export function PostBody({ blocks, media }: { blocks: PostBlock[]; media?: PostMedia }) {
   return (
     <div data-testid="post-body" className="max-w-[720px]">
       {blocks.map((b, i) => (
-        <Block key={`${b.type}-${i}`} block={b} />
+        <Block key={`${b.type}-${i}`} block={b} media={media} />
       ))}
     </div>
   );
