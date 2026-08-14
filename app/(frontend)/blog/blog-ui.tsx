@@ -313,18 +313,52 @@ function Callout({ title, text }: { title: string; text: string }) {
 }
 
 /**
- * Питання-відповідь. Розгорнуте за замовчуванням: у пошуковій видачі й у
- * відповідях AI-ботів важить сам текст, а прихований <details> частина
- * краулерів усе одно бачить — зате читач одразу має відповідь перед очима.
+ * Блок питань-відповідей.
+ *
+ * Пункти йдуть у тексті окремими маркерами `[[faq]]`, але показувати їх як
+ * розсип однакових абзаців не можна: читач не бачить, що це FAQ і що пункти
+ * згортаються. Тому послідовні маркери збираються в один блок із рамкою, а
+ * кожен пункт має шеврон, який повертається при відкритті.
+ *
+ * Розгорнуті за замовчуванням: у пошуковій видачі й у відповідях AI-ботів
+ * важить сам текст, а читач одразу має відповідь перед очима.
  */
-function FaqItem({ question, answer }: { question: string; answer: string }) {
+function FaqSection({ items }: { items: { question: string; answer: string }[] }) {
   return (
-    <details open className="mt-4 border-b border-[rgba(0,0,0,0.1)] pb-4">
-      <summary className="cursor-pointer list-none text-[17px] font-[600] text-[var(--color-dark)] marker:hidden">
-        {question}
-      </summary>
-      <p className="mt-2 text-[17px] leading-[1.75] text-[rgba(14,15,12,0.75)]">{answer}</p>
-    </details>
+    <div className="mt-8 overflow-hidden rounded-[20px] border border-[rgba(1,54,46,0.12)]">
+      <p className="eyebrow border-b border-[rgba(1,54,46,0.12)] bg-[var(--color-surface)] px-5 py-3 text-[rgba(14,15,12,0.55)]">
+        Питання та відповіді
+      </p>
+      {items.map((item) => (
+        <details
+          key={item.question}
+          open
+          className="group border-b border-[rgba(1,54,46,0.1)] last:border-b-0"
+        >
+          <summary className="flex cursor-pointer list-none items-start gap-3 px-5 py-4 text-[17px] font-[600] text-[var(--color-dark)] marker:hidden hover:bg-[var(--color-surface)]">
+            {/* Шеврон із двох ліній: повертається на 180°, коли пункт відкритий */}
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              className="mt-[6px] h-[14px] w-[14px] shrink-0 text-[var(--color-accent)] transition-transform duration-200 group-open:rotate-180"
+            >
+              <path
+                d="M6 9l6 6 6-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span>{item.question}</span>
+          </summary>
+          <p className="px-5 pb-4 pl-[42px] text-[17px] leading-[1.75] text-[rgba(14,15,12,0.75)]">
+            {item.answer}
+          </p>
+        </details>
+      ))}
+    </div>
   );
 }
 
@@ -340,7 +374,8 @@ function Block({ block, media }: { block: PostBlock; media?: PostMedia }) {
       case 'callout':
         return <Callout title={marker.title} text={marker.text} />;
       case 'faq':
-        return <FaqItem question={marker.question} answer={marker.answer} />;
+        // Поодинокий маркер; послідовні збирає PostBody у спільний блок.
+        return <FaqSection items={[{ question: marker.question, answer: marker.answer }]} />;
       case 'product':
         if (media) return <ProductCard slug={marker.slug} media={media} />;
         break;
@@ -376,11 +411,32 @@ function Block({ block, media }: { block: PostBlock; media?: PostMedia }) {
 }
 
 export function PostBody({ blocks, media }: { blocks: PostBlock[]; media?: PostMedia }) {
+  // Питання-відповіді стоять у тексті окремими маркерами, але читач має бачити
+  // один блок FAQ, а не розсип однакових абзаців. Тому послідовні [[faq]]
+  // склеюємо тут: рендер лишається пласким, групування — на рівні списку.
+  const rendered: React.ReactNode[] = [];
+  let faqRun: { question: string; answer: string }[] = [];
+
+  const flushFaq = () => {
+    if (!faqRun.length) return;
+    rendered.push(<FaqSection key={`faq-${rendered.length}`} items={faqRun} />);
+    faqRun = [];
+  };
+
+  blocks.forEach((b, i) => {
+    const marker = b.type === 'paragraph' ? parseMarker(b.text) : null;
+    if (marker?.kind === 'faq') {
+      faqRun.push({ question: marker.question, answer: marker.answer });
+      return;
+    }
+    flushFaq();
+    rendered.push(<Block key={`${b.type}-${i}`} block={b} media={media} />);
+  });
+  flushFaq();
+
   return (
     <div data-testid="post-body" className="max-w-[720px]">
-      {blocks.map((b, i) => (
-        <Block key={`${b.type}-${i}`} block={b} media={media} />
-      ))}
+      {rendered}
     </div>
   );
 }

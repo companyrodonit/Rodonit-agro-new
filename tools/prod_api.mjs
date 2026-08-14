@@ -44,20 +44,34 @@ const { token, user } = await login();
 console.log(`✓ залогінено: ${user.email} (id=${user.id})`);
 
 if (cmd === 'posts') {
-  const r = await fetch(`${BASE}/api/posts?limit=100&depth=0&sort=-date`, {
+  const r = await fetch(`${BASE}/api/posts?limit=100&depth=1&sort=-date`, {
     headers: { Authorization: `JWT ${token}` },
   });
   const data = await r.json();
-  console.log(`\nстатей у прод-CMS: ${data.totalDocs}`);
+  console.log(`\nстатей у прод-CMS: ${data.totalDocs} (у порядку, який віддає sort=-date)\n`);
+  console.log('id  дата         рубрика  обкладинка  блоків маркерів  excerpt  slug');
   for (const p of data.docs) {
-    const blocks = p.blocks?.length ?? 0;
-    const pipes = (p.blocks ?? []).filter((b) => /^\s*\|.*\|\s*$/.test(b.text ?? '')).length;
+    const date = p.date ? String(p.date).slice(0, 10) : 'НЕМАЄ    ';
+    const cover = p.cover?.filename
+      ? (p.cover.filename.includes('covers') || p.cover.alt?.includes('плашка') ? 'плашка' : 'фото')
+      : 'НЕМАЄ';
     const markers = (p.blocks ?? []).filter((b) => (b.text ?? '').startsWith('[[')).length;
+    const kinds = new Set((p.blocks ?? []).map((b) => {
+      const m = /^\[\[([a-z]+)/.exec(b.text ?? '');
+      return m ? m[1] : null;
+    }).filter(Boolean));
     console.log(
-      `  ${String(p.id).padStart(3)}  ${p.published ? '✓' : ' '}  `
-      + `блоків=${String(blocks).padStart(3)}  труб=${String(pipes).padStart(2)}  `
-      + `маркерів=${String(markers).padStart(2)}  ${p.slug}`,
+      `${String(p.id).padStart(2)}  ${date}  `
+      + `${(p.category?.slug ?? '?').padEnd(7)}  ${cover.padEnd(10)}  `
+      + `${String(p.blocks?.length ?? 0).padStart(6)} ${String(markers).padStart(8)}  `
+      + `${String(p.excerpt?.length ?? 0).padStart(7)}  ${p.slug.slice(0, 40)}`
+      + (kinds.size ? `\n      блоки: ${[...kinds].join(', ')}` : ''),
     );
+  }
+  console.log('\nобкладинки детально:');
+  for (const p of data.docs) {
+    console.log(`  ${String(p.id).padStart(2)}  ${p.cover?.filename ?? '— НЕМАЄ —'}`
+      + `${p.cover?.width ? `  ${p.cover.width}x${p.cover.height}` : ''}`);
   }
 }
 
@@ -107,12 +121,23 @@ if (cmd === 'publish') {
   console.log(`  у прод-CMS: ${current ? `є, id=${current.id}` : 'НЕМАЄ — буде створена'}`);
   if (current) console.log(`  блоків: ${current.blocks?.length ?? 0} → ${post.blocks.length}`);
 
-  // Обкладинка. У наявної статті її не чіпаємо взагалі: у CMS вона вже
-  // прикріплена, а імʼя файлу в Blob не збігається з нашим — пошук її не
-  // знайде і ми заллємо дубль тієї самої картинки.
+  // Обкладинка. У наявної статті її не чіпаємо: у CMS вона вже прикріплена, а
+  // імʼя файлу в Blob не збігається з нашим — пошук її не знайде і ми заллємо
+  // дубль тієї самої картинки. Замінити свідомо — прапорець --cover.
+  const forceCover = process.argv.includes('--cover');
   let coverId;
-  if (post.cover && current?.cover) {
-    console.log('  обкладинка вже прикріплена в CMS — не чіпаємо');
+  if (post.cover && current?.cover && !forceCover) {
+    console.log('  обкладинка вже прикріплена в CMS — не чіпаємо (--cover щоб замінити)');
+  } else if (post.cover && forceCover && apply) {
+    const { readFile } = await import('node:fs/promises');
+    const filename = post.cover.split('/').pop();
+    const buf = await readFile(new URL(`../public${post.cover}`, import.meta.url));
+    const form = new FormData();
+    form.append('file', new Blob([buf], { type: 'image/jpeg' }), filename);
+    form.append('_payload', JSON.stringify({ alt: post.title }));
+    const up = await api('media', { method: 'POST', headers: auth, body: form });
+    coverId = up.doc.id;
+    console.log(`  обкладинка ЗАМІНЕНА: id=${coverId}, ${up.doc.width}x${up.doc.height}`);
   } else if (post.cover) {
     const filename = post.cover.split('/').pop();
     const media = await api(`media?where[filename][equals]=${filename}&limit=1`, { headers: auth });

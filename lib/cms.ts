@@ -423,11 +423,17 @@ export const getPosts = cache(async (): Promise<Post[]> => {
   if (!payload) return postsStatic;
   try {
     const r = await payload.find({
-      collection: 'posts', sort: '-date', limit: 500, depth: 1,
+      // Сортуємо вже отримане, а не в запиті: у перенесених статтях `date`
+      // порожній, а Postgres у сортуванні за спаданням ставить NULL ПЕРШИМИ —
+      // через це свіжа стаття з датою опинялась у самому кінці блогу.
+      collection: 'posts', sort: '-createdAt', limit: 500, depth: 1,
       where: { published: { equals: true } },
     });
     if (!r.docs.length) return postsStatic;
-    return r.docs.map((p) => {
+    // Дата публікації, а якщо її не проставили — коли документ завели в CMS.
+    const when = (p: { date?: unknown; createdAt?: unknown }) =>
+      new Date((p.date as string) || (p.createdAt as string) || 0).getTime();
+    return [...r.docs].sort((a, b) => when(b) - when(a)).map((p) => {
       const blocks: PostBlock[] = ((p.blocks as {
         kind: 'paragraph' | 'heading' | 'list'; text?: string; items?: unknown;
       }[]) ?? []).map((b) =>

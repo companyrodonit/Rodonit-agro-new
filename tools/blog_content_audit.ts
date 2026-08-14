@@ -18,6 +18,13 @@ for (const post of posts) {
   const found: string[] = [];
   let pipes = 0;
 
+  // Анонс їде в шапку статті цілим абзацом, тому обрізаний хвіст видно одразу.
+  // У перенесених статтях сюди потрапив перший абзац, обрубаний краулом.
+  if (/[…]$|\.\.\.$/.test(post.excerpt.trim())) {
+    found.push(`анонс обрізаний: «…${post.excerpt.trim().slice(-52)}»`);
+  }
+  if (!post.cover) found.push('немає обкладинки');
+
   post.blocks.forEach((block, i) => {
     if (block.type === 'list') {
       if (!block.items.length) found.push(`#${i} порожній список`);
