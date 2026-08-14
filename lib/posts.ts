@@ -27,6 +27,11 @@ export type Post = {
   categorySlug: string;
   readMinutes: number;
   cover?: string;
+  /**
+   * Підпис до обкладинки. Заголовок статті як alt не годиться: він уже стоїть
+   * поруч у <h1>, і для скрінрідера це просто повтор. Тут — що саме на фото.
+   */
+  coverAlt?: string;
   /** Дати публікації від замовника ще немає — див. коментар угорі файлу. */
   date?: string;
   /**
@@ -77,6 +82,7 @@ export const posts: Post[] = [
     categorySlug: 'statti',
     readMinutes: 8,
     cover: '/blog/tserkosporoz-tsukrovoho-buriaku-ostanni-obrobky.jpg',
+    coverAlt: 'Порівняння: листок цукрового буряку, уражений церкоспорозом, і здорове листя',
     date: '2026-08-14',
     seoTitle: 'Фунгіцидні обробки цукрового буряку: церкоспороз і цукристість',
     metaDescription:
@@ -384,6 +390,7 @@ export const posts: Post[] = [
     categorySlug: 'statti',
     readMinutes: 2,
     cover: '/blog/ceredyna-travnia-na-zernovykh-na-shcho-dyvyty-126.jpg',
+    coverAlt: 'Поле озимої пшениці у фазі виходу в трубку, краплі роси на листі',
     tags: [
       { slug: 'nordoks', label: 'Нордокс 75 WG', kind: 'product' },
       { slug: 'verno-sav', label: 'Верно СаВ', kind: 'product' },
@@ -476,6 +483,7 @@ export const posts: Post[] = [
     categorySlug: 'statti',
     readMinutes: 3,
     cover: '/blog/mid-u-zakhysti-zernovykh-kultur-chomu-nordoks-113.jpg',
+    coverAlt: 'Самохідний обприскувач із розкритими штангами обробляє поле зернових',
     tags: [
       { slug: 'nordoks', label: 'Нордокс 75 WG', kind: 'product' },
       { slug: 'zernovi-kultury', label: 'Зернові', kind: 'culture' },
@@ -604,7 +612,9 @@ export const posts: Post[] = [
     category: 'Стаття',
     categorySlug: 'statti',
     readMinutes: 4,
-    cover: '/blog/covers/midna-bronia-ozymykh-nordox-75-wg-iak-strateh-114.jpg',
+    // Була текстова плашка: для статті потрібне фото, плашки лишаються новинам.
+    cover: '/blog/midna-bronia-ozymykh-nordox-75-wg-iak-strateh-114.jpg',
+    coverAlt: 'Сходи озимої пшениці у фазі кущіння з інеєм на листі',
     tags: [
       { slug: 'nordoks', label: 'Нордокс 75 WG', kind: 'product' },
       { slug: 'zernovi-kultury', label: 'Зернові', kind: 'culture' },
@@ -771,7 +781,9 @@ export const posts: Post[] = [
     category: 'Стаття',
     categorySlug: 'statti',
     readMinutes: 2,
-    cover: '/blog/covers/mid-u-tekhnolohiiakh-vyroshchuvannia-tsukrovy-123.jpg',
+    // Була текстова плашка: для статті потрібне фото, плашки лишаються новинам.
+    cover: '/blog/mid-u-tekhnolohiiakh-vyroshchuvannia-tsukrovy-123.jpg',
+    coverAlt: 'Рядки цукрового буряку з розвиненою листковою розеткою',
     tags: [
       { slug: 'nordoks', label: 'Нордокс 75 WG', kind: 'product' },
       { slug: 'buriak-tsukrovyi', label: 'Цукровий буряк', kind: 'culture' },
@@ -977,6 +989,7 @@ export const posts: Post[] = [
     categorySlug: 'statti',
     readMinutes: 6,
     cover: '/blog/vershynna-hnyl-tomativ-verno-cab.jpg',
+    coverAlt: 'Стиглі томати на гілці в теплиці',
     tags: [
       { slug: 'nordoks', label: 'Нордокс 75 WG', kind: 'product' },
       { slug: 'verno-sav', label: 'Верно СаВ', kind: 'product' },

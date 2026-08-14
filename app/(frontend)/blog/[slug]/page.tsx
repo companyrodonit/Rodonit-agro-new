@@ -174,7 +174,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             <Reveal>
               <Image
                 src={post.cover}
-                alt={post.title}
+                // Заголовок статті стоїть просто над картинкою, тому дублювати
+                // його в alt — це для скрінрідера те саме, що порожній alt.
+                alt={post.coverAlt ?? post.title}
                 width={1200}
                 height={630}
                 priority

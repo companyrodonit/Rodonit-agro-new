@@ -452,6 +452,14 @@ export const getPosts = cache(async (): Promise<Post[]> => {
         categorySlug: relSlug(cat),
         readMinutes: (p.readMinutes as number) || Math.max(1, Math.round(words / 180)),
         cover: mediaUrl(p.cover as MediaDoc, '') || undefined,
+        // Підпис до обкладинки, який редактор ввів при завантаженні файлу.
+        // Без нього alt дублював би заголовок статті, а це для скрінрідера
+        // і для Google Images те саме, що порожній alt.
+        coverAlt: (() => {
+          const c = p.cover as MediaDoc;
+          const alt = typeof c === 'object' && c ? (c.alt as string | undefined) : undefined;
+          return alt?.trim() || undefined;
+        })(),
         date: (p.date as string | undefined)?.slice(0, 10) || undefined,
         author: (p.author as string | undefined) || undefined,
         seoTitle: (p.seoTitle as string | undefined) || undefined,
