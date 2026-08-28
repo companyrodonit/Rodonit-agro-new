@@ -121,8 +121,8 @@ export const posts: Post[] = [
       {
         type: 'paragraph',
         text:
-          '[[image:/blog/tur-nordox-sklad-verno.jpg:4x3]] Склад готової продукції NORDOX: ' +
-          'учасники туру біля партії Верно Cu30 + Zn30 перед відвантаженням.',
+          '[[image:/blog/tur-nordox-sklad-verno.jpg:4x3]] Учасники туру на складі готової ' +
+          'продукції NORDOX, біля палети з мікродобривом Верно FG Cu30 + Zn30.',
       },
       { type: 'heading', text: 'Не лише завод' },
       {
