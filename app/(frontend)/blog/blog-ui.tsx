@@ -394,6 +394,35 @@ function renderInline(text: string): React.ReactNode {
   return parts;
 }
 
+/**
+ * Фото в тілі статті. Пропорція приходить із маркера, бо кадри різні, а місце
+ * під картинку має бути зарезервоване до завантаження — інакше текст стрибає.
+ * Підпис необовʼязковий; коли він є, він же працює як alt: описує кадр, а не
+ * дублює заголовок статті (той і так стоїть поруч).
+ */
+function PostImage({ src, ratio, caption }: { src: string; ratio: string; caption?: string }) {
+  return (
+    <figure className="mt-10">
+      <div className="overflow-hidden rounded-[24px]" style={{ aspectRatio: ratio }}>
+        <Image
+          src={src}
+          alt={caption ?? ''}
+          width={1600}
+          height={1200}
+          quality={90}
+          sizes="(max-width: 900px) 100vw, 800px"
+          className="h-full w-full object-cover"
+        />
+      </div>
+      {caption && (
+        <figcaption className="mt-3 text-[15px] leading-[1.6] text-[rgba(14,15,12,0.55)]">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
 function Block({ block, media }: { block: PostBlock; media?: PostMedia }) {
   if (block.type === 'paragraph') {
     const marker = parseMarker(block.text);
@@ -405,6 +434,8 @@ function Block({ block, media }: { block: PostBlock; media?: PostMedia }) {
         return <DataTable caption={marker.caption} head={marker.head} rows={marker.rows} />;
       case 'callout':
         return <Callout title={marker.title} text={marker.text} />;
+      case 'image':
+        return <PostImage src={marker.src} ratio={marker.ratio} caption={marker.caption} />;
       case 'faq':
         // Поодинокий маркер; послідовні збирає PostBody у спільний блок.
         return <FaqSection items={[{ question: marker.question, answer: marker.answer }]} />;

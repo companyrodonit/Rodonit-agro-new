@@ -118,6 +118,12 @@ export const posts: Post[] = [
           'Учасники пройшли виробництвом і побачили на власні очі, як зʼявляється та сама мідь, ' +
           'що потім працює в українських полях і садах.',
       },
+      {
+        type: 'paragraph',
+        text:
+          '[[image:/blog/tur-nordox-sklad-verno.jpg:4x3]] Склад готової продукції NORDOX: ' +
+          'учасники туру біля партії Верно Cu30 + Zn30 перед відвантаженням.',
+      },
       { type: 'heading', text: 'Не лише завод' },
       {
         type: 'paragraph',
@@ -1595,6 +1601,7 @@ export type PostMarker =
   | { kind: 'rates'; slug: string; filter?: string }
   | { kind: 'callout'; title: string; text: string }
   | { kind: 'faq'; question: string; answer: string }
+  | { kind: 'image'; src: string; ratio: string; caption?: string }
   | { kind: 'table'; caption?: string; head: string[]; rows: string[][] };
 
 const MARKER_RE = /^\[\[([a-z]+)(?::([^\]]+))?\]\]\s*([\s\S]*)$/;
@@ -1622,6 +1629,21 @@ export function parseMarker(text: string): PostMarker | null {
     }
     case 'callout':
       return rest.trim() ? { kind, title: arg?.trim() || 'Важливо', text: rest.trim() } : null;
+    case 'image': {
+      if (!arg) return null;
+      // Другий сегмент — пропорція кадру («4x3»). Потрібен, бо кожне фото своє,
+      // а верстка мусить знати висоту до завантаження, інакше сторінка стрибає.
+      // Дефолт 3x2 — під нього зроблені решта кадрів на сайті.
+      const m = /^(.*?)(?::(\d+)x(\d+))?$/.exec(arg.trim());
+      const src = m?.[1]?.trim();
+      if (!src) return null;
+      return {
+        kind,
+        src,
+        ratio: m?.[2] ? `${m[2]}/${m[3]}` : '3/2',
+        ...(rest.trim() && { caption: rest.trim() }),
+      };
+    }
     case 'faq': {
       const [question, ...answer] = rest.split('|');
       const a = answer.join('|').trim();
