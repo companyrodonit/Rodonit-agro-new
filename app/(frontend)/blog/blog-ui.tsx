@@ -362,6 +362,38 @@ function FaqSection({ items }: { items: { question: string; answer: string }[] }
   );
 }
 
+/**
+ * Інлайн-посилання в тексті блоку: markdown-синтаксис `[назва](https://…)`.
+ * Потрібен для згадок партнерів у новинах — схема Payload лишається текстовою,
+ * і Олег може вставляти посилання сам в адмінці. Зовнішні лінки відкриваються
+ * в новій вкладці. У JSON-LD і meta йде сирий текст — туди блоки не потрапляють.
+ */
+const INLINE_LINK = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+
+function renderInline(text: string): React.ReactNode {
+  if (!text.includes('](')) return text;
+  const parts: React.ReactNode[] = [];
+  let last = 0;
+  for (const m of text.matchAll(INLINE_LINK)) {
+    const at = m.index ?? 0;
+    if (at > last) parts.push(text.slice(last, at));
+    parts.push(
+      <a
+        key={at}
+        href={m[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-medium text-[var(--color-dark)] underline decoration-[var(--color-accent)] decoration-2 underline-offset-[3px] transition-opacity hover:opacity-70"
+      >
+        {m[1]}
+      </a>,
+    );
+    last = at + m[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts;
+}
+
 function Block({ block, media }: { block: PostBlock; media?: PostMedia }) {
   if (block.type === 'paragraph') {
     const marker = parseMarker(block.text);
@@ -401,13 +433,17 @@ function Block({ block, media }: { block: PostBlock; media?: PostMedia }) {
         {block.items.map((item) => (
           <li key={item} className="flex gap-3 text-[17px] leading-[1.7] text-[rgba(14,15,12,0.75)]">
             <span className="mt-[10px] h-[6px] w-[6px] shrink-0 rounded-full bg-[var(--color-accent)]" />
-            <span>{item}</span>
+            <span>{renderInline(item)}</span>
           </li>
         ))}
       </ul>
     );
   }
-  return <p className="mt-5 text-[17px] leading-[1.75] text-[rgba(14,15,12,0.75)]">{block.text}</p>;
+  return (
+    <p className="mt-5 text-[17px] leading-[1.75] text-[rgba(14,15,12,0.75)]">
+      {renderInline(block.text)}
+    </p>
+  );
 }
 
 export function PostBody({ blocks, media }: { blocks: PostBlock[]; media?: PostMedia }) {

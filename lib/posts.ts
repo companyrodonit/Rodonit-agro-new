@@ -104,8 +104,12 @@ export const posts: Post[] = [
       {
         type: 'paragraph',
         text:
-          'Щиро дякуємо нашим партнерам — компаніям Biochem Agro, Баланс Агро, Агро Мрія та ' +
-          'НК Рекорд Агро — за участь у турі на виробництво NORDOX в Осло, де виготовляють ' +
+          'Щиро дякуємо нашим партнерам — компаніям ' +
+          '[Biochem Agro](https://www.facebook.com/biochem.agro.ua), ' +
+          '[Баланс Агро](https://www.facebook.com/balance.agro), ' +
+          '[Агро Мрія](https://www.facebook.com/profile.php?id=100091312882092) та ' +
+          '[НК Рекорд Агро](https://www.facebook.com/NKrecordagro) — за участь у турі на ' +
+          'виробництво [NORDOX](https://www.facebook.com/NORDOXcopper) в Осло, де виготовляють ' +
           'червоний оксид міді для захисту культур по всьому світу.',
       },
       {
