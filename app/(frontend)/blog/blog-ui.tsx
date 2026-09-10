@@ -3,6 +3,7 @@ import type { Product } from '@/lib/content';
 import type { Post, PostBlock } from '@/lib/posts';
 import { headingSlug, parseMarker } from '@/lib/posts';
 import type { ProductDetail } from '@/lib/products-detail';
+import { keepUnits } from '@/lib/typography';
 import { ArrowRight, Reveal } from '../interactive';
 
 /**
@@ -218,7 +219,7 @@ function RatesTable({
                   {r.culture}
                 </td>
                 <td className="px-4 py-3 align-top tabular-nums text-[rgba(14,15,12,0.75)]">
-                  {r.rate}
+                  {keepUnits(r.rate)}
                 </td>
               </tr>
             ))}
@@ -290,7 +291,7 @@ function DataTable({
                         : 'tabular-nums text-[rgba(14,15,12,0.75)]'
                     }`}
                   >
-                    {row[j] ?? ''}
+                    {keepUnits(row[j] ?? '')}
                   </td>
                 ))}
               </tr>
@@ -371,12 +372,12 @@ function FaqSection({ items }: { items: { question: string; answer: string }[] }
 const INLINE_LINK = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
 
 function renderInline(text: string): React.ReactNode {
-  if (!text.includes('](')) return text;
+  if (!text.includes('](')) return keepUnits(text);
   const parts: React.ReactNode[] = [];
   let last = 0;
   for (const m of text.matchAll(INLINE_LINK)) {
     const at = m.index ?? 0;
-    if (at > last) parts.push(text.slice(last, at));
+    if (at > last) parts.push(keepUnits(text.slice(last, at)));
     parts.push(
       <a
         key={at}
@@ -385,12 +386,12 @@ function renderInline(text: string): React.ReactNode {
         rel="noopener noreferrer"
         className="font-medium text-[var(--color-dark)] underline decoration-[var(--color-accent)] decoration-2 underline-offset-[3px] transition-opacity hover:opacity-70"
       >
-        {m[1]}
+        {keepUnits(m[1])}
       </a>,
     );
     last = at + m[0].length;
   }
-  if (last < text.length) parts.push(text.slice(last));
+  if (last < text.length) parts.push(keepUnits(text.slice(last)));
   return parts;
 }
 
