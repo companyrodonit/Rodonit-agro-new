@@ -158,8 +158,8 @@ export const posts: Post[] = [
       {
         type: 'paragraph',
         text:
-          '[[image:/blog/osinnia-obrobka-sadu-nordox-shchyt.jpg:16x9]] Мідний барʼєр на корі й ' +
-          'кроні — ілюстрація з інформаційної листівки NORDOX 75 WG.',
+          '[[image:/blog/nordox-75-wg-zakhyst-sadu-lystivka.jpg:210x297]] NORDOX 75 WG для саду ' +
+          'й городу: захист від парші, плямистостей, гнилей та бактеріозів.',
       },
       {
         type: 'paragraph',
