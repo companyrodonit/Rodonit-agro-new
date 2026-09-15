@@ -321,8 +321,9 @@ function Callout({ title, text }: { title: string; text: string }) {
  * згортаються. Тому послідовні маркери збираються в один блок із рамкою, а
  * кожен пункт має шеврон, який повертається при відкритті.
  *
- * Розгорнуті за замовчуванням: у пошуковій видачі й у відповідях AI-ботів
- * важить сам текст, а читач одразу має відповідь перед очима.
+ * Згорнуті за замовчуванням (рішення Бро 15.09): читач бачить список питань
+ * і відкриває потрібне. На SEO це не впливає — текст відповідей однаково є в
+ * HTML, а FAQPage іде окремо в JSON-LD.
  */
 function FaqSection({ items }: { items: { question: string; answer: string }[] }) {
   return (
@@ -333,7 +334,6 @@ function FaqSection({ items }: { items: { question: string; answer: string }[] }
       {items.map((item) => (
         <details
           key={item.question}
-          open
           className="group border-b border-[rgba(1,54,46,0.1)] last:border-b-0"
         >
           <summary className="flex cursor-pointer list-none items-start gap-3 px-5 py-4 text-[17px] font-[600] text-[var(--color-dark)] marker:hidden hover:bg-[var(--color-surface)]">
