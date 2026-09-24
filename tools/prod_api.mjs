@@ -110,6 +110,44 @@ if (cmd === 'alts') {
   if (!apply) console.log('\nСухий прогін. Щоб записати — додайте --apply');
 }
 
+/**
+ * Заливка одного файлу з public/ у медіа CMS (Blob) — для [[image]] у статті,
+ * коли код із цим файлом ще не задеплоєний. Файл із таким іменем уже є — не
+ * дублюємо. Друкує шлях /api/media/file/…, який і ставиться в маркер.
+ *   upload /blog/файл.jpg "alt" [--apply]
+ */
+if (cmd === 'upload') {
+  const rel = process.argv[3];
+  const alt = process.argv[4];
+  const apply = process.argv.includes('--apply');
+  if (!rel || !alt || alt.startsWith('--')) {
+    console.error('upload /blog/файл.jpg "alt" [--apply]');
+    process.exit(1);
+  }
+  const auth = { Authorization: `JWT ${token}` };
+  const filename = rel.split('/').pop();
+  const found = await (await fetch(
+    `${BASE}/api/media?where[filename][equals]=${encodeURIComponent(filename)}&limit=1`,
+    { headers: auth },
+  )).json();
+  if (found.docs?.length) {
+    const d = found.docs[0];
+    console.log(`вже є: id=${d.id} ${d.width}x${d.height}\n${d.url}`);
+  } else if (!apply) {
+    console.log(`буде залито: ${filename}\nСухий прогін. Щоб записати — додайте --apply`);
+  } else {
+    const { readFile } = await import('node:fs/promises');
+    const buf = await readFile(new URL(`../public${rel}`, import.meta.url));
+    const form = new FormData();
+    form.append('file', new Blob([buf], { type: 'image/jpeg' }), filename);
+    form.append('_payload', JSON.stringify({ alt }));
+    const r = await fetch(`${BASE}/api/media`, { method: 'POST', headers: auth, body: form });
+    if (!r.ok) throw new Error(`HTTP ${r.status}: ${(await r.text()).slice(0, 300)}`);
+    const { doc } = await r.json();
+    console.log(`залито: id=${doc.id} ${doc.width}x${doc.height}\n${doc.url}`);
+  }
+}
+
 if (cmd === 'leads') {
   // Чи існує колекція заявок на проді — та сама діра, що була в базі розробки
   const r = await fetch(`${BASE}/api/leads?limit=1`, {
