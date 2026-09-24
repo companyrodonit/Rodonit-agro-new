@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import type { Product } from '@/lib/content';
 import type { Post, PostBlock } from '@/lib/posts';
-import { headingSlug, parseMarker, postCardImage } from '@/lib/posts';
+import { headingSlug, parseMarker, postCardImage, type CardImage } from '@/lib/posts';
 import type { ProductDetail } from '@/lib/products-detail';
 import { keepUnits } from '@/lib/typography';
 import { ArrowRight, Reveal } from '../interactive';
@@ -74,6 +74,49 @@ export function BlogHero({
 
 /* ------------------------------------------------------------- картка поста */
 
+// Без sizes next/image тягнув на картку кадр у 1200px — це зайва вага
+// на кожну картку сітки. Три колонки на десктопі, дві на планшеті.
+const CARD_SIZES = '(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw';
+
+/**
+ * Фото картки: висота 260px, знизу на нього на 56px (-mt-14) наїжджає біла
+ * плашка з текстом. Звичайна обкладинка заповнює кадр (cover). Окрема
+ * картинка [[card:…]] — банер із текстом по краях — вписується цілою у видиму
+ * частину над плашкою (contain): на десктопі на всю висоту, на телефоні на
+ * всю ширину. Смужки, що лишаються, — кольору краю банера.
+ */
+export function PostCardImage({ image, priority = false }: { image: CardImage; priority?: boolean }) {
+  if (image.fit === 'cover') {
+    return (
+      <Image
+        src={image.src}
+        alt=""
+        width={560}
+        height={360}
+        priority={priority}
+        sizes={CARD_SIZES}
+        quality={90}
+        className="h-[260px] w-full object-cover"
+      />
+    );
+  }
+  return (
+    <div className="relative h-[260px] w-full shrink-0 bg-[#0b1013]">
+      <div className="absolute inset-x-0 top-0 bottom-14">
+        <Image
+          src={image.src}
+          alt=""
+          fill
+          priority={priority}
+          sizes={CARD_SIZES}
+          quality={90}
+          className="object-contain"
+        />
+      </div>
+    </div>
+  );
+}
+
 export function PostCard({ post, priority = false }: { post: Post; priority?: boolean }) {
   const image = postCardImage(post);
   return (
@@ -82,20 +125,7 @@ export function PostCard({ post, priority = false }: { post: Post; priority?: bo
       data-testid={`post-card-${post.slug}`}
       className="group flex h-full flex-col overflow-hidden rounded-[24px] bg-[var(--color-dark)]"
     >
-      {image && (
-        <Image
-          src={image}
-          alt=""
-          width={560}
-          height={360}
-          priority={priority}
-          // Без sizes next/image тягнув на картку кадр у 1200px — це зайва вага
-          // на кожну картку сітки. Три колонки на десктопі, дві на планшеті.
-          sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
-          quality={90}
-          className="h-[260px] w-full object-cover"
-        />
-      )}
+      {image && <PostCardImage image={image} priority={priority} />}
       {/* Біла картка внапуск на фото — той самий прийом, що в новинах на головній. */}
       <div className="relative -mt-14 mx-3 mb-3 flex flex-1 flex-col rounded-[20px] bg-[var(--color-bg)] p-6">
         <div className="flex items-start justify-between gap-3">

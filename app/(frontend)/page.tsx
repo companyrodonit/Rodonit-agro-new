@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
+import { PostCardImage } from './blog/blog-ui';
 import {
   getAbout,
   getCategories,
@@ -382,13 +382,7 @@ export default async function Page() {
                   href={`/blog/${n.slug}`}
                   className="group flex h-full flex-col overflow-hidden rounded-[24px] bg-[var(--color-dark)]"
                 >
-                  <Image
-                    src={n.cover}
-                    alt=""
-                    width={560}
-                    height={360}
-                    className="h-[260px] w-full object-cover"
-                  />
+                  <PostCardImage image={{ src: n.cover, fit: n.fit ?? 'cover' }} />
                   {/* Біла картка внапуск на фото — прийом із референсу */}
                   <div className="relative -mt-14 mx-3 mb-3 flex flex-1 flex-col rounded-[20px] bg-[var(--color-bg)] p-6">
                     <div className="flex items-start justify-between gap-3">

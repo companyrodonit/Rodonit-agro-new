@@ -2293,15 +2293,18 @@ export function parseMarker(text: string): PostMarker | null {
  * Картинка для картки статті в сітках. Обкладинка показується цілою лише на
  * сторінці статті (кадр 1.905), а картка має фіксовану висоту 260px і ріже
  * боки (1.15–1.51 залежно від ширини). Банер з текстом по краях там губить
- * текст — тому статті можна дати окрему картинку маркером [[card:…]].
+ * текст — тому статті можна дати окрему картинку маркером [[card:…]]: вона
+ * вписується в картку цілою (fit 'contain'), обкладинка — як і раніше, 'cover'.
  */
-export const postCardImage = (post: Post): string | undefined => {
+export type CardImage = { src: string; fit: 'cover' | 'contain' };
+
+export const postCardImage = (post: Post): CardImage | undefined => {
   for (const b of post.blocks) {
     if (b.type !== 'paragraph') continue;
     const marker = parseMarker(b.text);
-    if (marker?.kind === 'card') return marker.src;
+    if (marker?.kind === 'card') return { src: marker.src, fit: 'contain' };
   }
-  return post.cover;
+  return post.cover ? { src: post.cover, fit: 'cover' } : undefined;
 };
 
 /**

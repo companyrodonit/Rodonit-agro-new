@@ -533,7 +533,7 @@ export const getRelatedPosts = async (slug: string, limit = 3): Promise<Post[]> 
 
 /** Три останні матеріали для секції «Новини» на головній. */
 export const getNews = cache(
-  async (): Promise<((typeof newsStatic)[number] & { cover: string })[]> => {
+  async (): Promise<((typeof newsStatic)[number] & { cover: string; fit?: 'cover' | 'contain' })[]> => {
     const posts = await getPosts();
     if (posts === postsStatic) {
       return newsStatic.map((n) => ({ ...n, cover: `/blog/${n.slug}.jpg` }));
@@ -544,7 +544,8 @@ export const getNews = cache(
       excerpt: p.excerpt,
       tag: p.tags[0]?.label ?? p.category,
       read: `${p.readMinutes} хв`,
-      cover: postCardImage(p) ?? `/blog/${p.slug}.jpg`,
+      cover: postCardImage(p)?.src ?? `/blog/${p.slug}.jpg`,
+      fit: postCardImage(p)?.fit,
     }));
   },
 );
