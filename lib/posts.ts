@@ -171,6 +171,7 @@ export const posts: Post[] = [
         ],
       },
       { type: 'paragraph', text: 'Підібрати схему під ваш сад — вік дерев, сорти, історію хвороб — допоможуть агрономи. Потрібна консультація? [Звертайтеся до фахівців ТОВ «Родоніт Агро»](https://rodonit.com.ua/contacts).' },
+      { type: 'paragraph', text: '[[card:/blog/ostannia-obrobka-sadu-pered-zymoiu-card.jpg]]' },
     ],
   },
   {
@@ -2206,6 +2207,8 @@ export const postHeadings = (post: Post) =>
  *   [[table]] Шапка | Шапка          — довільна таблиця, перший рядок — шапка,
  *   Комірка | Комірка                  далі по рядку на новий рядок тексту
  *   [[table:Підпис]] …               — те саме з підписом над таблицею
+ *   [[card:/шлях.jpg]]               — окрема картинка для картки статті в сітках
+ *                                      (блог, культури, головна); у тексті не видно
  */
 
 export type PostMarker =
@@ -2214,6 +2217,7 @@ export type PostMarker =
   | { kind: 'callout'; title: string; text: string }
   | { kind: 'faq'; question: string; answer: string }
   | { kind: 'image'; src: string; ratio: string; caption?: string }
+  | { kind: 'card'; src: string }
   | { kind: 'table'; caption?: string; head: string[]; rows: string[][] };
 
 const MARKER_RE = /^\[\[([a-z]+)(?::([^\]]+))?\]\]\s*([\s\S]*)$/;
@@ -2230,6 +2234,8 @@ export function parseMarker(text: string): PostMarker | null {
   switch (kind) {
     case 'product':
       return arg ? { kind, slug: arg.trim() } : null;
+    case 'card':
+      return arg?.trim() ? { kind, src: arg.trim() } : null;
     case 'rates': {
       if (!arg) return null;
       // Другий сегмент — фільтр по культурі: у статті про буряк не потрібні
@@ -2282,6 +2288,21 @@ export function parseMarker(text: string): PostMarker | null {
       return null;
   }
 }
+
+/**
+ * Картинка для картки статті в сітках. Обкладинка показується цілою лише на
+ * сторінці статті (кадр 1.905), а картка має фіксовану висоту 260px і ріже
+ * боки (1.15–1.51 залежно від ширини). Банер з текстом по краях там губить
+ * текст — тому статті можна дати окрему картинку маркером [[card:…]].
+ */
+export const postCardImage = (post: Post): string | undefined => {
+  for (const b of post.blocks) {
+    if (b.type !== 'paragraph') continue;
+    const marker = parseMarker(b.text);
+    if (marker?.kind === 'card') return marker.src;
+  }
+  return post.cover;
+};
 
 /**
  * Питання-відповіді статті — для FAQPage schema.

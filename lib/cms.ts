@@ -26,7 +26,7 @@ import { productDetails as productDetailsStatic, type ProductDetail } from '@/li
 import { culturePages as culturePagesStatic, type Culture, type CultureProduct } from '@/lib/cultures';
 import { solutions as solutionsStatic, type Solution } from '@/lib/solutions';
 import {
-  posts as postsStatic, blogCategories as blogCategoriesStatic,
+  posts as postsStatic, blogCategories as blogCategoriesStatic, postCardImage,
   type Post, type PostBlock, type PostTag,
 } from '@/lib/posts';
 
@@ -544,7 +544,7 @@ export const getNews = cache(
       excerpt: p.excerpt,
       tag: p.tags[0]?.label ?? p.category,
       read: `${p.readMinutes} хв`,
-      cover: p.cover ?? `/blog/${p.slug}.jpg`,
+      cover: postCardImage(p) ?? `/blog/${p.slug}.jpg`,
     }));
   },
 );

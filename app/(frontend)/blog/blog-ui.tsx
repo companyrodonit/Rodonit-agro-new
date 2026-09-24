@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import type { Product } from '@/lib/content';
 import type { Post, PostBlock } from '@/lib/posts';
-import { headingSlug, parseMarker } from '@/lib/posts';
+import { headingSlug, parseMarker, postCardImage } from '@/lib/posts';
 import type { ProductDetail } from '@/lib/products-detail';
 import { keepUnits } from '@/lib/typography';
 import { ArrowRight, Reveal } from '../interactive';
@@ -75,15 +75,16 @@ export function BlogHero({
 /* ------------------------------------------------------------- картка поста */
 
 export function PostCard({ post, priority = false }: { post: Post; priority?: boolean }) {
+  const image = postCardImage(post);
   return (
     <a
       href={`/blog/${post.slug}`}
       data-testid={`post-card-${post.slug}`}
       className="group flex h-full flex-col overflow-hidden rounded-[24px] bg-[var(--color-dark)]"
     >
-      {post.cover && (
+      {image && (
         <Image
-          src={post.cover}
+          src={image}
           alt=""
           width={560}
           height={360}
@@ -437,6 +438,9 @@ function Block({ block, media }: { block: PostBlock; media?: PostMedia }) {
         return <Callout title={marker.title} text={marker.text} />;
       case 'image':
         return <PostImage src={marker.src} ratio={marker.ratio} caption={marker.caption} />;
+      case 'card':
+        // Картинка лише для картки в сітках — у тексті статті її немає.
+        return null;
       case 'faq':
         // Поодинокий маркер; послідовні збирає PostBody у спільний блок.
         return <FaqSection items={[{ question: marker.question, answer: marker.answer }]} />;
