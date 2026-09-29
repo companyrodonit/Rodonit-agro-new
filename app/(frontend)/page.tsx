@@ -122,10 +122,17 @@ export default async function Page() {
           більше немає ніде — hero.stats у lib/content.ts лежить без ужитку. */}
       <section
         id="top"
-        /* Висота — менше з двох: висота вікна або 750px. min-h, а не h:
-           на вузьких екранах контент може бути вищим за 750, і жорстка
-           висота його б обрізала. */
-        className="relative isolate flex min-h-[min(100svh,750px)] flex-col overflow-hidden rounded-b-[32px] bg-[var(--color-dark)]"
+        /* Висота — вікно мінус 40px, але не більше 1080. min-h, а не h:
+           на вузьких екранах контент може бути вищим, і жорстка висота його
+           б обрізала.
+           Було min(100svh, 750px): на 1080p (вікно ~910px) під hero
+           вилазило ~160px наступної секції, і зріз проходив посеред
+           заголовка «Препарати» — виглядало як випадковість (29.09).
+           Тепер під hero лишається лише біла смужка із заокругленими
+           кутами — сигнал, що нижче є ще контент, без обрізаного тексту.
+           Індикатор «Гортайте» пробували (праворуч і по центру) — Бро
+           відмовився, не повертати. */
+        className="relative isolate flex min-h-[min(calc(100svh-40px),1080px)] flex-col overflow-hidden rounded-b-[32px] bg-[var(--color-dark)]"
       >
         <HeroBackground src={hero.background} />
 
