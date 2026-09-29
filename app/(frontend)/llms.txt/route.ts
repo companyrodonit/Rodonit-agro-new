@@ -17,7 +17,7 @@ import { SITE } from '@/lib/site';
  * robots.txt, це саме handler — файлові конвенції в route group випадають.
  */
 export const dynamic = 'force-static';
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export async function GET(): Promise<Response> {
   const [products, cultures, solutions, posts, contacts] = await Promise.all([

@@ -58,7 +58,7 @@ const team: { role: string; name: string; degree?: string; photo: string }[] = [
   },
 ];
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 export default async function Page() {
   const [contacts, hero] = await Promise.all([getContacts(), getHero()]);

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/rishennia' },
 };
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 export default async function Page() {
   const [solutions, problems, products] = await Promise.all([

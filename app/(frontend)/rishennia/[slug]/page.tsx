@@ -8,7 +8,7 @@ import { BlogHero } from '../../blog/blog-ui';
 
 import { SITE } from '@/lib/site';
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 export async function generateStaticParams() {
   return (await getSolutions()).map((s) => ({ slug: s.slug }));

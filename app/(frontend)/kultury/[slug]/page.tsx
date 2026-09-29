@@ -10,7 +10,7 @@ import { BlogHero, PostCard } from '../../blog/blog-ui';
 
 import { SITE } from '@/lib/site';
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 export async function generateStaticParams() {
   return (await getCulturePages()).map((c) => ({ slug: c.slug }));

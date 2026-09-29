@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/kultury' },
 };
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 export default async function Page() {
   const culturePages = await getCulturePages();

@@ -17,7 +17,7 @@ import { ArrowRight, Check, CultureApplications, DeliveryIcon, LeadForm, Phone, 
 import { SiteHeader } from '../../site-header';
 import { SiteFooter } from '../../site-footer';
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 export async function generateStaticParams() {
   return (await getProductDetails()).map((p) => ({ slug: p.slug }));

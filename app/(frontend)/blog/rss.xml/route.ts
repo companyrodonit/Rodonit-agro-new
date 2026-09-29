@@ -13,7 +13,7 @@ const esc = (s: string) =>
 
 export const dynamic = 'force-static';
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 export async function GET() {
   const posts = await getPosts();

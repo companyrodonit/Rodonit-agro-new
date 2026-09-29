@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 const tel = (v: string) => `tel:${v.replace(/[^\d+]/g, '')}`;
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 export default async function Page() {
   const contacts = await getContacts();

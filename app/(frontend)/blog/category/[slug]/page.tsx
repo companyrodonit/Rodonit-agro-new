@@ -10,7 +10,7 @@ import { SITE } from '@/lib/site';
 
 const getCategory = async (slug: string) => (await getBlogCategories()).find((c) => c.slug === slug);
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 export async function generateStaticParams() {
   return (await getBlogCategories()).map((c) => ({ slug: c.slug }));

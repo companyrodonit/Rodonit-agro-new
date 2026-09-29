@@ -20,8 +20,12 @@ import { SiteHeader } from './site-header';
 import { SiteFooter } from './site-footer';
 import { TrustArtFor } from './trust-art';
 
-/** ISR: правки в адмінці зʼявляються на сайті протягом ~5 хвилин. */
-export const revalidate = 300;
+/**
+ * ISR: фонове оновлення раз на добу. Правки в адмінці зʼявляються одразу —
+ * їх скидає хук payload/revalidate.ts. Частіше не треба: кожне оновлення будить
+ * базу Neon, а безкоштовний план дає лише 100 CU-годин на місяць.
+ */
+export const revalidate = 86400;
 
 /* Title і description головної живуть у layout — тут лишається тільки
    canonical. У root layout його ставити не можна: alternates успадковується

@@ -20,7 +20,7 @@ import { ReadProgressBar, ShareButtons, TableOfContents } from '../blog-client';
 
 import { SITE } from '@/lib/site';
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 export async function generateStaticParams() {
   return (await getPosts()).map((p) => ({ slug: p.slug }));

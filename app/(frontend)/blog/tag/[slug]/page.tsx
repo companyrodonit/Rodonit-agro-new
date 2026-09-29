@@ -10,7 +10,7 @@ import { SITE } from '@/lib/site';
 
 const getTag = async (slug: string) => (await getAllTags()).find((t) => t.slug === slug);
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 export async function generateStaticParams() {
   return (await getAllTags()).map((t) => ({ slug: t.slug }));
