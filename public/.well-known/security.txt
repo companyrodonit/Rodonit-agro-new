@@ -1,0 +1,4 @@
+Contact: mailto:info@rodonit.com.ua
+Expires: 2027-10-07T00:00:00.000Z
+Preferred-Languages: uk, en
+Canonical: https://rodonit.com.ua/.well-known/security.txt

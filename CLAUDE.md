@@ -1007,3 +1007,4 @@ SEO title 51, description 148. 6 FAQ, 2 callout, таблиця + `[[rates:verno
 - Медіа: лише jpeg/png/webp/avif/gif.
 - Схема БД під 3.90: `tools/payload_390_schema.mjs` (dry-run за замовчуванням, `--apply`). Застосовано на dev і проді 07.10 (`users.reset_password_requested_at`, `media._objectkey`).
 - 🔴 Сухий прогін схеми, `generate:types`, `generate:importmap` — лише з `BLOB_READ_WRITE_TOKEN` (можна фіктивний): без нього плагін Blob вимкнений, його колонка не видна, а `importMap.js` втрачає `VercelBlobClientUploadHandler` → біла адмінка на проді. Перед комітом перевіряти importMap.
+- `public/.well-known/security.txt` (RFC 9116): контакт `info@rodonit.com.ua`, **Expires 2027-10-07 — оновити до цієї дати**.
