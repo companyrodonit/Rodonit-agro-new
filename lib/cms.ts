@@ -10,6 +10,7 @@
  *    місці (препарат), тому розійтись їй нема з чим.
  */
 import { cache } from 'react';
+import { unstable_cache } from 'next/cache';
 import { getPayload, type Payload } from 'payload';
 import config from '@/payload.config';
 
@@ -32,14 +33,34 @@ import {
 
 /* ------------------------------------------------------------------ базове */
 
-const getClient = cache(async (): Promise<Payload | null> => {
-  try {
-    return await getPayload({ config });
-  } catch (e) {
-    console.error('[cms] Payload недоступний, працюємо на статичних даних:', e);
-    return null;
-  }
-});
+/**
+ * Запити до бази — через кеш даних Next (тег CMS_TAG, доба).
+ *
+ * ISR кешує лише статичні сторінки. /blog (?page), /preparaty (?cat, ?culture)
+ * і 404 ([...rest]) динамічні — без цього кешу кожен запит, зокрема кожен бот
+ * на неіснуючу адресу, будив Neon (Free 100 CU-год/міс, 29.09 було 80 %).
+ * getPayload викликається ВСЕРЕДИНІ кешованої функції: при влученні в кеш
+ * з'єднання з базою не відкривається взагалі.
+ * Збереження в адмінці скидає тег (payload/revalidate.ts) — зміна видна одразу.
+ * Помилки не кешуються: впала база → кидаємо → геттер віддає статичний фолбек.
+ */
+export const CMS_TAG = 'cms';
+const CMS_TTL = 86400;
+
+const cachedFind = unstable_cache(
+  async (args: Parameters<Payload['find']>[0]) => (await getPayload({ config })).find(args),
+  ['cms-find'],
+  { tags: [CMS_TAG], revalidate: CMS_TTL },
+);
+const cachedFindGlobal = unstable_cache(
+  async (args: Parameters<Payload['findGlobal']>[0]) => (await getPayload({ config })).findGlobal(args),
+  ['cms-find-global'],
+  { tags: [CMS_TAG], revalidate: CMS_TTL },
+);
+
+type CmsClient = Pick<Payload, 'find' | 'findGlobal'>;
+const client = { find: cachedFind, findGlobal: cachedFindGlobal } as unknown as CmsClient;
+const getClient = async (): Promise<CmsClient | null> => client;
 
 /** media-поле → URL. Вміє і локальні файли, і Vercel Blob. */
 type MediaDoc = { url?: string | null; alt?: string | null } | number | null | undefined;

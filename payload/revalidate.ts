@@ -14,7 +14,11 @@
  */
 async function purgeCache() {
   try {
-    const { revalidatePath } = await import('next/cache');
+    const { revalidatePath, revalidateTag } = await import('next/cache');
+    // Спершу дані (кеш запитів до бази, lib/cms.ts → тег 'cms'), одразу
+    // прострочені (expire: 0), а не stale-while-revalidate, — щоб перший же
+    // перегляд після збереження взяв свіже. Потім — сторінки ISR.
+    revalidateTag('cms', { expire: 0 });
     revalidatePath('/', 'layout');
   } catch {
     // Поза середовищем Next скидати нічого — і це нормально.

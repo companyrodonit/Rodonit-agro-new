@@ -1008,3 +1008,9 @@ SEO title 51, description 148. 6 FAQ, 2 callout, таблиця + `[[rates:verno
 - Схема БД під 3.90: `tools/payload_390_schema.mjs` (dry-run за замовчуванням, `--apply`). Застосовано на dev і проді 07.10 (`users.reset_password_requested_at`, `media._objectkey`).
 - 🔴 Сухий прогін схеми, `generate:types`, `generate:importmap` — лише з `BLOB_READ_WRITE_TOKEN` (можна фіктивний): без нього плагін Blob вимкнений, його колонка не видна, а `importMap.js` втрачає `VercelBlobClientUploadHandler` → біла адмінка на проді. Перед комітом перевіряти importMap.
 - `public/.well-known/security.txt` (RFC 9116): контакт `info@rodonit.com.ua`, **Expires 2027-10-07 — оновити до цієї дати**.
+
+## 07.10.2026 — кеш запитів до бази (Neon)
+- `lib/cms.ts`: усі `find`/`findGlobal` — через `unstable_cache` (тег `cms`, доба); `getPayload` лише всередині кешованої функції → при влученні в кеш з'єднання з Neon не відкривається. Закриває друге джерело пробуджень бази з 29.09: динамічні `/blog?page`, `/preparaty?cat|culture`, 404 `[...rest]`.
+- `payload/revalidate.ts`: збереження в адмінці → `revalidateTag('cms', { expire: 0 })` + `revalidatePath('/', 'layout')`.
+- Перевірено локально з логом промахів: після білду 0 звернень до бази на цих сторінках; після скидання тегу — 3 запити на першому перегляді, далі знову 0.
+- ⚠️ Ліміт запису кешу на Vercel 2 МБ: найбільший запит — культури (~0,9 МБ на dev, depth 1). Додаватимуться культури/препарати → стежити.
