@@ -23,7 +23,9 @@ export const Media: CollectionConfig = {
   admin: { group: 'Система' },
   upload: {
     staticDir: 'public/uploads',
-    mimeTypes: ['image/*'],
+    // Лише растрові формати: SVG може нести скрипт (XSS), Payload 3.90 і так
+    // його відхиляє за замовчуванням — фіксуємо це явно. SVG у базі немає (07.10).
+    mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/gif'],
     imageSizes: [
       { name: 'card', width: 640, height: undefined, position: 'centre' },
       { name: 'hero', width: 1920, height: undefined, position: 'centre' },

@@ -911,6 +911,9 @@ export function LeadForm() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Читаємо до першого await: після нього e.currentTarget уже null.
+    const trapEl = (e.currentTarget as HTMLFormElement).elements.namedItem('website');
+    const trap = trapEl instanceof HTMLInputElement ? trapEl.value : '';
     setTouched(true);
     if (!nameValid || !phoneValid) return;
     setState('loading');
@@ -918,7 +921,13 @@ export function LeadForm() {
       const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, page: window.location.pathname }),
+        body: JSON.stringify({
+          name,
+          phone,
+          page: window.location.pathname,
+          // Пастка для ботів: людина цього поля не бачить і не заповнює.
+          website: trap,
+        }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setState('success');
@@ -967,6 +976,15 @@ export function LeadForm() {
           номер угорі сторінки.
         </p>
       )}
+      {/* Пастка для ботів (honeypot): прихована від людей і скрінрідерів. */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute left-[-9999px] h-px w-px overflow-hidden"
+      />
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="lead-name" className="block text-[14px] font-[700]">

@@ -6,6 +6,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
+import nodemailer from 'nodemailer';
 import { collections } from './payload/collections';
 import { globals } from './payload/globals';
 
@@ -37,12 +38,14 @@ const email = smtpPass
   ? nodemailerAdapter({
       defaultFromAddress: smtpUser,
       defaultFromName: 'Родоніт Агро — сайт',
-      transportOptions: {
+      // Готовий transport (nodemailer.createTransport) — явніше за
+      // transportOptions; адаптер так само перевіряє з'єднання на старті.
+      transport: nodemailer.createTransport({
         host: process.env.SMTP_HOST || 'mail.adm.tools',
         port: Number(process.env.SMTP_PORT || 465),
         secure: Number(process.env.SMTP_PORT || 465) === 465,
         auth: { user: smtpUser, pass: smtpPass },
-      },
+      }),
     })
   : undefined;
 

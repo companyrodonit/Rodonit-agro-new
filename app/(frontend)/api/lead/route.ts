@@ -13,11 +13,27 @@ import config from '@payload-config';
  * запит прилетить і в обхід форми.
  */
 export async function POST(req: Request) {
-  let body: { name?: unknown; phone?: unknown; comment?: unknown; page?: unknown };
+  // Справжня заявка — кількасот байт. Більше 8 КБ — відсікаємо до розбору,
+  // щоб не жувати сміття і не піднімати Payload заради нього.
+  if (Number(req.headers.get('content-length') || 0) > 8192) {
+    return NextResponse.json({ error: 'Завеликий запит' }, { status: 413 });
+  }
+
+  let body: { name?: unknown; phone?: unknown; comment?: unknown; page?: unknown; website?: unknown };
   try {
-    body = await req.json();
+    const raw = await req.text();
+    if (raw.length > 8192) return NextResponse.json({ error: 'Завеликий запит' }, { status: 413 });
+    body = JSON.parse(raw);
+    if (!body || typeof body !== 'object') throw new Error('not an object');
   } catch {
     return NextResponse.json({ error: 'Некоректний запит' }, { status: 400 });
+  }
+
+  // Пастка для ботів: приховане поле «website» людина не заповнює. Боту
+  // відповідаємо «ok», щоб він не підбирав обхід, але нічого не зберігаємо.
+  // Ліміт частоти з однієї IP — правилом Vercel Firewall (не в коді).
+  if (typeof body.website === 'string' && body.website.trim() !== '') {
+    return NextResponse.json({ ok: true });
   }
 
   const name = typeof body.name === 'string' ? body.name.trim() : '';
