@@ -1014,3 +1014,17 @@ SEO title 51, description 148. 6 FAQ, 2 callout, таблиця + `[[rates:verno
 - `payload/revalidate.ts`: збереження в адмінці → `revalidateTag('cms', { expire: 0 })` + `revalidatePath('/', 'layout')`.
 - Перевірено локально з логом промахів: після білду 0 звернень до бази на цих сторінках; після скидання тегу — 3 запити на першому перегляді, далі знову 0.
 - ⚠️ Ліміт запису кешу на Vercel 2 МБ: найбільший запит — культури (~0,9 МБ на dev, depth 1). Додаватимуться культури/препарати → стежити.
+
+## 🔄 08.10.2026 — стаття «Мідь і цинк для озимого часнику» (Верно FG Cu30+Zn30)
+Матеріал: TG-пост Олега (текст у чаті, посилання-джерела прибрати — вказівка Бро) + банер 1024×765
+`Desktop\Проєкти\Rodonit\статті\08.10\photo_2026-10-07_14-04-00.jpg`. Там же `article.json`, `make_cover.py`,
+`build_artifact.py`, `to_posts.py` (шляхи вже на `C:\dev\…`), `prompt-horizontal.txt` (ChatGPT, горизонталь банера).
+Slug `mid-i-tsynk-dlia-ozymoho-chasnyku`, «Стаття», 6 хв, теги verno-fg (стане 3 → вийде з noindex) + новий chasnyk.
+Звірено з етикеткою VERNO Cu30+Zn30 (nordox.no, PDF): цибулеві — BBCH 13/17/43, «multiple low-rate applications»,
+pH ≥ 6, суспендувати першим, тест на ділянці (2 дні), 200–1000 л/га. Норма етикетки 100–500 г/га НЕ в тексті —
+на сайті регламент цибулі 0,25–0,5 кг/га; часнику в регламенті немає → `[[rates:verno-fg:цибуля]]`.
+Обкладинка: ChatGPT-горизонталь банера (чат https://chatgpt.com/c/6ac759ed-c9ec-83eb-b80e-615b68e117d5, v2 — заголовок
+зменшено, бо на картці 360px упирався в краї) → `make_cover.py 40` → `mid-i-tsynk-dlia-ozymoho-chasnyku-cover.jpg` 2400×1260.
+`nbsp.py` — нерозривні пробіли після коротких прийменників і в назвах препаратів (лише видимий текст; to_posts пише ` `).
+Артефакт: https://claude.ai/artifact/EjPjN6sVhmmsUWWQYHfKVK
+Стан: артефакт на апрув → після «лий»: to_posts.py → коміт/пуш → `prod_api.mjs publish … --apply --publish` → `alts --apply` → site-qa.
