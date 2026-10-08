@@ -339,7 +339,7 @@ function Callout({ title, text }: { title: string; text: string }) {
   return (
     <aside className="mt-8 border-l-[3px] border-[var(--color-accent)] bg-[var(--color-surface)] px-5 py-4">
       <p className="eyebrow text-[var(--color-dark)]">{title}</p>
-      <p className="mt-2 text-[16px] leading-[1.7] text-[rgba(14,15,12,0.78)]">{text}</p>
+      <p className="mt-2 text-[16px] leading-[1.7] text-[rgba(14,15,12,0.78)]">{renderInline(text)}</p>
     </aside>
   );
 }
@@ -383,10 +383,10 @@ function FaqSection({ items }: { items: { question: string; answer: string }[] }
                 strokeLinejoin="round"
               />
             </svg>
-            <span>{item.question}</span>
+            <span>{keepUnits(item.question)}</span>
           </summary>
           <p className="px-5 pb-4 pl-[42px] text-[17px] leading-[1.75] text-[rgba(14,15,12,0.75)]">
-            {item.answer}
+            {renderInline(item.answer)}
           </p>
         </details>
       ))}

@@ -143,7 +143,11 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             mainEntity: faq.map((f) => ({
               '@type': 'Question',
               name: f.question,
-              acceptedAnswer: { '@type': 'Answer', text: f.answer },
+              // У відповіді може бути [назва](https://…) — у JSON-LD лише назва.
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: f.answer.replace(/\[([^\]]+)\]\(https:\/\/[^)]+\)/g, '$1'),
+              },
             })),
           },
         ]
