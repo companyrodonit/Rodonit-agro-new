@@ -9,14 +9,18 @@
     python tools/cms_check.py http://localhost:4050
 """
 import json
+import os
 import sys
 import time
 import urllib.error
 import urllib.request
 
 BASE = (sys.argv[1] if len(sys.argv) > 1 else 'http://localhost:4050').rstrip('/')
-EMAIL = 'reklama@rodonit.com.ua'
-PASSWORD = 'Rodonit-2026-Redesign!'
+# Креди — лише з оточення, ніколи в коді (репо публічне).
+EMAIL = os.environ.get('RODONIT_ADMIN_EMAIL', '')
+PASSWORD = os.environ.get('RODONIT_ADMIN_PASSWORD', '')
+if not EMAIL or not PASSWORD:
+    sys.exit('Задайте RODONIT_ADMIN_EMAIL і RODONIT_ADMIN_PASSWORD в оточенні')
 MARK = 'ZZQ7'  # мітка, якої не буває в контенті
 
 token = None

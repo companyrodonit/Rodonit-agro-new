@@ -51,6 +51,13 @@ const email = smtpPass
 
 export default buildConfig({
   email,
+  // Сесію адмінки (cookie) приймаємо лише з власного домену: без списку Payload
+  // приймає її з будь-якого Origin. Скрипти з `Authorization: JWT` це не зачіпає.
+  csrf: [
+    'https://rodonit.com.ua',
+    'https://www.rodonit.com.ua',
+    ...(process.env.NODE_ENV !== 'production' ? ['http://localhost:4002'] : []),
+  ],
   admin: {
     user: 'users',
     meta: {

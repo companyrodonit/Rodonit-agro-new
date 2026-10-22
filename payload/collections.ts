@@ -350,7 +350,8 @@ export const Posts: CollectionConfig = {
   slug: 'posts',
   hooks: { afterChange: [revalidateAfterChange], afterDelete: [revalidateAfterChange] },
   labels: { singular: 'Стаття', plural: 'Статті' },
-  access: { read: () => true },
+  // Публічний REST віддає лише опубліковані; сайт читає через Local API і цього не помічає.
+  access: { read: ({ req }) => (req.user ? true : { published: { equals: true } }) },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'date', 'published'],
@@ -485,13 +486,15 @@ export const Posts: CollectionConfig = {
  * скринька, лист піде в спам — а заявка аграрія загубитися не має права.
  * Лист — це сповіщення поверх запису, а не сам запис.
  *
- * Створювати може будь-хто (форма публічна), читати — тільки залогінені.
+ * Форма пише через /api/lead (Local API — права там обходяться свідомо, після
+ * honeypot і перевірки телефону). Напряму через REST /api/leads створювати
+ * можуть лише залогінені — інакше бот обходить усі перевірки форми.
  */
 export const Leads: CollectionConfig = {
   slug: 'leads',
   labels: { singular: 'Заявка', plural: 'Заявки' },
   access: {
-    create: () => true,
+    create: ({ req }) => Boolean(req.user),
     read: ({ req }) => Boolean(req.user),
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),
