@@ -11,23 +11,22 @@
     "seed": "tsx --env-file=.env.local scripts/seed.ts"
   },
   "dependencies": {
-    "@payloadcms/db-postgres": "3.90.2",
-    "@payloadcms/email-nodemailer": "3.90.2",
-    "@payloadcms/next": "3.90.2",
-    "@payloadcms/richtext-lexical": "3.90.2",
-    "@payloadcms/storage-vercel-blob": "3.90.2",
+    "@payloadcms/db-postgres": "3.91.0",
+    "@payloadcms/email-nodemailer": "3.91.0",
+    "@payloadcms/next": "3.91.0",
+    "@payloadcms/richtext-lexical": "3.91.0",
+    "@payloadcms/storage-vercel-blob": "3.91.0",
     "graphql": "^16.14.2",
-    "next": "16.3.8",
-    "nodemailer": "9.1.1",
-    "payload": "3.90.2",
-    "react": "19.2.8",
-    "react-dom": "19.2.8",
+    "next": "16.4.2",
+    "nodemailer": "10.1.1",
+    "payload": "3.91.0",
+    "react": "19.2.9",
+    "react-dom": "19.2.9",
     "sharp": "0.35.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "^22",
-    "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "postcss": "^8",
@@ -35,5 +34,8 @@
     "tsx": "^4.23.12",
     "typescript": "^5"
   },
-  "type": "module"
+  "type": "module",
+  "overrides": {
+    "dompurify": "3.4.17"
+  }
 }
