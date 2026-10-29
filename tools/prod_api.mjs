@@ -158,6 +158,72 @@ if (cmd === 'leads') {
 }
 
 /**
+ * Оновлює в прод-CMS текстові поля картки препарату з lib/products-detail.ts.
+ *
+ * Лише ті поля, що назвали: решту картки (фото, регламент, порядок) не чіпаємо,
+ * бо клієнт міг правити їх в адмінці. Без --apply — показує «було / стане».
+ *   product <slug> usage,faq [--apply]
+ */
+if (cmd === 'product') {
+  const slug = process.argv[3];
+  const fields = (process.argv[4] ?? '').split(',').filter(Boolean);
+  const apply = process.argv.includes('--apply');
+  const allowed = ['usage', 'mixing', 'compatibility', 'storage', 'advantages', 'faq'];
+  if (!slug || !fields.length || fields.some((f) => !allowed.includes(f))) {
+    console.error(`product <slug> <${allowed.join('|')}>[,…] [--apply]`);
+    process.exit(1);
+  }
+  const auth = { Authorization: `JWT ${token}` };
+  const { productDetails } = await import('../lib/products-detail.ts');
+  const local = productDetails.find((p) => p.slug === slug);
+  if (!local) {
+    console.error(`Препарату «${slug}» немає в lib/products-detail.ts`);
+    process.exit(1);
+  }
+  const found = await (await fetch(
+    `${BASE}/api/products?where[slug][equals]=${slug}&limit=1&depth=0`, { headers: auth },
+  )).json();
+  const doc = found.docs?.[0];
+  if (!doc) {
+    console.error(`Препарату «${slug}» немає в прод-CMS`);
+    process.exit(1);
+  }
+  console.log(`\nПрепарат: ${doc.name} (id=${doc.id})`);
+
+  const show = (v) => (v.question ? `${v.question} → ${v.answer}` : v);
+  const data = {};
+  for (const f of fields) {
+    const was = f === 'faq'
+      ? (doc.faq ?? []).map(({ question, answer }) => ({ question, answer }))
+      : (doc[f] ?? []).map((x) => x.text);
+    const want = local[f];
+    if (JSON.stringify(was) === JSON.stringify(want)) {
+      console.log(`\n  ${f}: вже як у коді`);
+      continue;
+    }
+    console.log(`\n  ${f}:\n    було (${was.length}):`);
+    for (const v of was) console.log(`      - ${show(v)}`);
+    console.log(`    стане (${want.length}):`);
+    for (const v of want) console.log(`      + ${show(v)}`);
+    data[f] = f === 'faq' ? want : want.map((text) => ({ text }));
+  }
+
+  if (!Object.keys(data).length) process.exit(0);
+  if (!apply) {
+    console.log('\nСухий прогін. Щоб записати — додайте --apply');
+    process.exit(0);
+  }
+  const r = await fetch(`${BASE}/api/products/${doc.id}`, {
+    method: 'PATCH',
+    headers: { ...auth, 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  if (!r.ok) throw new Error(`HTTP ${r.status}: ${(await r.text()).slice(0, 300)}`);
+  console.log(`✓ оновлено: ${Object.keys(data).join(', ')}`);
+  console.log(`  ${BASE}/preparaty/${slug}`);
+}
+
+/**
  * Заливка статті з lib/posts.ts у прод-CMS.
  *
  * Той самий сенс, що в scripts/publish-post.ts, але по HTTP: до бази прода
