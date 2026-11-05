@@ -11,6 +11,7 @@ import {
   getProductImageAlts,
   getProducts,
 } from '@/lib/cms';
+import { fastImage } from '@/lib/fast-image';
 import { SITE } from '@/lib/site';
 import { keepUnits } from '@/lib/typography';
 import { ArrowRight, Check, CultureApplications, DeliveryIcon, LeadForm, Phone, ProductAccordion, RegulationTable, Reveal, ScrollToTop } from '../../interactive';
@@ -233,8 +234,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <div className="mt-5 grid gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-12">
             {/* Картка з фото */}
             <div className="grid place-items-center rounded-[24px] bg-[var(--color-surface)] p-8">
+              {/* Готова webp-копія замість стискання «на льоту»: інакше перший
+                  показ препарату — 0,4–3,5 с порожньої картки (05.11). */}
               <Image
-                src={images[p.slug] ?? `/products/${p.slug}.png`}
+                {...fastImage(images[p.slug] ?? `/products/${p.slug}.png`, 280)}
                 /* Підпис із медіатеки, якщо редактор його заповнив; інакше
                    назва препарату. Раніше alt із CMS не використовувався. */
                 alt={imageAlts[p.slug] ?? p.name}
@@ -399,7 +402,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 >
                   <div className="mb-6 grid h-[190px] place-items-center overflow-hidden">
                     <Image
-                      src={images[r.slug] ?? `/products/${r.slug}.png`}
+                      {...fastImage(images[r.slug] ?? `/products/${r.slug}.png`, 140)}
                       alt={imageAlts[r.slug] ?? r.name}
                       width={600}
                       height={790}

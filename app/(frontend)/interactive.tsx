@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { AtomLogo } from './logo';
 import { keepUnits } from '@/lib/typography';
+import { fastImage } from '@/lib/fast-image';
 import {
   distributorFilters,
   distributors,
@@ -663,7 +664,7 @@ export function ProductSlider({
                 їхали PNG по 280-480 КБ на картку при показі 200px заввишки. */}
             <div className="mb-6 grid h-[210px] place-items-center">
               <Image
-                src={images?.[p.slug] ?? `/products/${p.slug}.png`}
+                {...fastImage(images?.[p.slug] ?? `/products/${p.slug}.png`, 160)}
                 alt={p.name}
                 width={600}
                 height={790}
@@ -811,7 +812,7 @@ export function ProblemSolution({ items = problems }: { items?: typeof problems 
             </div>
             <Image
               key={current.slug}
-              src={`/products/${current.slug}.png`}
+              {...fastImage(`/products/${current.slug}.png`, 140)}
               alt={current.product}
               width={600}
               height={790}

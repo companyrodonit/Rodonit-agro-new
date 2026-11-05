@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { type CatalogProduct } from '@/lib/catalog';
 import type { CatalogData } from '@/lib/cms';
+import { fastImage } from '@/lib/fast-image';
 import { ArrowRight, Check, Chevron, Close } from '../interactive';
 
 /* Фільтр каталогу. Два зрізи, якими аграрій реально шукає препарат:
@@ -20,7 +21,7 @@ function updateUrl(cat: string, culture: string) {
   window.history.replaceState(null, '', qs ? `/preparaty?${qs}` : '/preparaty');
 }
 
-function ProductCard({ product, image }: { product: CatalogProduct; image?: string }) {
+function ProductCard({ product, image, eager = false }: { product: CatalogProduct; image?: string; eager?: boolean }) {
   return (
     <a
       href={`/preparaty/${product.slug}`}
@@ -31,9 +32,11 @@ function ProductCard({ product, image }: { product: CatalogProduct; image?: stri
           картка каталогу має показувати шість штук, а не три. */}
       <div className="mb-5 grid h-[150px] place-items-center">
         <img
-          src={image ?? `/products/${product.slug}.png`}
+          // Готова webp ~30–50 КБ замість оригінального PNG 280–480 КБ.
+          src={fastImage(image ?? `/products/${product.slug}.png`, 110).src}
           alt={product.name}
-          loading="lazy"
+          // Перший ряд видно одразу — lazy лише відкладав би його старт.
+          loading={eager ? 'eager' : 'lazy'}
           className="max-h-[140px] w-auto max-w-full object-contain drop-shadow-[0_10px_18px_rgba(0,0,0,0.14)]"
         />
       </div>
@@ -189,8 +192,8 @@ export function Catalog({
       </div>
 
       <div data-testid="catalog-grid" className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {shown.map((p) => (
-          <ProductCard key={p.slug} product={p} image={images[p.slug]} />
+        {shown.map((p, i) => (
+          <ProductCard key={p.slug} product={p} image={images[p.slug]} eager={i < 3} />
         ))}
       </div>
 

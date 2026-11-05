@@ -34,3 +34,7 @@ REPORT.md
 CLAUDE.md
 .claude/
 SECURITY-REPORT-*.md
+
+# Готові webp-копії картинок — генеруються в prebuild/predev (scripts/prepare-images.mjs)
+/public/_img
+/lib/img-manifest.json

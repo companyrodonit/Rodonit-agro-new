@@ -19,6 +19,7 @@ import { BlogHero, PostBody, PostCard, TagList } from '../blog-ui';
 import { ReadProgressBar, ShareButtons, TableOfContents } from '../blog-client';
 
 import { SITE } from '@/lib/site';
+import { fastImage } from '@/lib/fast-image';
 
 export const revalidate = 86400;
 
@@ -174,10 +175,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
       <article className="bg-[var(--color-bg)]">
         <div className="container-page py-16">
+          {/* Обкладинка — перше, що бачить читач, тож без анімації появи
+              (Reveal тримав її прозорою до завантаження JS і ще 0,6 с) і з
+              готовою webp-копією замість стискання «на льоту» (05.11). */}
           {post.cover && (
-            <Reveal>
               <Image
-                src={post.cover}
+                {...fastImage(post.cover, 1200)}
                 // Заголовок статті стоїть просто над картинкою, тому дублювати
                 // його в alt — це для скрінрідера те саме, що порожній alt.
                 alt={post.coverAlt ?? post.title}
@@ -190,7 +193,6 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 quality={90}
                 className="aspect-[1200/630] w-full rounded-[24px] object-cover"
               />
-            </Reveal>
           )}
 
           <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-16">

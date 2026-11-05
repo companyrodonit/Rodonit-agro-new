@@ -1,3 +1,4 @@
+import { fastImage } from '@/lib/fast-image';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { rateCoverage } from '@/lib/cultures';
@@ -153,7 +154,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                   <div className="rounded-[20px] bg-[var(--color-bg)] p-6">
                     <div className="flex items-center gap-4">
                       <img
-                        src={`/products/${s.slug}.png`}
+                        src={fastImage(`/products/${s.slug}.png`, 56).src}
                         alt={s.name}
                         loading="lazy"
                         className="h-[56px] w-auto max-w-[56px] object-contain"

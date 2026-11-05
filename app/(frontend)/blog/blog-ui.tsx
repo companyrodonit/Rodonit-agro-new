@@ -3,6 +3,7 @@ import type { Product } from '@/lib/content';
 import type { Post, PostBlock } from '@/lib/posts';
 import { headingSlug, parseMarker, postCardImage, type CardImage } from '@/lib/posts';
 import type { ProductDetail } from '@/lib/products-detail';
+import { fastImage } from '@/lib/fast-image';
 import { keepUnits } from '@/lib/typography';
 import { ArrowRight, Reveal } from '../interactive';
 
@@ -89,7 +90,9 @@ export function PostCardImage({ image, priority = false }: { image: CardImage; p
   if (image.fit === 'cover') {
     return (
       <Image
-        src={image.src}
+        // Кадр 1200×630 обрізається під картку ~400×260, тобто на екрані він
+        // ~500 px завширшки — звідси 500. Готова копія: див. lib/fast-image.ts.
+        {...fastImage(image.src, 500)}
         alt=""
         width={560}
         height={360}
@@ -104,7 +107,7 @@ export function PostCardImage({ image, priority = false }: { image: CardImage; p
     <div className="relative h-[260px] w-full shrink-0 bg-[#0b1013]">
       <div className="absolute inset-x-0 top-0 bottom-14">
         <Image
-          src={image.src}
+          {...fastImage(image.src, 500)}
           alt=""
           fill
           priority={priority}
@@ -179,7 +182,7 @@ function ProductCard({ slug, media }: { slug: string; media: PostMedia }) {
     <aside className="mt-8 flex flex-col gap-5 rounded-[20px] border border-[rgba(1,54,46,0.12)] bg-[var(--color-surface)] p-6 sm:flex-row sm:items-center">
       {image && (
         <Image
-          src={image}
+          {...fastImage(image, 100)}
           alt={media.imageAlts[slug] ?? product.name}
           width={120}
           height={158}
@@ -437,7 +440,7 @@ function PostImage({ src, ratio, caption }: { src: string; ratio: string; captio
     <figure className="mt-10">
       <div className="overflow-hidden rounded-[24px]" style={{ aspectRatio: ratio }}>
         <Image
-          src={src}
+          {...fastImage(src, 800)}
           alt={caption ?? ''}
           width={1600}
           height={1200}

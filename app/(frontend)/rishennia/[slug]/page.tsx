@@ -1,3 +1,4 @@
+import { fastImage } from '@/lib/fast-image';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getContacts, getProducts, getSolutionBySlug, getSolutions } from '@/lib/cms';
@@ -104,7 +105,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                       className="flex items-center gap-4 rounded-[18px] bg-[var(--color-bg)] p-4 transition-colors hover:bg-[rgba(0,0,0,0.04)]"
                     >
                       <img
-                        src={`/products/${p.slug}.png`}
+                        src={fastImage(`/products/${p.slug}.png`, 52).src}
                         alt={p.name}
                         loading="lazy"
                         className="h-[52px] w-auto max-w-[52px] object-contain"

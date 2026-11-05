@@ -50,6 +50,12 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       { source: '/:path*', headers: commonHeaders },
+      // Готові webp-копії (scripts/prepare-images.mjs): хеш вмісту в імені,
+      // тож файл під цією адресою ніколи не зміниться — кешуємо назавжди.
+      {
+        source: '/_img/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
       {
         source: '/((?!admin|api).*)',
         headers: [
