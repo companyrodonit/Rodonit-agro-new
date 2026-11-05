@@ -144,7 +144,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                     </h3>
                     {s.problem && (
                       <p className="mt-3 max-w-[560px] text-[16px] leading-[1.7] text-[rgba(14,15,12,0.65)]">
-                        {s.problem.answer}
+                        {keepUnits(s.problem.answer)}
                       </p>
                     )}
                   </div>

@@ -803,7 +803,7 @@ export function ProblemSolution({ items = problems }: { items?: typeof problems 
 
           <div className="mt-4 flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-7">
             <div className="min-w-0 flex-1">
-              <p className="text-[16px] leading-[1.6] text-[rgba(14,15,12,0.7)]">{current.answer}</p>
+              <p className="text-[16px] leading-[1.6] text-[rgba(14,15,12,0.7)]">{keepUnits(current.answer)}</p>
               <a href={`/preparaty/${current.slug}`} className="btn btn-primary mt-8">
                 Перейти до препарату
                 <ArrowRight size={14} />
